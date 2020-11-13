@@ -1,0 +1,61 @@
+<div class="container">
+  <div class="card card-login mx-auto text-center bg-dark">
+    <div class="card-header mx-auto bg-dark">
+      <h2><span> SCPT IMMO </span></h2><br/>
+      <span class="logo_title mt-5"> Register Page </span>
+
+    </div>
+    <div class="card-body">
+      <form *ngIf="!isSuccessful" name="form" (ngSubmit)="f.form.valid && onSubmit()" #f="ngForm" novalidate>
+        <div class="input-group form-group">
+          <div class="input-group-prepend">
+            <span class="input-group-text"><i class="fas fa-user"></i></span>
+          </div>
+          <input type="text" name="username" class="form-control" placeholder="Username" [(ngModel)]="form.username" required minlength="3" maxlength="20" #username="ngModel">
+          <div class="alert-danger" *ngIf="f.submitted && username.invalid">
+            <div *ngIf="username.errors.required">Username is required</div>
+            <div *ngIf="username.errors.minlength">
+              Username must be at least 3 characters
+            </div>
+            <div *ngIf="username.errors.maxlength">
+              Username must be at most 20 characters
+            </div>
+          </div>
+        </div>
+
+        <div class="input-group form-group">
+          <div class="input-group-prepend">
+            <span class="input-group-text"><i class="fas fa-envelope"></i></span>
+          </div>
+          <input type="email" name="email" class="form-control" placeholder="Email" [(ngModel)]="form.email" required minlength="3" maxlength="20" #email="ngModel">
+          <div class="alert-danger" *ngIf="f.submitted && email.invalid">
+            <div *ngIf="email.errors.required">Email is required</div>
+            <div *ngIf="email.errors.email">
+              Email must be a valid email address
+            </div>
+          </div>
+        </div>
+
+        <div class="input-group form-group">
+          <div class="input-group-prepend">
+            <span class="input-group-text"><i class="fas fa-key"></i></span>
+          </div>
+          <input type="password" name="password" class="form-control" placeholder="Password" [(ngModel)]="form.password" required minlength="6" #password="ngModel">
+          <div class="alert-danger" *ngIf="f.submitted && password.invalid">
+            <div *ngIf="password.errors.required">Password is required</div>
+            <div *ngIf="password.errors.minlength">
+              Password must be at least 6 characters
+            </div>
+          </div>
+        </div>
+
+        <div class="form-group">
+          <input type="submit" name="btn" value="Sign up" class="btn btn-outline-danger float-right login_btn">
+        </div>
+        <div class="alert alert-warning" *ngIf="f.submitted && isSignUpFailed">
+          Signup failed!<br />{{ errorMessage }}
+        </div>
+      </form>
+    </div>
+  </div>
+</div>
