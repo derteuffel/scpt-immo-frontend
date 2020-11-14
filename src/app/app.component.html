@@ -13,6 +13,19 @@
     <li class="nav-item">
       <a href="/user" class="nav-link" *ngIf="isLoggedIn" routerLink="user">User</a>
     </li>
+
+    <li class="nav-item">
+      <a href="/list-representation" class="nav-link" *ngIf="isLoggedIn" routerLink="list-representation">Representation</a>
+    </li>
+    <li class="nav-item">
+      <a href="/add" class="nav-link" *ngIf="isLoggedIn" routerLink="add"> Add Representation</a>
+    </li>
+    <li class="nav-item">
+      <a href="/add-local" class="nav-link" *ngIf="isLoggedIn" routerLink="add-local"> Add Local</a>
+    </li>
+    <li class="nav-item">
+      <a href="/local" class="nav-link" *ngIf="isLoggedIn" routerLink="local">Local</a>
+    </li>
   </ul>
 
   <ul class="navbar-nav ml-auto" *ngIf="!isLoggedIn">

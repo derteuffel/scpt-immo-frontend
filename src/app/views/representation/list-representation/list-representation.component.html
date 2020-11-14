@@ -1,0 +1,39 @@
+<div class="container">
+  <div class="container-fluid my-2">
+    <div class="panel panel-primary">
+      <div class="alert-info text-center">
+        <h3>Ensembles des representations de la SCPT</h3>
+      </div>
+<!--      <a href="#" class="btn btn-primary" >Ajouter une representation <i class="fa fa-plus"></i></a>-->
+      <br>
+      <div class="card-body">
+        <table class="table table-striped">
+          <thead>
+          <tr>
+            <th>Province</th>
+            <th>Ville</th>
+            <th>Commune</th>
+            <th>Avenue</th>
+            <th>Numero parcelle</th>
+            <th>Actions</th>
+          </tr>
+          </thead>
+          <tbody>
+          <tr *ngFor="let rep of representations | async">
+            <td>{{rep.province}}</td>
+            <td>{{rep.ville}}</td>
+            <td>{{rep.commune}}</td>
+            <td>{{rep.avenue}}</td>
+            <td>{{rep.numParcelle}}</td>
+            <td><button (click)="deleteRep(rep.id)" class="btn btn-danger">Delete</button>
+              <button (click)="repUpdate(rep.id)" class="btn btn-info" style="margin-left: 10px">Update</button>
+              <button (click)="repDetail(rep.id)" class="btn btn-info" style="margin-left: 10px">Details</button>
+            </td>
+          </tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+  </div>
+</div>
+

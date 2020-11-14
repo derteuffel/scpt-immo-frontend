@@ -1,0 +1,43 @@
+<div class="container">
+  <div class="container-fluid my-2">
+    <div class="alert-info text-center">
+      <h3>Création d'une représentation SCPT</h3>
+    </div>
+    <div [hidden]="submitted" style="width: 400px;">
+      <form (ngSubmit)="onSubmit()">
+        <div class="form-group">
+          <label for="province">Province</label>
+          <input type="text" class="form-control" id="province" required [(ngModel)]="representation.province" name="province">
+        </div>
+
+        <div class="form-group">
+          <label for="ville">Ville</label>
+          <input type="text" class="form-control" id="ville" required [(ngModel)]="representation.ville" name="ville">
+        </div>
+
+        <div class="form-group">
+          <label for="commune">Commune</label>
+          <input type="text" class="form-control" id="commune" required [(ngModel)]="representation.commune" name="commune">
+        </div>
+
+        <div class="form-group">
+          <label for="avenue">Avenue</label>
+          <input type="text" class="form-control" id="avenue" required [(ngModel)]="representation.avenue" name="avenue">
+        </div>
+
+        <div class="from-group">
+          <label for="numParcelle">Numero parcelle</label>
+          <input type="number" class="form-control" id="numParcelle" required [(ngModel)]="representation.numParcelle" name="numParcelle">
+        </div>
+        <br>
+        <button type="submit" class="btn btn-success">Submit</button>
+      </form>
+    </div>
+
+    <div [hidden]="!submitted">
+      <h4>You submitted successfully!</h4>
+
+    </div>
+
+  </div>
+</div>

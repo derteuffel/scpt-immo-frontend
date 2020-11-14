@@ -119,6 +119,10 @@
           }
         }
       }
-    }},
-  "defaultProject": "scpt-immo"
+    }
+  },
+  "defaultProject": "scpt-immo",
+  "cli": {
+    "analytics": "0fbf4fc6-dbd0-4d28-9ae6-f738355ae50d"
+  }
 }
