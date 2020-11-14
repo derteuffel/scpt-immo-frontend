@@ -3,6 +3,7 @@ import {Router} from '@angular/router';
 import {LocaleService} from '../../../_services/locale.service';
 import {Locale} from '../../../model/locale';
 import {Representation} from '../../../model/representation';
+import {Observable} from 'rxjs';
 
 @Component({
   selector: 'app-enregistrement-local',
@@ -14,6 +15,7 @@ export class EnregistrementLocalComponent implements OnInit {
   submitted = false;
   local: Locale = new Locale();
   id: number;
+  representations: Observable<Representation[]>;
   constructor(private router: Router, private localService: LocaleService) { }
 
   ngOnInit(): void {

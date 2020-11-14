@@ -1,1 +1,21 @@
-<p>detail-local works!</p>
+<h2>Representation Details</h2>
+
+<hr/>
+<div *ngIf="local">
+  <div>
+    <label><b>Numéro Local: </b></label> {{local.numLocale}}
+  </div>
+  <div>
+    <label><b>Montant: </b></label> {{local.montant}}
+  </div>
+  <div>
+    <label><b>Representation: </b></label> {{local.representation}}
+  </div>
+  <div>
+    <label><b>Status: </b></label> {{local.status}}
+  </div>
+</div>
+
+<br>
+<br>
+<button (click)="list()" class="btn btn-primary">Back to Representation List</button><br>

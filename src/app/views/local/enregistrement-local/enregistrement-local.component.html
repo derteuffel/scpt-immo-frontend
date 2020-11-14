@@ -1,1 +1,44 @@
-<p>enregistrement-local works!</p>
+<div class="container">
+  <div class="container-fluid my-2">
+    <div class="alert-info text-center">
+      <h3>Création d'une Location SCPT</h3>
+    </div>
+    <div [hidden]="submitted" style="width: 400px;">
+      <form (ngSubmit)="onSubmit()">
+        <div class="form-group">
+          <label for="numLocale">Numero Local</label>
+          <input type="number" class="form-control" id="numLocale" required [(ngModel)]="local.numLocale" name="numLocale">
+        </div>
+
+        <div class="form-group">
+          <label for="montant">Montant</label>
+          <input type="number" class="form-control" id="montant" required [(ngModel)]="local.montant" name="montant">
+        </div>
+
+        <div class="form-group">
+          <label for="representation">Representation</label>
+          <select id="representation" class="form-control">
+            <option [ngValue]="null"></option>
+            <option  *ngFor="let representation of representations">
+              {{representation.ville}}
+            </option>
+          </select>
+
+        </div>
+        <div class="from-group">
+          <label >Status</label>
+
+        </div>
+        <br>
+        <button type="submit" class="btn btn-success">Submit</button>
+      </form>
+    </div>
+
+    <div [hidden]="!submitted">
+      <h4>You submitted successfully!</h4>
+
+    </div>
+
+  </div>
+</div>
+

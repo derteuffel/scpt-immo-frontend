@@ -1,1 +1,24 @@
-<p>detail-representation works!</p>
+<h2>Representation Details</h2>
+
+<hr/>
+<div *ngIf="rep">
+  <div>
+    <label><b>Province: </b></label> {{rep.province}}
+  </div>
+  <div>
+    <label><b>Ville: </b></label> {{rep.ville}}
+  </div>
+  <div>
+    <label><b>Commune: </b></label> {{rep.commune}}
+  </div>
+  <div>
+    <label><b>Avenue: </b></label> {{rep.avenue}}
+  </div>
+  <div>
+    <label><b>Numero parcelle: </b></label> {{rep.numParcelle}}
+  </div>
+</div>
+
+<br>
+<br>
+<button (click)="list()" class="btn btn-primary">Back to Representation List</button><br>
