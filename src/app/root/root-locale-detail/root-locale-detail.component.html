@@ -1,0 +1,49 @@
+<div class="container my-2">
+  <div class="container-fluid">
+    <div class="alert-info text-center">
+      <h3>Detail du locale numero : <span>{{currentLocale.numLocale}}</span></h3>
+    </div>
+
+    <hr>
+    <div class="card-text">
+      <p>Locale numero : <span>{{currentLocale.numLocale}}</span></p>
+      <hr>
+      <p>Montant locatif : <span>{{currentLocale.montant}} +$</span></p>
+      <hr>
+      <p>Superficie : <span>{{currentLocale.superficie}}</span></p>
+      <hr>
+      <p>Status : <span>{{currentLocale.status}}</span></p>
+      <hr>
+      <div class="card-header text-center">
+          <h4>Contrats de ce local</h4>
+      </div>
+
+    </div>
+
+    <div class="card-body">
+      <table class="table table-responsive-md table-bordered">
+        <thead class="alert-info">
+        <th>Nom du client</th>
+        <th>Date signature</th>
+        <th>Duree garantie</th>
+        <th>Montant total garantie</th>
+        <th>Etat</th>
+        <th>Actions</th>
+        </thead>
+        <tbody>
+        <tr *ngFor="let item of lists">
+          <td>{{item.client.name}}</td>
+          <td>{{item.dateSignature}}</td>
+          <td>{{item.dureeGaranti}}</td>
+          <td>{{item.montantGaranti}}</td>
+          <td>{{item.status}}</td>
+          <td>
+            <a href="/root-locale-contrat-update/{{item.id}}" class="btn btn-secondary m-1"><i class="fa fa-edit"></i></a>
+            <button (click)="deleteContrat(item.id)" class="btn btn-danger m-1"><i class="fa fa-trash"></i></button>
+          </td>
+        </tr>
+        </tbody>
+      </table>
+    </div>
+  </div>
+</div>

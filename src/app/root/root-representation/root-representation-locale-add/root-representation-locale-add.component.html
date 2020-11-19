@@ -1,0 +1,28 @@
+<div class="container">
+  <div class="container-fluid my-2">
+    <div class="alert-info text-center">
+      <h3>Formulaire d'ajout d'un local, <br><span>Representation de : {{currentRepresentation.province}}</span> </h3>
+    </div>
+    <a href="/root-representation/{{currentRepresentation.id}}" class="btn btn-secondary"><i class="fa fa-long-arrow-left"></i>&nbsp;Retour detail representation </a>
+    <span class="text-success">{{message}}</span>
+    <div class="card-body justify-content-center d-flex">
+      <form  name="form" (ngSubmit)="f.form.valid && onSubmit()" #f="ngForm" novalidate style="width: 80%">
+        <div class="form-group">
+          <label for="numLocale">Numero du local</label>
+          <input type="text" class="form-control" id="numLocale" required [(ngModel)]="form.numLocale" #numLocale="ngModel" name="numLocale">
+        </div>
+
+        <div class="form-group">
+          <label for="montant">Montant locatif</label>
+          <input type="text" class="form-control" id="montant" required [(ngModel)]="form.montant" name="montant" #montant="ngModel">
+        </div>
+        <div class="form-group">
+          <label for="superficie">Superfice</label>
+          <input type="text" class="form-control" id="superficie" required [(ngModel)]="form.superficie" name="superficie" #superficie="ngModel">
+        </div>
+        <br>
+        <button type="submit" class="btn btn-success">Enregistrer <i class="fa fa-check"></i></button>
+      </form>
+    </div>
+  </div>
+</div>

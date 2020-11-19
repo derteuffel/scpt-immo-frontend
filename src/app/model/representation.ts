@@ -1,3 +1,6 @@
+import {Locale} from './locale';
+import {AccountRepresentation} from './account-representation';
+
 export class Representation {
 
   id: number;
@@ -6,5 +9,7 @@ export class Representation {
   commune: string;
   avenue: string;
   numParcelle: number;
+  locales: Locale[];
+  accountRepresentation: AccountRepresentation[];
 
 }

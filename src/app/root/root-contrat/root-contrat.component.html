@@ -1,0 +1,45 @@
+<div class="container my-2">
+  <div class="container-fluid">
+    <div class="alert-info text-center">
+      <h3>Liste de tous les contrats de la SCPT</h3>
+    </div>
+
+    <hr>
+    <div class="form-group row">
+      <div class="col-md-4">
+        <label >Recherche <i class="fa fa-search"></i></label>
+      </div>
+      <div class="col-md-8">
+        <input type="text" class="form-control" [(ngModel)]="searchItem">
+      </div>
+    </div>
+    <div class="card-body">
+      <table class="table table-responsive-md table-bordered">
+        <thead class="alert-info">
+        <th>Nom du client</th>
+        <th>Numero Local</th>
+        <th>Date signature</th>
+        <th>Duree garantie</th>
+        <th>Montant total garantie</th>
+        <th>Etat</th>
+        <th>Actions</th>
+        </thead>
+        <tbody>
+        <tr *ngFor="let item of lists | filter:searchItem | paginate: {itemsPerPage: 10, currentPage: p}">
+          <td>{{item.client.name}}</td>
+          <td>{{item.locale.numLocale}}</td>
+          <td>{{item.dateSignature}}</td>
+          <td>{{item.dureeGaranti}}</td>
+          <td>{{item.montantGaranti}}</td>
+          <td>{{item.status}}</td>
+          <td>
+            <a href="/root-contrat-update/{{item.id}}" class="btn btn-secondary m-1"><i class="fa fa-edit"></i></a>
+            <button (click)="deleteContrat(item.id)" class="btn btn-danger m-1"><i class="fa fa-trash"></i></button>
+          </td>
+        </tr>
+        </tbody>
+      </table>
+      <pagination-controls (pageChange)="p = $event"></pagination-controls>
+    </div>
+  </div>
+</div>

@@ -1,0 +1,43 @@
+<div class="container my-2">
+  <div class="container-fluid">
+    <div class="alert-info text-center">
+      <h1>Ensembles des locaux de la SCPT</h1>
+    </div>
+    <div class="form-group row">
+      <div class="col-md-4">
+        <label >Recherche <i class="fa fa-search"></i></label>
+      </div>
+      <div class="col-md-8">
+        <input type="text" class="form-control" [(ngModel)]="searchItem">
+      </div>
+    </div>
+    <hr>
+    <div class="card-body">
+      <table class="table table-responsive-md table-bordered">
+        <thead>
+        <th>Numero du local</th>
+        <th>Province</th>
+        <th>Commune</th>
+        <th>Montant locatif</th>
+        <th>Etat d'occupation</th>
+        <th>Actions</th>
+        </thead>
+        <tbody>
+        <tr *ngFor="let item of lists | filter:searchItem | paginate: {itemsPerPage: 10, currentPage: p}">
+          <td>Local Numero : <span class="badge badge-info">{{item.numLocale}}</span></td>
+          <td>{{item.representation.province}}</td>
+          <td>{{item.representation.commune}}</td>
+          <td>{{item.montant}}</td>
+          <td>{{item.status}}</td>
+          <td>
+            <a href="/root-locale-detail/{{item.id}}" class="btn btn-primary m-1"><i class="fa fa-eye"></i></a>
+            <a href="/root-locale-update/{{item.id}}" class="btn btn-secondary m-1"><i class="fa fa-edit"></i></a>
+            <button (click)="deleteLocale(item.id)" class="btn btn-danger m-1"><i class="fa fa-trash"></i></button>
+          </td>
+        </tr>
+        </tbody>
+      </table>
+      <pagination-controls (pageChange)="p = $event"></pagination-controls>
+    </div>
+  </div>
+</div>

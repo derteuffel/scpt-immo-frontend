@@ -1,1 +1,38 @@
-<p>root-representation-update works!</p>
+<div class="container">
+  <div class="container-fluid my-2">
+    <div class="alert-info text-center">
+      <h3>Formulaire d'ajout d'une representation</h3>
+    </div>
+    <a href="/root-home" class="btn btn-secondary"><i class="fa fa-long-arrow-left"></i>&nbsp;Retour liste representations </a>
+    <div class="card-body justify-content-center d-flex">
+      <form   style="width: 80%">
+        <div class="form-group">
+          <label for="province">Province</label>
+          <input type="text" class="form-control" id="province" required [(ngModel)]="currentRepresentation.province"  name="province">
+        </div>
+
+        <div class="form-group">
+          <label for="ville">Ville</label>
+          <input type="text" class="form-control" id="ville" required [(ngModel)]="currentRepresentation.ville" name="ville" >
+        </div>
+
+        <div class="form-group">
+          <label for="commune">Commune</label>
+          <input type="text" class="form-control" id="commune" required [(ngModel)]="currentRepresentation.commune" name="commune" >
+        </div>
+
+        <div class="form-group">
+          <label for="avenue">Avenue</label>
+          <input type="text" class="form-control" id="avenue" required [(ngModel)]="currentRepresentation.avenue" name="avenue" >
+        </div>
+
+        <div class="from-group">
+          <label for="numParcelle">Numero parcelle</label>
+          <input type="number" class="form-control" id="numParcelle" required [(ngModel)]="currentRepresentation.numParcelle" name="numParcelle" >
+        </div>
+        <br>
+        <button (click)="updateRepresentation()" class="btn btn-success">Enregistrer <i class="fa fa-check"></i></button>
+      </form>
+    </div>
+  </div>
+</div>

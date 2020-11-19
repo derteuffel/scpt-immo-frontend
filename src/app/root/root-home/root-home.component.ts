@@ -10,6 +10,9 @@ export class RootHomeComponent implements OnInit {
 
   lists: any;
 
+  p: number = 1;
+  searchItem: string;
+
   constructor(private rootRepresentationService: RootRepresentationService) { }
 
   ngOnInit(): void {
@@ -21,6 +24,18 @@ export class RootHomeComponent implements OnInit {
       data => {
           this.lists = data;
           console.log(data);
+      },
+      error => {
+        console.log(error);
+      }
+    );
+  }
+
+  deleteRepresentation(id): void {
+    this.rootRepresentationService.delete(id).subscribe(
+      data => {
+        console.log('Element deleted sucessfully');
+        window.location.reload();
       },
       error => {
         console.log(error);

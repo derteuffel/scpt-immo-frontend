@@ -47,4 +47,16 @@ export class RootRepresentationComponent implements OnInit {
     );
   }
 
+  deleteLocale(id): void{
+    this.rootLocaleService.deleteLocale(id).subscribe(
+      data => {
+        console.log('Vous avez supprimer le locale avec succes');
+        window.location.reload();
+      },
+      error => {
+        console.log(error);
+      }
+    );
+  }
+
 }

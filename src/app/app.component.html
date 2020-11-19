@@ -1,39 +1,28 @@
-<nav class="navbar navbar-expand navbar-dark bg-dark">
+<nav class="navbar navbar-expand alert alert-info">
   <a href="/" class="navbar-brand">SCPT IMMO</a>
   <ul class="navbar-nav mr-auto" routerLinkActive="active">
     <li class="nav-item">
-      <a href="/root-home" class="nav-link" routerLink="root-home">Home </a>
-    </li>
-    <li class="nav-item" *ngIf="showAdminBoard">
-      <a href="/admin" class="nav-link" routerLink="admin">Admin Board</a>
-    </li>
-    <li class="nav-item" *ngIf="showRootBoard">
-      <a href="/root-home" class="nav-link" routerLink="root-home">Root Board</a>
+      <a href="/root-home" class="nav-link" routerLink="root-home">Acceuil </a>
     </li>
     <li class="nav-item">
-      <a href="/user" class="nav-link" *ngIf="isLoggedIn" routerLink="user">User</a>
+      <a href="/root-locales" class="nav-link" *ngIf="isLoggedIn" routerLink="root-locales">Locaux </a>
     </li>
 
     <li class="nav-item">
-      <a href="/list-representation" class="nav-link" *ngIf="isLoggedIn" routerLink="list-representation">Representation</a>
+      <a href="/root-contrats" class="nav-link" *ngIf="isLoggedIn" routerLink="root-contrats">Contrats</a>
     </li>
     <li class="nav-item">
-      <a href="/add" class="nav-link" *ngIf="isLoggedIn" routerLink="add"> Add Representation</a>
+      <a href="/root-clients" class="nav-link" *ngIf="isLoggedIn" routerLink="root-clients"> Clients</a>
     </li>
-    <li class="nav-item">
-      <a href="/add-local" class="nav-link" *ngIf="isLoggedIn" routerLink="add-local"> Add Local</a>
-    </li>
-    <li class="nav-item">
-      <a href="/local" class="nav-link" *ngIf="isLoggedIn" routerLink="local">Local</a>
-    </li>
+
   </ul>
 
   <ul class="navbar-nav ml-auto" *ngIf="!isLoggedIn">
     <li class="nav-item">
-      <a href="/register" class="nav-link" routerLink="register">Sign Up</a>
+      <a href="/register" class="nav-link" routerLink="register">S'inscrire</a>
     </li>
     <li class="nav-item">
-      <a href="/login" class="nav-link" routerLink="login">Login</a>
+      <a href="/login" class="nav-link" routerLink="login">Connexion</a>
     </li>
   </ul>
 
@@ -42,7 +31,7 @@
       <a href="/profile" class="nav-link" routerLink="profile">{{ username }}</a>
     </li>
     <li class="nav-item">
-      <a href class="nav-link" (click)="logout()">LogOut</a>
+      <a href class="nav-link" (click)="logout()">Deconnexion</a>
     </li>
   </ul>
 </nav>

@@ -3,14 +3,7 @@
     <div class="alert-info text-center">
       <h3>Detail de la representation <span>{{currentRepresentation.name}}</span></h3>
     </div>
-    <div class="row">
-      <div class="col-md-6">
-        <a href="/root-home" class="btn btn-secondary"><i class="fa fa-long-arrow-left"></i>&nbsp;Retour a la liste des representations </a>
-      </div>
-      <div class="col-md-6">
-        <a href="#" class="btn btn-primary">Ajouter un local a cette representation <i class="fa fa-plus"></i></a>
-      </div>
-    </div>
+
     <hr>
     <div class="card-text">
       <p>Province : <span>{{currentRepresentation.province}}</span></p>
@@ -23,6 +16,16 @@
       <hr>
       <p>Numero de la parcelle : <span>{{currentRepresentation.numParcelle}}</span></p>
       <hr>
+      <p>Nombre de locaux : <span>{{lists.length}}</span></p>
+      <hr>
+    </div>
+    <div class="row">
+      <div class="col-md-6">
+        <a href="/root-home" class="btn btn-secondary"><i class="fa fa-long-arrow-left"></i>&nbsp;Retour a la liste des representations </a>
+      </div>
+      <div class="col-md-6">
+        <a href="/root-representation-locale-add/{{currentRepresentation.id}}" class="btn btn-primary">Ajouter un local a cette representation <i class="fa fa-plus"></i></a>
+      </div>
     </div>
     <div class="card-body">
       <table class="table table-responsive-md table-bordered">
@@ -38,9 +41,9 @@
           <td>{{item.montant}}</td>
           <td>{{item.status}}</td>
           <td>
-            <a href="/root-representation/{{item.id}}" class="btn btn-primary m-1"><i class="fa fa-eye"></i></a>
-            <a href="#" class="btn btn-secondary m-1"><i class="fa fa-edit"></i></a>
-            <a href="#" class="btn btn-danger m-1"><i class="fa fa-trash"></i></a>
+            <a href="/root-representation-locale-detail/{{item.id}}" class="btn btn-primary m-1"><i class="fa fa-eye"></i></a>
+            <a href="/root-representation-locale-update/{{item.id}}" class="btn btn-secondary m-1"><i class="fa fa-edit"></i></a>
+            <button (click)="deleteLocale(item.id)" class="btn btn-danger m-1"><i class="fa fa-trash"></i></button>
           </td>
         </tr>
         </tbody>

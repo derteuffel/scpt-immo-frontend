@@ -1,0 +1,50 @@
+<div class="container">
+  <div class="container-fluid my-2">
+    <div class="alert-info text-center">
+      <h3>Formulaire d'ajout d'un contrat au locale Numero : {{currentLocale.numLocale}}</h3>
+    </div>
+    <a href="/root-representation-locale-detail/{{currentLocale.id}}" class="btn btn-secondary"><i class="fa fa-long-arrow-left"></i>&nbsp;Retour </a>
+    <div class="card-body justify-content-center d-flex">
+      <form  name="form" (ngSubmit)="f.form.valid && onSubmit()" #f="ngForm" novalidate style="width: 80%">
+        <div class="form-group">
+          <label for="province">Nom du client</label>
+          <input type="text" class="form-control" id="province" required [(ngModel)]="form.name" #name="ngModel" name="name">
+        </div>
+
+        <div class="form-group">
+          <label for="ville">Type de Client</label>
+          <select name="type" id="ville" [(ngModel)]="form.type" name="type" #type="ngModel" class="form-control">
+            <option value="">--Choisir votre type de client--</option>
+            <option value="INDIVIDUEL">INDIVIDUEL</option>
+            <option value="GROUPE DE PERSONNE">GROUPE DE PERSONNE</option>
+          </select>
+        </div>
+
+        <div class="form-group">
+          <label for="commune">Email du client</label>
+          <input type="text" class="form-control" id="commune" required [(ngModel)]="form.email" name="email" #email="ngModel">
+        </div>
+
+        <div class="form-group">
+          <label for="avenue">Telephone client</label>
+          <input type="text" class="form-control" id="avenue" required [(ngModel)]="form.contact" name="contact" #contact="ngModel">
+        </div>
+
+        <div class="from-group">
+          <label for="numParcelle">Activite </label>
+          <input type="text" class="form-control" id="numParcelle" required [(ngModel)]="form.activite" name="activite" #activite="ngModel">
+        </div>
+        <div class="from-group">
+          <label for="signature">Date de signature </label>
+          <input type="date" class="form-control" id="signature" required [(ngModel)]="form.dateSignature" name="dateSignature" #dateSignature="ngModel">
+        </div>
+        <div class="from-group">
+          <label for="number">Nombre de mois de garantie </label>
+          <input type="number" class="form-control" id="number" required [(ngModel)]="form.dureeGaranti" name="dureeGaranti" #dureeGaranti="ngModel">
+        </div>
+        <br>
+        <button type="submit" class="btn btn-success">Enregistrer <i class="fa fa-check"></i></button>
+      </form>
+    </div>
+  </div>
+</div>

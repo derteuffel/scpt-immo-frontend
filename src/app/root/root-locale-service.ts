@@ -17,11 +17,23 @@ export class RootLocaleService{
   }
 
   get(id): Observable<any> {
-    return this.http.get(LOCALE_API + id);
+    return this.http.get(LOCALE_API + '/' + id);
   }
 
   getAllByRepresentation(id): Observable<any> {
     return this.http.get(LOCALE_API + '/representation/' + id);
+  }
+
+  createLocale(data, id): Observable<any> {
+    return this.http.post(LOCALE_API + '/save/' + id, data);
+  }
+
+  updateLocale(data, id): Observable<any> {
+    return this.http.put(LOCALE_API + '/' + id, data);
+  }
+
+  deleteLocale(id): Observable<any> {
+    return this.http.delete(LOCALE_API + '/delete/' + id);
   }
 
 }

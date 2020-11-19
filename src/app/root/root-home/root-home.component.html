@@ -3,7 +3,14 @@
     <div class="alert-info text-center">
       <h3>Ensembles des representations de la SCPT</h3>
     </div>
-    <a href="#" class="btn btn-primary">Ajouter une representation <i class="fa fa-plus"></i></a>
+    <div class=" row">
+      <div class="col-md-6">
+        <a href="/root-representation-add" class="btn btn-primary">Ajouter une representation <i class="fa fa-plus"></i></a>
+      </div>
+      <div class="col-md-6">
+        <input type="text" class="form-control" [(ngModel)]="searchItem">
+      </div>
+    </div>
     <div class="card-body">
       <table class="table table-responsive-md table-bordered">
         <thead>
@@ -15,7 +22,7 @@
           <th>Actions</th>
         </thead>
         <tbody>
-          <tr *ngFor="let item of lists">
+          <tr *ngFor="let item of lists | filter:searchItem | paginate: {itemsPerPage: 10, currentPage: p} ">
             <td>{{item.province}}</td>
             <td>{{item.ville}}</td>
             <td>{{item.commune}}</td>
@@ -23,12 +30,13 @@
             <td>{{item.numParcelle}}</td>
             <td>
               <a href="/root-representation/{{item.id}}" class="btn btn-primary m-1"><i class="fa fa-eye"></i></a>
-              <a href="#" class="btn btn-secondary m-1"><i class="fa fa-edit"></i></a>
-              <a href="#" class="btn btn-danger m-1"><i class="fa fa-trash"></i></a>
+              <a href="/root-representation-update/{{item.id}}" class="btn btn-secondary m-1"><i class="fa fa-edit"></i></a>
+              <button (click)="deleteRepresentation(item.id)" class="btn btn-danger m-1"><i class="fa fa-trash"></i></button>
             </td>
           </tr>
         </tbody>
       </table>
+      <pagination-controls (pageChange)="p = $event"></pagination-controls>
     </div>
   </div>
 </div>

@@ -1,0 +1,22 @@
+<div class="container">
+  <div class="container-fluid my-2">
+    <div class="alert-info text-center">
+      <h3>Formulaire d'edition d'un contrat</h3>
+    </div>
+    <a href="#" class="btn btn-secondary"><i class="fa fa-long-arrow-left"></i>&nbsp;Retour </a>
+    <div class="card-body justify-content-center d-flex">
+      <form   novalidate style="width: 80%">
+        <div class="from-group">
+          <label for="signature">Date de signature </label>
+          <input type="text" class="form-control" id="signature" required [(ngModel)]="currentContrat.dateSignature" name="dateSignature" >
+        </div>
+        <div class="from-group">
+          <label for="number">Nombre de mois de garantie </label>
+          <input type="number" class="form-control" id="number" required [(ngModel)]="currentContrat.dureeGaranti" name="dureeGaranti" >
+        </div>
+        <br>
+        <button (click)="updateContrat()" class="btn btn-success">Enregistrer <i class="fa fa-check"></i></button>
+      </form>
+    </div>
+  </div>
+</div>
