@@ -1,0 +1,375 @@
+<app-sidebar></app-sidebar>
+<div class="main-content" id="panel">
+    <app-header></app-header>
+    <div class="header pb-6 ">
+        <div class="container-fluid">
+            <div class="header-body">
+                <div class="row align-items-center py-4">
+                    <div class="col-lg-8 col-8">
+                      <h6 class="h2 text-primary d-inline-block mb-0">Accueil</h6>
+                      <nav aria-label="breadcrumb" class="d-none d-md-inline-block ml-md-4">
+                        <ol class="breadcrumb breadcrumb-links breadcrumb-dark">
+                          <li class="breadcrumb-item"><a href="admin/locaux"><i class="fas fa-home"></i></a></li>
+                          <li class="breadcrumb-item " ><a href="admin/contrats">Contrats</a></li>
+                          <li class="breadcrumb-item active" aria-current="page"><a href="#">Gestion de tous les contrats</a></li>
+                        </ol>
+                      </nav>
+                    </div>
+                  </div>
+            </div>
+        </div>
+    </div>
+    <div class="container-fluid mt--6">
+        <div class="row">
+            <div class="col">
+                <div class="card">
+                  <!-- Card header -->
+                  <div class="card-header border-0">
+                      <div class="row">
+                          <div class="col-3 alert alert-secondary mr-1">
+                            <h3 class="mb-0"><a type="button" class="btn btn-outline-info" (click)="getAll()">Tous les contrats({{lists.length}})</a></h3>
+                          </div>
+                          <div class="col-3 alert alert-secondary mr-1">
+                            <h3 class="mb-0"><a type="button" class="btn btn-outline-warning" (click)="getContratTermine()">Contrats termines ({{termines.length}})</a> </h3>
+                          </div>
+                          <div class="col-3 alert alert-secondary mr-1">
+                            <h3 class="mb-0 "><a type="button" class="btn btn-outline-success" (click)="getContratEncour()">Contrat encour ({{encours.length}})</a></h3>
+                          </div>
+                    
+                          <div class="col-2 alert alert-secondary">
+                            <a href="#" type="button" class="btn btn-outline-primary" data-toggle="modal" data-target="#addContratModal" class="btn btn-sm btn-primary">Ajouter un contrat</a>
+                          </div>
+                        </div>
+                  </div>
+                  <div class="card-header border-0">
+                    <div class="navbar-search navbar-search-light form-inline mr-sm-3" id="navbar-search-main">
+                        <div class="form-group mb-0">
+                          <div class="input-group input-group-alternative input-group-merge">
+                            <div class="input-group-prepend">
+                              <span class="input-group-text"><i class="fas fa-search"></i></span>
+                            </div>
+                            <input class="form-control" placeholder="Rechercher un contrat" [(ngModel)]="term" type="text">
+                          </div>
+                        </div>
+                    </div>
+                    <div *ngIf="message" class="alert alert-warning">
+                        <span>{{message}}</span>
+                    </div>
+                  </div>
+                  <!-- Light table -->
+                  <div class="table-responsive">
+                    <table class="table align-items-center table-flush">
+                      <thead class="thead-light">
+                        <tr>
+                            <th scope="col" class="sort" data-sort="numContrat">Contrat Numero</th>
+                          <th scope="col" class="sort" data-sort="nameClient">Nom du client</th>
+                          <th scope="col" class="sort" data-sort="typeClient">Type de client</th>
+                          <th scope="col" class="sort" data-sort="secteurActivite">Secteur d'activite</th>
+                          <th scope="col" class="sort" data-sort="numLocale">Designation du local</th>
+                          <th scope="col" class="sort" data-sort="representation">Ville</th>
+                          <th scope="col" class="sort" data-sort="contact">Contact</th>
+                          <th scope="col">Actions</th>
+                        </tr>
+                      </thead>
+                      <tbody class="list">
+                        <tr  *ngFor="let item of lists | paginate: { itemsPerPage: 10, currentPage: p }| filter:term">
+                          <td>{{item.numContrat}}</td>
+                          <td>{{item.nameClient}}</td>
+                          <td>{{item.typeClient}}</td>
+                          <td>{{item.secteurActivite}}</td>
+                          <td>{{item.locale?.designation}}</td>
+                          <td>{{item.locale?.ville+', '+item.locale?.adresse}}</td>
+                          <td>{{item.contact}}</td>
+                          
+                          <td class="text-right">
+                            <div class="dropdown">
+                              <a class="btn btn-sm btn-icon-only text-light" href="#" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                <i class="fas fa-ellipsis-v"></i>
+                              </a>
+                              <div class="dropdown-menu dropdown-menu-right dropdown-menu-arrow">
+                                <a class="dropdown-item" type="button"  (click)="detailItem(item)">Detail</a>
+                                <a class="dropdown-item" type="button"  (click)="detailMensualite(item)">Voir les mensualites</a>
+                                <a class="dropdown-item" type="button" *ngIf="item.status"  (click)="editItem(item)">Edit</a>
+                                <a class="dropdown-item" type="button" *ngIf="item.status"  (click)="cancelItem(item)">Terminer un contrat</a>
+                                <a class="dropdown-item" type="button" *ngIf="item.status"  (click)="deleteItem(item.id)">Supprimer</a>
+                              </div>
+                            </div>
+                          </td>
+                        </tr>
+                      </tbody>
+                    </table>
+                  </div>
+                  <!-- Card footer -->
+                  <div class="card-footer py-4">
+                    <nav aria-label="...">
+                      <ul class="pagination justify-content-end mb-0">
+                        <pagination-controls (pageChange)="p = $event"></pagination-controls>
+                      </ul>
+                    </nav>
+                  </div>
+                </div>
+              </div>
+        </div>
+        <app-footer></app-footer>
+    </div>
+</div>
+<button [hidden]="true" type="button" id="openEdit" data-toggle="modal" data-target="#editContratModal">
+</button>
+
+<button [hidden]="true" type="button" id="openDetail" data-toggle="modal" data-target="#detailContratModal">
+</button>
+
+<button [hidden]="true" type="button" id="openDetailMensualite" data-toggle="modal" data-target="#detailMensualiteModal">
+</button>
+
+<!-- model add user -->
+<div  class="modal draggable fade bd-example-modal-lg" id="addContratModal" tabindex="-1" role="dialog"
+aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
+<div class="modal-dialog" role="document">
+  <div class="modal-content">
+    <form (submit)="onSubmit()" [formGroup]="form">
+    <div class="modal-header">
+      <h5 class="modal-title text-center">Nouveau contrat</h5>
+      <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+        <span aria-hidden="true">&times;</span>
+      </button>
+    </div>
+    <div class="modal-body">
+      <div>
+        
+            <h6 class="heading-small text-muted mb-4">Formulaire</h6>
+            <div class="pl-lg-4">
+                  <div class="form-group">
+                    <label class="form-control-label" >Nom du client</label>
+                    <input type="text" formControlName="nameClient"  class="form-control" placeholder="Nom du client">
+                  </div>
+                  <div class="form-group">
+                    <label class="form-control-label" >Email</label>
+                    <input type="email" formControlName="email"  class="form-control" placeholder="Email">
+                  </div>
+                  <div class="form-group">
+                    <label class="form-control-label" >Contact</label>
+                    <input type="text" formControlName="contact"  class="form-control" placeholder="Telephone">
+                  </div>
+                  <div class="form-group">
+                    <label class="form-control-label" >Date de signature</label>
+                    <input type="date" formControlName="dateSignature"  class="form-control" placeholder="Date de signature">
+                  </div>
+                  <div class="form-group">
+                    <label class="form-control-label" >Duree de la guarantie</label>
+                    <input type="number" formControlName="dureeGaranti"  class="form-control" placeholder="Duree de la guarantie">
+                  </div>
+                  <div class="form-group">
+                    <label class="form-control-label" >Type de client</label>
+                    <select formControlName="typeClient" class="form-control" >
+                        <option *ngFor="let item of types" value="{{item}}">{{item}}</option>
+                    </select>
+                  </div>
+
+                  <div class="form-group">
+                    <label class="form-control-label" >Secteur d'activite</label>
+                    <select formControlName="secteurActivite" class="form-control" >
+                        <option *ngFor="let item of activites" value="{{item}}">{{item}}</option>
+                    </select>
+                  </div>
+                  <div class="form-group">
+                    <label class="form-control-label" >Local</label>
+                    <select formControlName="locale"  class="form-control" >
+                        <option *ngFor="let item of locales" value="{{item.id}}">{{item.designation+', '+item.ville+', '+item.adresse}}</option>
+                    </select>
+                  </div>
+                
+            </div>
+              
+         
+      </div>
+    </div>
+    <div class="modal-footer">
+      <button type="button" class="btn btn-secondary" data-dismiss="modal" id="new-contrat-close">Fermer</button>
+      <button type="submit"  class="btn btn-primary">Enregistrer</button>
+    </div>
+    </form> 
+  </div>
+  
+</div>
+</div>
+
+<!-- model add user -->
+<div  class="modal draggable fade bd-example-modal-lg" id="editContratModal" tabindex="-1" role="dialog"
+aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
+<div class="modal-dialog" role="document">
+  <div class="modal-content">
+    <form (submit)="onEditSubmit(selectedItem.id)" [formGroup]="form">
+    <div class="modal-header">
+      <h5 class="modal-title text-center">Modification Contrat</h5>
+      <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+        <span aria-hidden="true">&times;</span>
+      </button>
+    </div>
+    <div class="modal-body">
+      <div>
+        
+            <h6 class="heading-small text-muted mb-4">Formulaire</h6>
+            <div class="pl-lg-4">
+              
+                <div class="form-group">
+                    <label class="form-control-label" >Nom du client</label>
+                    <input type="text" formControlName="nameClient"  class="form-control" placeholder="Nom du client">
+                  </div>
+                  <div class="form-group">
+                    <label class="form-control-label" >Email</label>
+                    <input type="email" formControlName="email"  class="form-control" placeholder="Email">
+                  </div>
+                  <div class="form-group">
+                    <label class="form-control-label" >Contact</label>
+                    <input type="text" formControlName="contact"  class="form-control" placeholder="Telephone">
+                  </div>
+                  <div class="form-group">
+                    <label class="form-control-label" >Date de signature</label>
+                    <input type="date" formControlName="dateSignature"  class="form-control" placeholder="Date de signature">
+                  </div>
+                  <div class="form-group">
+                    <label class="form-control-label" >Duree de la guarantie</label>
+                    <input type="number" formControlName="dureeGaranti"  class="form-control" placeholder="Duree de la guarantie">
+                  </div>
+                  <div class="form-group">
+                    <label class="form-control-label" >Type de client</label>
+                    <select formControlName="typeClient" class="form-control" >
+                        <option *ngFor="let item of types" value="{{item}}">{{item}}</option>
+                    </select>
+                  </div>
+
+                  <div class="form-group">
+                    <label class="form-control-label" >Secteur d'activite</label>
+                    <select formControlName="secteurActivite" class="form-control" >
+                        <option *ngFor="let item of activites" value="{{item}}">{{item}}</option>
+                    </select>
+                  </div>
+                  <div class="form-group">
+                    <label class="form-control-label" >Local</label>
+                    <select formControlName="locale"  class="form-control" >
+                        <option *ngFor="let item of locales" value="{{item.id}}">{{item.designation+', '+item.ville+', '+item.adresse}}</option>
+                    </select>
+                  </div>
+                
+            </div>
+              
+         
+      </div>
+    </div>
+    <div class="modal-footer">
+      <button type="button" class="btn btn-secondary" data-dismiss="modal" id="edit-contrat-close">Fermer</button>
+      <button type="submit"  class="btn btn-primary">Enregistrer</button>
+    </div>
+    </form> 
+  </div>
+  
+</div>
+</div>
+
+<!-- model add user -->
+<div  class="modal draggable fade bd-example-modal-lg" id="detailMensualiteModal" tabindex="-1" role="dialog"
+aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
+<div class="modal-dialog" role="document">
+  <div class="modal-content">
+    <div class="modal-header">
+      <h5 class="modal-title text-center">Detail mensualite Contrat</h5>
+      <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+        <span aria-hidden="true">&times;</span>
+      </button>
+    </div>
+    <div class="modal-body">
+      <!-- Light table -->
+      <div class="table-responsive">
+        <table class="table align-items-center table-flush">
+          <thead class="thead-light">
+            <tr>
+                <th scope="col" class="sort" data-sort="numContrat">Mensualite Numero</th>
+              <th scope="col" class="sort" data-sort="nameClient">Nom du client</th>
+              <th scope="col" class="sort" data-sort="typeClient">Date  paiement</th>
+              <th scope="col" class="sort" data-sort="secteurActivite">Montant</th>
+            </tr>
+          </thead>
+          <tbody class="list">
+            <tr  *ngFor="let item of mensualites | paginate: { itemsPerPage: 10, currentPage: p }">
+              <td>{{item.numeroBodereau}}</td>
+              <td>{{item.contrat.nameClient}}</td>
+              <td>{{item.dateVersement}}</td>
+              <td>{{item.montant}}</td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+    <div class="modal-footer">
+      <button type="button" class="btn btn-secondary" data-dismiss="modal" (click)="clickButton('edit-contrat-close')" >Fermer</button>
+    </div>
+  </div>
+  
+</div>
+</div>
+
+<!-- model add user -->
+<div  class="modal draggable fade bd-example-modal-lg" id="detailContratModal" tabindex="-1" role="dialog"
+aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
+<div class="modal-dialog" role="document">
+  <div class="modal-content">
+    <div class="modal-header">
+      <h5 class="modal-title text-center">Detail  Contrat</h5>
+      <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+        <span aria-hidden="true">&times;</span>
+      </button>
+    </div>
+    <div class="modal-body">
+      <!-- Light table -->
+      <div class="table-responsive">
+        <table class="table align-items-center table-flush">
+         <tr>
+           <td>Numero du contrat</td>
+           <td>{{selectedItem.numContrat}}</td>
+         </tr>
+         <tr>
+          <td>Nom du Client</td>
+          <td>{{selectedItem.nameClient}}</td>
+        </tr>
+        <tr>
+          <td>Type de Client</td>
+          <td>{{selectedItem.typeClient}}</td>
+        </tr>
+        <tr>
+          <td>Email du Client</td>
+          <td>{{selectedItem.email}}</td>
+        </tr>
+        <tr>
+          <td>Secteur d'activite</td>
+          <td>{{selectedItem.secteurActivite}}</td>
+        </tr>
+        <tr>
+          <td>Contact</td>
+          <td>{{selectedItem.contact}}</td>
+        </tr>
+        <tr>
+          <td>Duree de la garantie</td>
+          <td>{{selectedItem.dureeGaranti}}</td>
+        </tr>
+        <tr>
+          <td>Montant de la garantie</td>
+          <td>{{selectedItem.montantGaranti+' USD'}}</td>
+        </tr>
+        <tr>
+          <td>Status</td>
+          <td *ngIf="selectedItem.status" class="alert alert-success">Encour</td>
+          <td *ngIf="!selectedItem.status" class="alert alert-warning">Terminer</td>
+        </tr>
+        </table>
+      </div>
+    </div>
+    <div class="modal-footer">
+      <button type="button" class="btn btn-secondary" data-dismiss="modal" (click)="clickButton('edit-contrat-close')" >Fermer</button>
+    </div>
+  </div>
+  
+</div>
+</div>
+
+

@@ -1,0 +1,174 @@
+<app-sidebar></app-sidebar>
+<div class="main-content" id="panel">
+    <app-header></app-header>
+    <div class="header pb-6 ">
+        <div class="container-fluid">
+            <div class="header-body">
+                <div class="row align-items-center py-4">
+                    <div class="col-lg-8 col-8">
+                      <h6 class="h2 text-primary d-inline-block mb-0">Accueil</h6>
+                      <nav aria-label="breadcrumb" class="d-none d-md-inline-block ml-md-4">
+                        <ol class="breadcrumb breadcrumb-links breadcrumb-dark">
+                          <li class="breadcrumb-item"><a href="admin/locaux"><i class="fas fa-home"></i></a></li>
+                          <li class="breadcrumb-item " ><a href="admin/payments">Paiements</a></li>
+                          <li class="breadcrumb-item active" aria-current="page"><a href="#">Gestion de paiements</a></li>
+                        </ol>
+                      </nav>
+                    </div>
+                  </div>
+            </div>
+        </div>
+    </div>
+    <div class="container-fluid mt--6">
+        <div class="row">
+            <div class="col">
+                <div class="card">
+                  <!-- Card header -->
+                  <div class="card-header border-0">
+                    <div class="row">
+                        <div class="col-5 alert alert-secondary mr-1">
+                          <h3 class="mb-0"><a type="button" class="btn btn-outline-primary" (click)="getContratActifs()">Tous les contrats actifs({{lists.length}})</a></h3>
+                        </div>
+                        <div class="col-5 alert alert-secondary mr-1">
+                          <h3 class="mb-0"><a type="button" class="btn btn-outline-info" (click)="getMensualites()">Paiements effectuer</a> </h3>
+                        </div>
+                      </div>
+                </div>
+                  <div class="card-header border-0">
+                    <div class="navbar-search navbar-search-light form-inline mr-sm-3" id="navbar-search-main">
+                        <div class="form-group mb-0">
+                          <div class="input-group input-group-alternative input-group-merge">
+                            <div class="input-group-prepend">
+                              <span class="input-group-text"><i class="fas fa-search"></i></span>
+                            </div>
+                            <input class="form-control" placeholder="Rechercher un contrat" [(ngModel)]="term" type="text">
+                          </div>
+                        </div>
+                    </div>
+                  </div>
+                  <!-- Light table -->
+                  <div class="table-responsive">
+                    <table *ngIf="isContrat" class="table align-items-center table-flush">
+                      <thead class="thead-light">
+                        <tr>
+                            <th scope="col" class="sort" data-sort="numContrat">Contrat Numero</th>
+                          <th scope="col" class="sort" data-sort="nameClient">Nom du client</th>
+                          <th scope="col" class="sort" data-sort="typeClient">Type de client</th>
+                          <th scope="col" class="sort" data-sort="secteurActivite">Secteur d'activite</th>
+                          <th scope="col" class="sort" data-sort="numLocale">Numero local</th>
+                          <th scope="col" class="sort" data-sort="representation">Representation</th>
+                          <th scope="col" class="sort" data-sort="contact">Contact</th>
+                          <th scope="col" class="sort" data-sort="action">Action</th>
+                        </tr>
+                      </thead>
+                      <tbody class="list">
+                        <tr  *ngFor="let item of lists | paginate: { itemsPerPage: 10, currentPage: p }| filter:term">
+                          <td>{{item.numContrat}}</td>
+                          <td>{{item.nameClient}}</td>
+                          <td>{{item.typeClient}}</td>
+                          <td>{{item.secteurActivite}}</td>
+                          <td>{{item.locale?.numLocale}}</td>
+                          <td>{{item.locale?.representation?.province+' '+item.locale?.representation?.ville+' '+item.locale?.representation?.numParcelle}}</td>
+                          <td>{{item.contact}}</td>
+                          <td class="text-right">
+                             <a class="btn btn-outline-primary" type="button"  (click)="paymentForm(item)">Effectuer un paiement</a>
+                          </td>
+                        </tr>
+                      </tbody>
+                    </table>
+                    <table *ngIf="isMensualite" class="table align-items-center table-flush">
+                        <thead class="thead-light">
+                          <tr>
+                              <th scope="col" class="sort" data-sort="numContrat">Code Paiement</th>
+                            <th scope="col" class="sort" data-sort="nameClient">Numero de bordeau banque</th>
+                            <th scope="col" class="sort" data-sort="typeClient">Mois</th>
+                            <th scope="col" class="sort" data-sort="secteurActivite">Date de paiement</th>
+                            <th scope="col" class="sort" data-sort="numLocale">Montant</th>
+                            <th scope="col" class="sort" data-sort="contact">Client</th>
+                            <th scope="col" class="sort" data-sort="action">Action</th>
+                          </tr>
+                        </thead>
+                        <tbody class="list">
+                          <tr  *ngFor="let item of mensualites | paginate: { itemsPerPage: 10, currentPage: p }| filter:term">
+                            <td>{{item.codeMensualite}}</td>
+                            <td>{{item.numeroBodereau}}</td>
+                            <td>{{item.mois}}</td>
+                            <td>{{item.montant+' USD'}}</td>
+                            <td>{{item.contrat?.clientName}}</td>
+                            <td class="text-right">
+                               <a class="btn btn-outline-primary" type="button"  (click)="paymentForm(item)">Modification</a>
+                            </td>
+                          </tr>
+                        </tbody>
+                      </table>
+                  </div>
+                  <!-- Card footer -->
+                  <div class="card-footer py-4">
+                    <nav aria-label="...">
+                      <ul class="pagination justify-content-end mb-0">
+                        <pagination-controls (pageChange)="p = $event"></pagination-controls>
+                      </ul>
+                    </nav>
+                  </div>
+                </div>
+              </div>
+        </div>
+        <app-footer></app-footer>
+    </div>
+</div>
+
+
+<button [hidden]="true" type="button" id="openMensualiteForm" data-toggle="modal" data-target="#mensualiteFormModal">
+</button>
+
+<!-- model add user -->
+<div  class="modal draggable fade bd-example-modal-lg" id="mensualiteFormModal" tabindex="-1" role="dialog"
+aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
+<div class="modal-dialog" role="document">
+  <div class="modal-content">
+    <form (submit)="onSubmit(selectedItem.id)" [formGroup]="form">
+    <div class="modal-header">
+      <h5 class="modal-title text-center">Paiement mensualite</h5>
+      <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+        <span aria-hidden="true">&times;</span>
+      </button>
+    </div>
+    <div class="modal-body">
+      <div>
+        
+            <h6 class="heading-small text-muted mb-4">Formulaire</h6>
+            <div class="pl-lg-4">
+              
+                <div class="form-group">
+                    <label class="form-control-label" >Numero de bordereau du paiement</label>
+                    <input type="text" formControlName="numeroBodereau"  class="form-control" placeholder="Numero de bordereau du paiement">
+                  </div>
+                  <div class="form-group">
+                    <label class="form-control-label" >Montant en USD</label>
+                    <input type="number" formControlName="montant"  class="form-control" placeholder="Montant">
+                  </div>
+                  
+                  <div class="form-group">
+                    <label class="form-control-label" >Mois</label>
+                    <select formControlName="mois" class="form-control" >
+                        <option *ngFor="let item of months" value="{{item}}">{{item}}</option>
+                    </select>
+                  </div>   
+            </div>
+              
+         
+      </div>
+    </div>
+    <div class="modal-footer">
+      <button type="button" class="btn btn-secondary" data-dismiss="modal" id="new-mensualite-close">Fermer</button>
+      <button type="submit"  class="btn btn-primary">Enregistrer</button>
+    </div>
+    </form> 
+  </div>
+  
+</div>
+</div>
+
+
+
+

@@ -1,0 +1,345 @@
+<app-sidebar></app-sidebar>
+<div class="main-content" id="panel">
+    <app-header></app-header>
+    <div class="header pb-6 ">
+        <div class="container-fluid">
+            <div class="header-body">
+                <div class="row align-items-center py-4">
+                    <div class="col-lg-6 col-7">
+                      <h6 class="h2 text-primary d-inline-block mb-0">Accueil</h6>
+                      <nav aria-label="breadcrumb" class="d-none d-md-inline-block ml-md-4">
+                        <ol class="breadcrumb breadcrumb-links breadcrumb-dark">
+                          <li class="breadcrumb-item"><a href="admin/locaux"><i class="fas fa-home"></i></a></li>
+                          <li class="breadcrumb-item active" aria-current="page"><a href="admin/locaux">Locaux</a></li>
+                        </ol>
+                      </nav>
+                    </div>
+                  </div>
+            </div>
+        </div>
+    </div>
+    <div class="container-fluid mt--6">
+        <div class="row">
+            <div class="col">
+                <div class="card">
+                  <!-- Card header -->
+                  <div class="card-header border-0">
+                      <div class="row">
+                          <div class="col-4">
+                            <h3 class="mb-0">Liste des Locaux ({{lists.length}})</h3>
+                          </div>
+                          <div class="col-4">
+                            <a href="#" type="button"  data-toggle="modal" data-target="#addLocalModal" class="btn btn-md btn-outline-info">Charger depuis un fichier</a>
+                          </div>
+                          <div class="col-4">
+                            <a href="#" type="button"  data-toggle="modal" data-target="#addRepresentationModal" class="btn btn-md btn-outline-primary">Ajouter un local</a>
+                          </div>
+                        </div>
+                  </div>
+                  <div class="card-header border-0">
+                    <div class="navbar-search navbar-search-light form-inline mr-sm-3" id="navbar-search-main">
+                      <div class="form-group mb-0">
+                        <div class="input-group input-group-alternative input-group-merge">
+                          <div class="input-group-prepend">
+                            <span class="input-group-text"><i class="fas fa-search"></i></span>
+                          </div>
+                          <input class="form-control" placeholder="Rechercher un local" [(ngModel)]="term" type="text">
+                        </div>
+                      </div>
+                  </div>
+                  </div>
+                  <!-- Light table -->
+                  <div class="table-responsive">
+                    <table class="table align-items-center table-flush">
+                      <thead class="thead-light">
+                        <tr>
+                          <th scope="col" class="sort" data-sort="province">Province</th>
+                          <th scope="col" class="sort" data-sort="ville">Ville</th>
+                          <th scope="col" class="sort" data-sort="commune">Commune</th>
+                          <th scope="col" class="sort" data-sort="avenue">Adresse</th>
+                          <th scope="col" class="sort" data-sort="numParcelle">Occupant</th>
+                          <th scope="col">Actions</th>
+                        </tr>
+                      </thead>
+                      <tbody class="list">
+                        <tr *ngFor="let item of lists | paginate: { itemsPerPage: 10, currentPage: p }">
+                          <td>{{item.province}}</td>
+                          <td>{{item.ville}}</td>
+                          <td>{{item.commune}}</td>
+                          <td>{{item.adresse}}</td>
+                          <td>{{item.occupant}}</td>
+                          <td class="text-right">
+                            <div class="dropdown">
+                              <a class="btn btn-sm btn-icon-only text-light" href="#" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                <i class="fas fa-ellipsis-v"></i>
+                              </a>
+                              <div class="dropdown-menu dropdown-menu-right dropdown-menu-arrow">
+                                <a class="dropdown-item" href="admin/representation/locales/detail/{{item.id}}">Detail</a>
+                                <a class="dropdown-item" type="button"  (click)="editItem(item)">Edit</a>
+                                <a class="dropdown-item" type="button"  (click)="deleteItem(item.id)">Supprimer</a>
+                              </div>
+                            </div>
+                          </td>
+                        </tr>
+                      </tbody>
+                    </table>
+                  </div>
+                  <!-- Card footer -->
+                  <div class="card-footer py-4">
+                    <nav aria-label="...">
+                      <ul class="pagination justify-content-end mb-0">
+                        <pagination-controls (pageChange)="p = $event"></pagination-controls>
+                      </ul>
+                    </nav>
+                  </div>
+                </div>
+              </div>
+        </div>
+        <app-footer></app-footer>
+    </div>
+</div>
+<button [hidden]="true" type="button" id="openEdit" data-toggle="modal" data-target="#editRepresentationModal">
+</button>
+
+<!-- model add user -->
+<div  class="modal draggable fade bd-example-modal-lg" id="addRepresentationModal" tabindex="-1" role="dialog"
+aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
+<div class="modal-dialog" role="document">
+  <div class="modal-content">
+    <form (submit)="onSubmit()" [formGroup]="form">
+    <div class="modal-header">
+      <h5 class="modal-title text-center">Nouveau local</h5>
+      <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+        <span aria-hidden="true">&times;</span>
+      </button>
+    </div>
+    <div class="modal-body">
+      <div>
+        
+            <h6 class="heading-small text-muted mb-4">Formulaire</h6>
+            <div class="pl-lg-4">
+              
+                  <div class="form-group">
+                    <label class="form-control-label" for="input-username">Province</label>
+                    <select formControlName="province" class="form-control" >
+                        <option *ngFor="let item of provinces" value="{{item}}">{{item}}</option>
+                    </select>
+                    
+                  </div>
+
+                  <div class="form-group">
+                    <label class="form-control-label" >Ville</label>
+                    <select formControlName="ville" class="form-control" >
+                        <option *ngFor="let item of villes" value="{{item}}">{{item}}</option>
+                    </select>  
+                  </div>
+               
+                  <div class="form-group">
+                    <label class="form-control-label" >Commune ou localite</label>
+                    <input type="text" formControlName="commune"  class="form-control" placeholder="Commune">
+                  </div>
+                  <div class="form-group">
+                    <label class="form-control-label" >Adresse</label>
+                    <input type="text" formControlName="adresse"  class="form-control" placeholder="Adresse ">
+                  </div>
+                  <div class="form-group">
+                    <label class="form-control-label" >Numer du Local</label>
+                    <input type="number" formControlName="numLocale"  class="form-control" placeholder="Numero du locale">
+                  </div>
+                  <div class="form-group">
+                    <label class="form-control-label" >Designation</label>
+                    <input type="text" formControlName="designation"  class="form-control" placeholder="Designation">
+                  </div>
+
+                  <div class="form-group">
+                    <label class="form-control-label" >Denomination</label>
+                    <input type="text" formControlName="denomination"  class="form-control" placeholder="Denomination">
+                  </div>
+                  <div class="form-group">
+                    <label class="form-control-label" >Reference ou titre(registre)</label>
+                    <input type="text" formControlName="reference"  class="form-control" placeholder="Reference ou titre(registre)">
+                  </div>
+                  <div class="form-group">
+                    <label class="form-control-label" >Superficie</label>
+                    <input type="number" formControlName="superficie"  class="form-control" placeholder="Superficie">
+                  </div>
+                  <div class="form-group">
+                    <label class="form-control-label" >Montant en USD</label>
+                    <input type="number" formControlName="montant"  class="form-control" placeholder="Montant">
+                  </div>
+                  <div class="form-group">
+                    <label class="form-control-label" >Taux</label>
+                    <input type="number" formControlName="taux"  class="form-control" placeholder="Taux d'echange">
+                  </div>
+                  <div class="form-group">
+                    <label class="form-control-label" >Spoiliateur</label>
+                    <input type="text" formControlName="spoiliateur"  class="form-control" placeholder="Spoiliateur">
+                  </div>
+                  <div class="form-group">
+                    <label class="form-control-label" >Affectation</label>
+                    <input type="text" formControlName="affectation"  class="form-control" placeholder="Affectation">
+                  </div>
+                  <div class="form-group">
+                    <label class="form-control-label" >Observation</label>
+                    <textarea formControlName="observation"  class="form-control" placeholder="Observation" rows="3"></textarea>
+                  </div>
+                  <div class="form-group">
+                    <label class="form-control-label" >Date de mise en service</label>
+                    <input type="date" formControlName="miseEnService"  class="form-control" placeholder="Date de mise en service">
+                  </div>    
+            </div>
+              
+         
+      </div>
+    </div>
+    <div class="modal-footer">
+      <button type="button" class="btn btn-secondary" data-dismiss="modal" id="new-representation-close">Fermer</button>
+      <button type="submit"  class="btn btn-primary">Enregistrer</button>
+    </div>
+    </form> 
+  </div>
+  
+</div>
+</div>
+
+<!-- model add user -->
+<div  class="modal draggable fade bd-example-modal-lg" id="addLocalModal" tabindex="-1" role="dialog"
+aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
+<div class="modal-dialog" role="document">
+  <div class="modal-content">
+    <form (submit)="onSubmitFile()" >
+    <div class="modal-header">
+      <h5 class="modal-title text-center">Charger un fichier excel</h5>
+      <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+        <span aria-hidden="true">&times;</span>
+      </button>
+    </div>
+    <div class="modal-body">
+      <div>
+        
+            <h6 class="heading-small text-muted mb-4">Formulaire</h6>
+            <div class="pl-lg-4">
+              
+                 
+                  <div class="form-group">
+                    <label class="form-control-label" >Fichier </label>
+                    <input type="file" name="file"  (change)="onFilesSelect($event)" class="form-control" >
+                    <span class="fake-input">{{imgURL || "Aucune image ajouter"}}</span>
+                  </div>
+                     
+            </div>
+              
+         
+      </div>
+    </div>
+    <div class="modal-footer">
+      <button type="button" class="btn btn-secondary" data-dismiss="modal" id="new-file-close">Fermer</button>
+      <button type="submit"  class="btn btn-primary">Enregistrer</button>
+    </div>
+    </form> 
+  </div>
+  
+</div>
+</div>
+
+<!-- model add user -->
+<div  class="modal draggable fade bd-example-modal-lg" id="editRepresentationModal" tabindex="-1" role="dialog"
+aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
+<div class="modal-dialog" role="document">
+  <div class="modal-content">
+    <form (submit)="onEditSubmit(selectedItem.id)" [formGroup]="form">
+    <div class="modal-header">
+      <h5 class="modal-title text-center">Modification d'un local</h5>
+      <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+        <span aria-hidden="true">&times;</span>
+      </button>
+    </div>
+    <div class="modal-body">
+      <div>
+        
+            <h6 class="heading-small text-muted mb-4">Formulaire</h6>
+            <div class="pl-lg-4">
+              
+              <div class="form-group">
+                <label class="form-control-label" for="input-username">Province</label>
+                <select formControlName="province" class="form-control" >
+                    <option *ngFor="let item of provinces" value="{{item}}">{{item}}</option>
+                </select>
+                
+              </div>
+
+              <div class="form-group">
+                <label class="form-control-label" >Ville</label>
+                <select formControlName="ville" class="form-control" >
+                    <option *ngFor="let item of villes" value="{{item}}">{{item}}</option>
+                </select>  
+              </div>
+           
+              <div class="form-group">
+                <label class="form-control-label" >Commune ou localite</label>
+                <input type="text" formControlName="commune"  class="form-control" placeholder="Commune">
+              </div>
+              <div class="form-group">
+                <label class="form-control-label" >Adresse</label>
+                <input type="text" formControlName="adresse"  class="form-control" placeholder="Adresse ">
+              </div>
+              <div class="form-group">
+                <label class="form-control-label" >Numer du Local</label>
+                <input type="number" formControlName="numLocale"  class="form-control" placeholder="Numero du locale">
+              </div>
+              <div class="form-group">
+                <label class="form-control-label" >Designation</label>
+                <input type="text" formControlName="designation"  class="form-control" placeholder="Designation">
+              </div>
+
+              <div class="form-group">
+                <label class="form-control-label" >Denomination</label>
+                <input type="text" formControlName="denomination"  class="form-control" placeholder="Denomination">
+              </div>
+              <div class="form-group">
+                <label class="form-control-label" >Reference ou titre(registre)</label>
+                <input type="text" formControlName="reference"  class="form-control" placeholder="Reference ou titre(registre)">
+              </div>
+              <div class="form-group">
+                <label class="form-control-label" >Superficie</label>
+                <input type="number" formControlName="superficie"  class="form-control" placeholder="Superficie">
+              </div>
+              <div class="form-group">
+                <label class="form-control-label" >Montant en USD</label>
+                <input type="number" formControlName="montant"  class="form-control" placeholder="Montant">
+              </div>
+              <div class="form-group">
+                <label class="form-control-label" >Taux</label>
+                <input type="number" formControlName="taux"  class="form-control" placeholder="Taux d'echange">
+              </div>
+              <div class="form-group">
+                <label class="form-control-label" >Spoiliateur</label>
+                <input type="text" formControlName="spoiliateur"  class="form-control" placeholder="Spoiliateur">
+              </div>
+              <div class="form-group">
+                <label class="form-control-label" >Affectation</label>
+                <input type="text" formControlName="affectation"  class="form-control" placeholder="Affectation">
+              </div>
+              <div class="form-group">
+                <label class="form-control-label" >Observation</label>
+                <textarea formControlName="observation"  class="form-control" placeholder="Observation" rows="3"></textarea>
+              </div>
+              <div class="form-group">
+                <label class="form-control-label" >Date de mise en service</label>
+                <input type="date" formControlName="miseEnService"  class="form-control" placeholder="Date de mise en service">
+              </div>
+                
+            </div>
+              
+         
+      </div>
+    </div>
+    <div class="modal-footer">
+      <button type="button" class="btn btn-secondary" data-dismiss="modal" id="edit-representation-close">Fermer</button>
+      <button type="submit"  class="btn btn-primary">Enregistrer</button>
+    </div>
+    </form> 
+  </div>
+  
+</div>
+</div>
