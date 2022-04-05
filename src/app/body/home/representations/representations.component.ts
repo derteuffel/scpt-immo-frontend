@@ -24,6 +24,7 @@ export class RepresentationsComponent implements OnInit {
   message:any;
   uploadedFile?: File;
   imgURL: any;
+  searchForm: any;
   private subscriptions: Subscription[] = [];
 
   constructor(
@@ -43,7 +44,6 @@ export class RepresentationsComponent implements OnInit {
       ville: new FormControl(''),
       commune: new FormControl(''),
       avenue: new FormControl(''),
-      numLocale: new FormControl(''),
       adresse: new FormControl(''),
       designation: new FormControl(''),
       denomination: new FormControl(''),
@@ -57,6 +57,10 @@ export class RepresentationsComponent implements OnInit {
       superficie: new FormControl(null),
       taux: new FormControl(null)
     });
+
+    this.searchForm = new FormGroup({
+      value: new FormControl('')
+    });
   }
 
   loadList(){
@@ -64,25 +68,6 @@ export class RepresentationsComponent implements OnInit {
       data =>{
         this.lists = data;
         console.log(data);
-        this.localeService.findAllByStatus(true).subscribe(
-          data =>{
-            this.occupes = data;
-            console.log(data);
-          },
-          error =>{
-            console.log(error);
-          }
-        );
-    
-        this.localeService.findAllByStatus(false).subscribe(
-          data =>{
-            this.libres = data;
-            console.log(data);
-          },
-          error =>{
-            console.log(error);
-          }
-        );
       },
       error =>{
         console.log(error);
@@ -96,7 +81,6 @@ export class RepresentationsComponent implements OnInit {
       ville: this.form.get('ville').value,
       commune: this.form.get('commune').value,
       avenue: this.form.get('avenue').value,
-      numLocale: this.form.get('numLocale').value,
       adresse: this.form.get('adresse').value,
       designation: this.form.get('designation').value,
       denomination: this.form.get('denomination').value,
@@ -108,7 +92,7 @@ export class RepresentationsComponent implements OnInit {
       miseEnService: this.form.get('miseEnService').value,
       montant: this.form.get('montant').value,
       superficie: this.form.get('superficie').value,
-      taux: this.form.get('taux').value
+      taux: this.form.get('taux').value,
     };
 
     console.log(formData);
@@ -124,6 +108,8 @@ export class RepresentationsComponent implements OnInit {
       }
     );
   }
+
+
   onFilesSelect(event:any) {
     if (event.target.files.length > 0) {
       const file = event.target.files[0];
@@ -151,7 +137,6 @@ export class RepresentationsComponent implements OnInit {
       ville: item.ville,
       commune: item.commune,
       avenue: item.avenue,
-      numLocale: item.numLocale,
       adresse: item.adresse,
       designation: item.designation,
       denomination: item.denomination,
@@ -197,7 +182,6 @@ export class RepresentationsComponent implements OnInit {
       ville: this.form.get('ville').value,
       commune: this.form.get('commune').value,
       avenue: this.form.get('avenue').value,
-      numLocale: this.form.get('numLocale').value,
       adresse: this.form.get('adresse').value,
       designation: this.form.get('designation').value,
       denomination: this.form.get('denomination').value,
@@ -226,6 +210,18 @@ export class RepresentationsComponent implements OnInit {
     );
   }
 
+  onSubmitSearch(){
+    this.localeService.findAllByVille(this.searchForm.get('value').value).subscribe(
+      data =>{
+        this.lists = data;
+        console.log(data);
+      },
+      error =>{
+        console.log(error);
+      }
+    );
+  }
+
   deleteItem(id:any){
     if(confirm('Etes vous sure de vouloir suprimer ce locale?')){
     this.subscriptions.push(
@@ -241,29 +237,6 @@ export class RepresentationsComponent implements OnInit {
   }
   }
 
-  getLocaleOccupe(){
-    this.localeService.findAllByStatus(true).subscribe(
-      data =>{
-        this.lists = data;
-        console.log(data);
-      },
-      error =>{
-        console.log(error);
-      }
-    );
-  }
-
-  getLocaleLibre(){
-    this.localeService.findAllByStatus(false).subscribe(
-      data =>{
-        this.lists = data;
-        console.log(data);
-      },
-      error =>{
-        console.log(error);
-      }
-    );
-  }
 
   private clickButton(buttonId: string): void {
     document.getElementById(buttonId)?.click();

@@ -4,18 +4,18 @@ import { Observable } from 'rxjs';
 import { environment } from 'src/environments/environment';
 import { User } from '../models/user';
 
-const host = environment.MENSUALITE;
+const host = environment.OCCUPATION;
 
 @Injectable({
   providedIn: 'root'
 })
-export class MensualiteService {
+export class OccupationService {
 
   currentUser: User;
   headers: HttpHeaders;
   formHeaders: HttpHeaders;
-
-  constructor(private http: HttpClient) { 
+  
+  constructor(private http: HttpClient) {
 
     this.currentUser = JSON.parse(localStorage.getItem('currentUser') || '{}');
     this.headers = (this.currentUser==null || this.currentUser == undefined) ? new HttpHeaders({
@@ -29,14 +29,14 @@ export class MensualiteService {
       authorization: 'Bearer ' + this.currentUser.token,
       
     });
-  }
+   }
 
   findAll():Observable<any>{
     return this.http.get(`${host}`,{headers: this.headers});
   }
 
-  save(form:any,numero:any):Observable<any>{
-    return this.http.post(`${host}/${numero}`, form,{headers: this.headers});
+  save(form:any,id:any):Observable<any>{
+    return this.http.post(`${host}/${id}`, form,{headers: this.headers});
   }
 
   update(form:any, id:any):Observable<any>{
@@ -47,35 +47,15 @@ export class MensualiteService {
     return this.http.get(`${host}/${id}`,{headers: this.headers});
   }
 
-  findAllByContrat(id:any):Observable<any>{
-    return this.http.get(`${host}/contrat/${id}`,{headers: this.headers});
+  findAllByLocale(id:any):Observable<any>{
+    return this.http.get(`${host}/locale/${id}`,{headers: this.headers});
   }
 
-  findAllByStatusAndContrat(id:any, status:any):Observable<any>{
-    return this.http.get(`${host}/contrat/status/${id}/${status}`,{headers: this.headers});
+  findAllByLocaleAndStatus(id:any, status:any):Observable<any>{
+    return this.http.get(`${host}/locale/status/${id}/${status}`,{headers: this.headers});
   }
-
-  findAllByNumero(numero:any):Observable<any>{
-    return this.http.get(`${host}/numero/${numero}`,{headers: this.headers});
-  }
-
-  findAllByDate(date:any):Observable<any>{
-    return this.http.get(`${host}/date/${date}`,{headers: this.headers});
-  }
-
-
-  generateRepport(date:any):Observable<any>{
-    return this.http.get(`${host}/generateRepport/${date}`,{headers: this.headers});
-  }
-
-  printRepport():Observable<any>{
-    return this.http.get(`${host}/printRepport`,{headers: this.headers});
-  }
-
-
 
   
-
   delete(id:any):Observable<any>{
     return this.http.delete(`${host}/${id}`,{headers: this.headers});
   }

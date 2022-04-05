@@ -6,6 +6,7 @@ import { Subscription } from 'rxjs';
 import { ContratService } from 'src/app/services/contrat.service';
 import { LocaleService } from 'src/app/services/locale.service';
 import { MensualiteService } from 'src/app/services/mensualite.service';
+import { OccupationService } from 'src/app/services/occupation.service';
 
 @Component({
   selector: 'app-representation-locale-contrat',
@@ -19,7 +20,8 @@ export class RepresentationLocaleContratComponent implements OnInit {
   alls:any[]=[];
   termines: any[]=[];
   encours: any[]=[];
-  currentLocale: any ={};
+  currentOccupation: any ={};
+  currentLocale: any={};
   types: string[]=[];
   activites: string[]=[];
   mensualites: any[]=[];
@@ -31,20 +33,23 @@ export class RepresentationLocaleContratComponent implements OnInit {
   private subscriptions: Subscription[] = [];
 
   constructor(private contratService:ContratService, private activatedRoute: ActivatedRoute,
-    private localeService: LocaleService, private mensualiteService: MensualiteService) { }
+    private occupationService: OccupationService, private mensualiteService: MensualiteService) { }
 
   ngOnInit(): void {
     this.types = ['ONG','FONDATION','SOCIETE PRIVE','EGLISE','SOCIETE PUBLIQUE','INDIVIDU'];
     this.activites = ['AGRO-ALIMENTAIRE','TECHNOLOGIE','TELEVISION','TELECOMMUNICATIONS','AGRONOMIE',
-  'SERVICES GENERAUX','EDUCATION','MARKETING'];
-  this.getlocale(this.activatedRoute.snapshot.paramMap.get('id'));
+  'SERVICES GENERAUX','EDUCATION','MARKETING','MALEWA','DIVERS','CABINET PRIVE','TERRASSE',
+  'PARKING-VEHICULE','CAFE','EAU PURE','BOISSON','QUINCAILLERIE','RESTAURANT','PEINTURE','AJUSTAGE',
+  'SCIERI','BRIQUETTERIE','BOUTIQUE','DEPOTS BOISSON','MECANIQUE','COUTURE','NUMERIQUE',''];
+  this.getOccupation(this.activatedRoute.snapshot.paramMap.get('id'));
   this.init();
   }
 
-  getlocale(id:any){
-    this.localeService.findOne(id).subscribe(
+  getOccupation(id:any){
+    this.occupationService.findOne(id).subscribe(
       data =>{
-        this.currentLocale = data;
+        this.currentOccupation = data;
+        this.currentLocale = data.locale;
         console.log(data);
         this.getContratEncour();
       },
@@ -53,7 +58,7 @@ export class RepresentationLocaleContratComponent implements OnInit {
       }
     );
 
-    this.contratService.findAllByLocale(id).subscribe(
+    this.contratService.findAllByOccupation(id).subscribe(
       data =>{
         this.alls = data;
         console.log(data);
@@ -63,7 +68,7 @@ export class RepresentationLocaleContratComponent implements OnInit {
       }
     );
 
-    this.contratService.findAllByLocaleAndStatus(id,false).subscribe(
+    this.contratService.findAllByOccupationAndStatus(id,false).subscribe(
       data =>{
         this.termines = data;
         console.log(data);
@@ -73,7 +78,7 @@ export class RepresentationLocaleContratComponent implements OnInit {
       }
     );
 
-    this.contratService.findAllByLocaleAndStatus(id,true).subscribe(
+    this.contratService.findAllByOccupationAndStatus(id,true).subscribe(
       data =>{
         this.encours = data;
         console.log(data);
@@ -84,8 +89,8 @@ export class RepresentationLocaleContratComponent implements OnInit {
     );
   }
 
-  getContratByLocale(){
-    this.contratService.findAllByLocale(this.currentLocale.id).subscribe(
+  getContratByOccupation(){
+    this.contratService.findAllByOccupation(this.currentOccupation.id).subscribe(
       data => {
         this.lists = data;
         console.log(data);
@@ -116,21 +121,23 @@ export class RepresentationLocaleContratComponent implements OnInit {
       contact: this.form.get('contact').value,
       secteurActivite: this.form.get('secteurActivite').value,
       dateSignature: this.form.get('dateSignature').value,
-      dureeGaranti: this.form.get('dureeGaranti').value
+      dureeGaranti: this.form.get('dureeGaranti').value,
+      id: this.currentOccupation.id,
+      montant: this.currentOccupation.montantOccupation
     }
-    this.contratService.findAllByLocaleAndStatus(this.form.get('locale').value,true).subscribe(
+    this.contratService.findAllByOccupationAndStatus(this.currentOccupation.id,true).subscribe(
       data => {
         this.existedContrat = data;
         console.log(data);
         if(this.existedContrat.length !=0){
           this.lists = this.existedContrat;
-          this.message = 'Vous avez un contrat encours avec '+this.existedContrat[0].clientName+' bienvouloir regularise avant d\'enregistrer un nouveau contrat'; 
+          this.message = 'Vous avez un contrat encours avec '+this.existedContrat[0].nameClient+' bienvouloir regularise avant d\'enregistrer un nouveau contrat'; 
           this.clickButton('new-contrat-close');
         }else{
-          this.contratService.save(formData, this.currentLocale.id).subscribe(
+          this.contratService.save(formData).subscribe(
             data => {
               console.log(data);
-              this.getlocale(this.currentLocale.id);
+              this.getOccupation(this.currentOccupation.id);
               this.clickButton('new-contrat-close');
               this.init();
             },
@@ -151,7 +158,7 @@ export class RepresentationLocaleContratComponent implements OnInit {
       this.contratService.cancel(item.id).subscribe(
         data => {
           console.log(data);
-          this.getContratByLocale();
+          this.getContratByOccupation();
         },
         error =>{
           console.log(error);
@@ -161,7 +168,7 @@ export class RepresentationLocaleContratComponent implements OnInit {
   }
 
   getContratEncour(){
-    this.contratService.findAllByLocaleAndStatus(this.currentLocale.id,true).subscribe(
+    this.contratService.findAllByOccupationAndStatus(this.currentOccupation.id,true).subscribe(
       data =>{
         this.lists = data;
         console.log(data);
@@ -173,7 +180,7 @@ export class RepresentationLocaleContratComponent implements OnInit {
   }
 
   getContratTermine(){
-    this.contratService.findAllByLocaleAndStatus(this.currentLocale.id,false).subscribe(
+    this.contratService.findAllByOccupationAndStatus(this.currentOccupation.id,false).subscribe(
       data =>{
         this.lists = data;
         console.log(data);
@@ -234,7 +241,8 @@ export class RepresentationLocaleContratComponent implements OnInit {
     this.contratService.update(formData, id).subscribe(
       data => {
         console.log(data);
-        this.getlocale(this.currentLocale.id);
+        this.init();
+        this.getOccupation(this.currentOccupation.id);
         this.clickButton('edit-contrat-close');
       },
       error =>{
@@ -250,7 +258,7 @@ export class RepresentationLocaleContratComponent implements OnInit {
       this.contratService.delete(id).subscribe(
         (response) => {
          console.log(response);
-         this.getlocale(this.currentLocale.id);
+         this.getOccupation(this.currentLocale.id);
         },
         (error: HttpErrorResponse) => {
           console.log(error.error.message);

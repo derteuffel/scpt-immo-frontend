@@ -29,22 +29,24 @@
              
             </div>
             <div  class="card-body px-lg-5 py-lg-5">
-              <form [formGroup]="form" (submit)="onSubmit()">
+              <form name="form" (submit)="f.form.valid && onSubmit()" #f="ngForm" novalidate>
                 <div class="form-group mb-3">
                   <div class="input-group input-group-merge input-group-alternative">
                     <div class="input-group-prepend">
                       <span class="input-group-text"><i class="ni ni-email-83"></i></span>
                     </div>
-                    <input class="form-control" placeholder="Email ou Nom d'utilisateur" formControlName="username" type="text">
+                    <input class="form-control" placeholder="Email ou Nom d'utilisateur" name="username" [(ngModel)]="form.username" #username="ngModel" type="text">
                   </div>
+                  
                 </div>
                 <div class="form-group">
                   <div class="input-group input-group-merge input-group-alternative">
                     <div class="input-group-prepend">
                       <span class="input-group-text"><i class="ni ni-lock-circle-open"></i></span>
                     </div>
-                    <input class="form-control" placeholder="Mot de passe" formControlName="password"  type="password">
+                    <input class="form-control" placeholder="Mot de passe" name="password" [(ngModel)]="form.password" #password="ngModel"  type="password">
                   </div>
+                  
                 </div>
                 
                 <div class="text-center">

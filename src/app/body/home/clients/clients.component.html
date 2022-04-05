@@ -65,14 +65,26 @@
                         </tr>
                       </thead>
                       <tbody class="list">
-                        <tr  *ngFor="let item of lists | paginate: { itemsPerPage: 10, currentPage: p }| filter:term">
+                        <tr  *ngFor="let item of lists | paginate: { itemsPerPage: 50, currentPage: p }| filter:term">
                           <td>{{item.numContrat}}</td>
-                          <td>{{item.nameClient}}</td>
-                          <td>{{item.typeClient}}</td>
-                          <td>{{item.secteurActivite}}</td>
-                          <td>{{item.locale?.designation}}</td>
-                          <td>{{item.locale?.ville+' '+item.locale?.adresse}}</td>
-                          <td>{{item.contact}}</td>
+                          <td>
+                            <span *ngIf="item.nameClient">{{item.nameClient}}</span>
+                            <span *ngIf="!item.nameClient">Nom du client non defini</span>
+                          </td>
+                          <td>
+                            <span *ngIf="item.typeClient">{{item.typeClient}}</span>
+                            <span *ngIf="!item.typeClient">Type de client non defini</span>
+                          </td>
+                          <td>
+                            <span *ngIf="item.secteurActivite">{{item.secteurActivite}}</span>
+                            <span *ngIf="!item.secteurActivite">Secteur d'activite non defini</span>
+                          </td>
+                          <td>{{item?.occupation?.numeroOccupation}}</td>
+                          <td>{{item?.occupation.locale?.ville+' '+item.occupation?.locale?.adresse}}</td>
+                          <td>
+                            <span *ngIf="item.contact">{{item.contact}}</span>
+                            <span *ngIf="!item.contact">Pas de contact pour ce client</span> 
+                          </td>
                         </tr>
                       </tbody>
                     </table>

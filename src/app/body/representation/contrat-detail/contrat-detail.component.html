@@ -1,0 +1,249 @@
+<app-sidebar></app-sidebar>
+<div class="main-content" id="panel">
+    <app-header></app-header>
+    <div class="header pb-6 ">
+        <div class="container-fluid">
+            <div class="header-body">
+                <div class="row align-items-center py-4">
+                    <div class="col-lg-8 col-8">
+                      <nav aria-label="breadcrumb" class="d-none d-md-inline-block ml-md-4">
+                        <ol class="breadcrumb breadcrumb-links breadcrumb-dark">
+                          <li class="breadcrumb-item"><a href="admin/locaux"><i class="fas fa-home"></i></a></li>
+                          <li class="breadcrumb-item " ><a href="admin/locaux">Locaux</a></li>
+                          <li class="breadcrumb-item " ><a href="admin/locaux/detail/{{currentOccupation?.locale?.id}}">{{currentOccupation?.locale?.province+' '+currentOccupation?.locale?.ville}}</a></li>
+                          <li class="breadcrumb-item active" aria-current="page"><a href="#">Contrat numero : {{currentContrat?.numContrat}}</a></li>
+                        </ol>
+                      </nav>
+                    </div>
+                  </div>
+            </div>
+        </div>
+    </div>
+    <div class="container-fluid mt--6 mb-4">
+      <div class="row">
+          <div class="col">
+            <div class="card">
+              <div class="card-header border-0">
+                <h3>Detail d'un contrat</h3>
+                <button type="button" class="btn btn-outline-default" (click)="getAllMensualites()">Produire facture &nbsp; <i class="fa fa-file"></i></button>
+              </div>
+              <div class="card-body">
+                <table class="table table-bordered">
+
+                      <tr>
+                        <th>Numero du Contrat</th>
+                        <td>{{currentContrat.numContrat}}</td>
+                      </tr>
+                      <tr>
+                        <th>Nom Client</th>
+                        <td>{{currentContrat.nameClient}}</td>
+                      </tr>
+                      <tr>
+                        <th>Email du client</th>
+                        <td>{{currentContrat.email}}</td>
+                      </tr>
+                      <tr>
+                        <th>Telephone</th>
+                        <td>{{currentContrat.contact}}</td>
+                      </tr>
+                      <tr>
+                        <th>Date signature</th>
+                        <td>{{currentContrat.dateSignature}}</td>
+                      </tr>
+                      <tr>
+                        <th>Duree de la garantie</th>
+                        <td>{{currentContrat.dureeGaranti+' Mois'}}</td>
+                      </tr>
+                      <tr>
+                        <th>Montant de la garantie</th>
+                        <td>{{currentContrat.montantGaranti+' USD'}}</td>
+                      </tr>
+                      <tr>
+                        <th>Type de client</th>
+                        <td>{{currentContrat.typeClient}}</td>
+                      </tr>
+                      <tr>
+                        <th>Secteur d'activite</th>
+                        <td>{{currentContrat.secteurActivite}}</td>
+                      </tr>
+                      
+                      <tr>
+                        <th>Status</th>
+                        <td *ngIf="currentContrat.status" class="alert alert-success">En cours</td>
+                        <td *ngIf="!currentContrat.status" class="alert alert-warning">Terminer</td>
+                      </tr>                
+
+                </table>
+              </div>
+            </div>
+          </div>
+      </div>
+    </div>
+    <div class="container-fluid mt--6">
+        <div class="row">
+            <div class="col">
+                <div class="card">
+                  <!-- Card header -->
+                  <div class="card-header border-0">
+                      <div class="row">
+                          <div class="col-3 alert alert-secondary">
+                            <h3 class="mb-0"><a type="button" class="btn btn-outline-info" (click)="getAllMensualites()">Tous les paiements({{alls.length}})</a></h3>
+                          </div>
+                          <div class="col-3 alert alert-secondary mr-1">
+                            <h3 class="mb-0"><a type="button" class="btn btn-outline-success" (click)="getAllTrueMensualites()">Paiements effectuer ({{effectues.length}})</a> </h3>
+                          </div>
+                          <div class="col-3 alert alert-secondary mr-1">
+                            <h3 class="mb-0 "><a type="button" class="btn btn-outline-warning" (click)="getAllFalseMensualites()">Paiements non effectuer ({{nonEffectues.length}})</a></h3>
+                          </div>
+                    
+                          <div class="col-2">
+                            <a href="#" type="button"  data-toggle="modal" data-target="#addPaymentModal" class="btn btn-md btn-outline-primary">Effectuer un paiement</a>
+                          </div>
+                        </div>
+                  </div>
+                  <div *ngIf="message" class="card-header border-0">
+                    <div  class="alert alert-warning">
+                        <span>{{message}}</span>
+                    </div>
+                  </div>
+                  <!-- Light table -->
+                  <div class="table-responsive">
+                    <table class="table align-items-center table-flush">
+                      <thead class="thead-light">
+                        <tr>
+                            <th scope="col" class="sort" data-sort="numContrat">Paiement Numero</th>
+                            <th scope="col" class="sort" data-sort="numContrat">Numero de bordereau</th>
+                          <th scope="col" class="sort" data-sort="nameClient">Nom du client</th>
+                          <th scope="col" class="sort" data-sort="typeClient">Mois comptant</th>
+                          <th scope="col" class="sort" data-sort="typeClient">Date  paiement</th>
+                          <th scope="col" class="sort" data-sort="secteurActivite">Montant</th>
+                          <th scope="col" class="sort" data-sort="secteurActivite">Status</th>
+                          <th scope="col" class="sort" data-sort="secteurActivite">Actions</th>
+
+                        </tr>
+                      </thead>
+                      <tbody class="list">
+                        <tr  *ngFor="let item of lists | paginate: { itemsPerPage: 10, currentPage: p }">
+                          <td>{{item.codeMensualite}}</td>
+                          <td>{{item.numeroBodereau}}</td>
+                          <td>{{item.contrat.nameClient}}</td>
+                          <td>{{item.mois}}</td>
+                          <td>{{item.dateVersement}}</td>
+                          <td>{{item.montant+' USD'}}</td>
+                          <td *ngIf="item.status" class="alert alert-success">
+                              Effectuer
+                            </td>
+                            <td *ngIf="!item.status" class="alert alert-warning">
+                                Non Effectuer
+                              </td>
+                          <td class="text-right">
+                            <div class="dropdown">
+                              <a class="btn btn-sm btn-icon-only text-light" href="#" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                <i class="fas fa-ellipsis-v"></i>
+                              </a>
+                              <div class="dropdown-menu dropdown-menu-right dropdown-menu-arrow">
+                                <a class="dropdown-item" type="button" *ngIf="item.status"  (click)="editItem(item)">Edit</a>
+                              </div>
+                            </div>
+                          </td>
+                        </tr>
+                      </tbody>
+                    </table>
+                  </div>
+                  <!-- Card footer -->
+                  <div class="card-footer py-4">
+                    <nav aria-label="...">
+                      <ul class="pagination justify-content-end mb-0">
+                        <pagination-controls (pageChange)="p = $event"></pagination-controls>
+                      </ul>
+                    </nav>
+                  </div>
+                </div>
+              </div>
+        </div>
+        <app-footer></app-footer>
+    </div>
+</div>
+<button [hidden]="true" type="button" id="openEdit" data-toggle="modal" data-target="#editPaymentModal">
+</button>
+
+
+<!-- model add user -->
+<div  class="modal draggable fade bd-example-modal-lg" id="addPaymentModal" tabindex="-1" role="dialog"
+aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
+<div class="modal-dialog" role="document">
+  <div class="modal-content">
+    <form (submit)="onSubmit()" [formGroup]="form">
+    <div class="modal-header">
+      <h5 class="modal-title text-center">Nouveau Paiement</h5>
+      <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+        <span aria-hidden="true">&times;</span>
+      </button>
+    </div>
+    <div class="modal-body">
+      <div>
+        <div class="form-group">
+            <label class="form-control-label" >Numero de bordereau du paiement</label>
+            <input type="text" formControlName="numeroBodereau"  class="form-control" placeholder="Numero de bordereau du paiement">
+          </div>
+          <div class="form-group">
+            <label class="form-control-label" >Montant en USD</label>
+            <input type="number" formControlName="montant"  class="form-control" placeholder="Montant">
+          </div>
+          
+          <div class="form-group">
+            <label class="form-control-label" >Mois et Annee</label>
+            <input type="date" formControlName="date" class="form-control" placeholder="Choisir un moi et une date">
+          </div>
+      </div>
+    </div>
+    <div class="modal-footer">
+      <button type="button" class="btn btn-secondary" data-dismiss="modal" id="new-payment-close">Fermer</button>
+      <button type="submit"  class="btn btn-primary">Enregistrer</button>
+    </div>
+    </form> 
+  </div>
+  
+</div>
+</div>
+
+<!-- model add user -->
+<div  class="modal draggable fade bd-example-modal-lg" id="editPaymentModal" tabindex="-1" role="dialog"
+aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
+<div class="modal-dialog" role="document">
+  <div class="modal-content">
+    <form (submit)="onEditSubmit(selectedItem.id)" [formGroup]="form">
+    <div class="modal-header">
+      <h5 class="modal-title text-center">Modification d'un paiement</h5>
+      <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+        <span aria-hidden="true">&times;</span>
+      </button>
+    </div>
+    <div class="modal-body">
+        <div>
+          <div class="form-group">
+              <label class="form-control-label" >Numero de bordereau du paiement</label>
+              <input type="text" formControlName="numeroBodereau"  class="form-control" placeholder="Numero de bordereau du paiement">
+            </div>
+            <div class="form-group">
+              <label class="form-control-label" >Montant en USD</label>
+              <input type="number" formControlName="montant"  class="form-control" placeholder="Montant">
+            </div>
+            
+            <div class="form-group">
+              <label class="form-control-label" >Mois et Annee</label>
+              <input type="date" formControlName="date" class="form-control" placeholder="Choisir un moi et une date">
+            </div>
+        </div>
+      </div>
+    <div class="modal-footer">
+      <button type="button" class="btn btn-secondary" data-dismiss="modal" id="edit-contrat-close">Fermer</button>
+      <button type="submit"  class="btn btn-primary">Enregistrer</button>
+    </div>
+    </form> 
+  </div>
+  
+</div>
+</div>
+
+

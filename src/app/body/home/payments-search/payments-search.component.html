@@ -11,7 +11,7 @@
                         <ol class="breadcrumb breadcrumb-links breadcrumb-dark">
                           <li class="breadcrumb-item"><a href="admin/locaux"><i class="fas fa-home"></i></a></li>
                           <li class="breadcrumb-item " ><a href="admin/payments">Paiements</a></li>
-                          <li class="breadcrumb-item active" aria-current="page"><a href="#">Gestion de paiements</a></li>
+                          <li class="breadcrumb-item active" aria-current="page"><a href="#">Recherche de paiements</a></li>
                         </ol>
                       </nav>
                     </div>
@@ -27,13 +27,13 @@
                   <div class="card-header border-0">
                     <div class="row">
                         <div class="col-5 alert alert-secondary mr-1">
-                          <h3 class="mb-0"><a type="button" class="btn btn-outline-primary" (click)="getContratActifs()">Tous les contrats actifs({{lists.length}})</a></h3>
+                          <h3 class="mb-0"><a type="button" class="btn btn-outline-primary" (click)="generateRepport()">Produire le rapport mensuel <i class="fa fa-file-excel"></i></a></h3>
                         </div>
                         <div class="col-5 alert alert-secondary mr-1">
-                          <h3 class="mb-0"><a type="button" class="btn btn-outline-info" (click)="getMensualites()">Paiements effectuer</a> </h3>
+                          <h3 class="mb-0"><a type="button" *ngIf="isRepportProduce"  class="btn btn-outline-info" (click)="downloadRepport()">Telecharger le rapport mensuel <i class="fa fa-print"></i></a></h3>
                         </div>
                       </div>
-                </div>
+                    </div>
                   <div class="card-header border-0">
                     <div class="navbar-search navbar-search-light form-inline mr-sm-3" id="navbar-search-main">
                       <div class="row">
@@ -47,7 +47,7 @@
                             </div>
                           </div>
                         </div>
-                        <div class="col-md-6 col-lg-8" *ngIf="isMensualite">
+                        <div class="col-md-6 col-lg-8" >
                           <form [formGroup]="searchForm" (submit)="onSubmitSearch()">
                           <div class="row">
                             <div class="form-group mb-0  ">
@@ -64,77 +64,13 @@
                           </div>
                          </form>
                         </div>
-                        
-                        <div class="col-md-6 col-lg-8" *ngIf="isContrat">
-                          <form [formGroup]="searchForm" (submit)="onSubmitSearchContract()">
-                          <div class="row">
-                            <div class="form-group mb-0  ">
-                              <div class="input-group input-group-alternative input-group-merge">
-                                <label class="mx-2">Recherche Contact/Num contrat</label>
-                                <input class="form-control"  formControlName="value" type="text">
-                              </div>
-                            </div>
-                            <div>
-                              <button type="submit" class="btn btn-icon-only mb-0" >
-                                <span class="input-group-text"><i class="fas fa-search"></i></span>
-                              </button>
-                            </div>
-                          </div>
-                         </form>
-                        </div>
                       </div>
                        
                     </div>
                   </div>
                   <!-- Light table -->
                   <div class="table-responsive">
-                    <table *ngIf="isContrat" class="table align-items-center table-flush">
-                      <thead class="thead-light">
-                        <tr>
-                            <th scope="col" class="sort" data-sort="numContrat">Contrat Numero</th>
-                          <th scope="col" class="sort" data-sort="nameClient">Nom du client</th>
-                          <th scope="col" class="sort" data-sort="typeClient">Type de client</th>
-                          <th scope="col" class="sort" data-sort="secteurActivite">Secteur d'activite</th>
-                          <th scope="col" class="sort" data-sort="contact">Contact</th>
-                          <th scope="col" class="sort" data-sort="numLocale">Numero local</th>
-                          <th scope="col" class="sort" data-sort="representation">Adresse</th>
-                          <th scope="col" class="sort" data-sort="action">Action</th>
-                        </tr>
-                      </thead>
-                      <tbody class="list">
-                        <tr  *ngFor="let item of lists | paginate: { itemsPerPage: 50, currentPage: p }| filter:term">
-                          <td>{{item.numContrat}}</td>
-                          <td>
-                            <span *ngIf="item.nameClient">{{item.nameClient}}</span>
-                            <span *ngIf="!item.nameClient">Non Defini</span> 
-                          <td>
-                            <span *ngIf="item.typeClient">{{item.typeClient}}</span>
-                            <span *ngIf="!item.typeClient">Non Defini</span>                            
-                          </td>
-                          <td>
-                            <span *ngIf="item.secteurActivite">{{item.secteurActivite}}</span>
-                            <span *ngIf="!item.secteurActivite">Non definie</span>
-                          </td>
-                          <td>
-                            <span *ngIf="item.contact">{{item.contact}}</span>
-                            <span *ngIf="!item.contact">Non Defini</span> 
-                          </td>
-                          <td>
-                            <span *ngIf="item.occupation?.numeroOccupation">{{item.occupation?.numeroOccupation}}</span>
-                            <span *ngIf="!item.occupation?.numeroOccupation">Non Identifier</span>
-                          </td>
-                          <td>
-                            <span *ngIf="item.occupation?.locale">{{item.occupation.locale.ville+' '+item.occupation.locale?.adresse}}</span>
-                            <span *ngIf="!item.occupation?.locale">Aucun local associer</span>
-                            </td>
-                          
-                          <td class="text-right">
-                             <a class="btn btn-outline-primary" type="button"  (click)="paymentForm(item)">Effectuer un paiement</a>
-                          </td>
-                        </tr>
-                      </tbody>
-                    </table>
-                    <table *ngIf="isMensualite" class="table align-items-center table-flush">
+                    <table *ngIf="mensualites.length > 0"  class="table align-items-center table-flush">
                         <thead class="thead-light">
                           <tr>
                             <th scope="col" class="sort" data-sort="numContrat">Code Paiement</th>
@@ -161,6 +97,9 @@
                           </tr>
                         </tbody>
                       </table>
+                      <div *ngIf="mensualites.length < 1" class="alert alert-warning">
+                          <span>{{message}}</span>
+                      </div>
                   </div>
                   <!-- Card footer -->
                   <div class="card-footer py-4">
@@ -169,6 +108,19 @@
                         <pagination-controls (pageChange)="p = $event"></pagination-controls>
                       </ul>
                     </nav>
+                  </div>
+                  <div class="card-footer py-4">
+                    <ul>
+                        <li class="alert alert-secondary">
+                            Montant total : <span>{{montantTotal+' USD'}}</span>
+                        </li>
+                        <li class="alert alert-success">
+                            Montant Payer : <span>{{montantPayer+' USD'}}</span>
+                        </li>
+                        <li class="alert alert-warning">
+                            Montant Impayer : <span>{{montantImpayer+' USD'}}</span>
+                        </li>
+                    </ul>
                   </div>
                 </div>
               </div>
@@ -226,6 +178,7 @@ aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
   
 </div>
 </div>
+
 
 
 

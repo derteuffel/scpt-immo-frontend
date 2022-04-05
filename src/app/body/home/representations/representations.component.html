@@ -25,28 +25,54 @@
                   <!-- Card header -->
                   <div class="card-header border-0">
                       <div class="row">
-                          <div class="col-4">
-                            <h3 class="mb-0">Liste des Locaux ({{lists.length}})</h3>
+                          <div class="col-4 alert alert-secondary">
+                            <h3 class="mb-0"><a type="button" class="btn btn-outline-primary" (click)="loadList()"><i class="fa fa-list"></i>&nbsp; Liste des Locaux ({{lists.length}})</a></h3>
                           </div>
-                          <div class="col-4">
-                            <a href="#" type="button"  data-toggle="modal" data-target="#addLocalModal" class="btn btn-md btn-outline-info">Charger depuis un fichier</a>
+                          
+                          <div class="col-4 alert alert-secondary">
+                            <a href="#" type="button"  data-toggle="modal" data-target="#addLocalModal" class="btn btn-md btn-outline-info">Ajouter a partir d'un fichier &nbsp;<i class="fa fa-file"></i></a>
                           </div>
-                          <div class="col-4">
-                            <a href="#" type="button"  data-toggle="modal" data-target="#addRepresentationModal" class="btn btn-md btn-outline-primary">Ajouter un local</a>
+                          <div class="col-4 alert alert-secondary">
+                            <a href="#" type="button"  data-toggle="modal" data-target="#addRepresentationModal" class="btn btn-md btn-outline-primary">Ajouter un local&nbsp;<i class="fa fa-plus"></i></a>
                           </div>
                         </div>
                   </div>
                   <div class="card-header border-0">
                     <div class="navbar-search navbar-search-light form-inline mr-sm-3" id="navbar-search-main">
-                      <div class="form-group mb-0">
-                        <div class="input-group input-group-alternative input-group-merge">
-                          <div class="input-group-prepend">
-                            <span class="input-group-text"><i class="fas fa-search"></i></span>
+                      <div class="row">
+                        <div class="col-md-6 col-lg-4">
+                          <div class="form-group mb-0">
+                            <div class="input-group input-group-alternative input-group-merge">
+                              <div class="input-group-prepend">
+                                <span class="input-group-text"><i class="fas fa-search"></i></span>
+                              </div>
+                              <input class="form-control" placeholder="Rechercher un local" [(ngModel)]="term" type="text">
+                            </div>
                           </div>
-                          <input class="form-control" placeholder="Rechercher un local" [(ngModel)]="term" type="text">
                         </div>
+                        <div class="col-md-6 col-lg-7 ml-2" >
+                          <form [formGroup]="searchForm" (submit)="onSubmitSearch()">
+                          <div class="row">
+                            <div class="form-group mb-0  ">
+                              <div class="input-group input-group-alternative input-group-merge">
+                                <label class="mx-2">Rechercher par ville</label>
+                                <select formControlName="value" class="form-control">
+                                  <option *ngFor="let item of villes" value="{{item}}">{{item}}</option>
+                                </select>
+                              </div>
+                            </div>
+                            <div>
+                              <button type="submit" class="btn btn-icon-only mb-0" >
+                                <span class="input-group-text"><i class="fas fa-search"></i></span>
+                              </button>
+                            </div>
+                          </div>
+                         </form>
+                        </div>
+                        
                       </div>
-                  </div>
+                       
+                    </div>
                   </div>
                   <!-- Light table -->
                   <div class="table-responsive">
@@ -55,28 +81,44 @@
                         <tr>
                           <th scope="col" class="sort" data-sort="province">Province</th>
                           <th scope="col" class="sort" data-sort="ville">Ville</th>
-                          <th scope="col" class="sort" data-sort="commune">Commune</th>
                           <th scope="col" class="sort" data-sort="avenue">Adresse</th>
                           <th scope="col" class="sort" data-sort="numParcelle">Occupant</th>
+                          <th scope="col" class="sort" data-sort="observation">Observation</th>
                           <th scope="col">Actions</th>
                         </tr>
                       </thead>
                       <tbody class="list">
-                        <tr *ngFor="let item of lists | paginate: { itemsPerPage: 10, currentPage: p }">
-                          <td>{{item.province}}</td>
-                          <td>{{item.ville}}</td>
-                          <td>{{item.commune}}</td>
-                          <td>{{item.adresse}}</td>
-                          <td>{{item.occupant}}</td>
+                        <tr *ngFor="let item of lists | paginate: { itemsPerPage: 50, currentPage: p } | filter:term">
+                          <td>
+                            <span *ngIf="item.province">{{item.province}}</span>
+                            <span *ngIf="!item.province">Inconnue</span> 
+                          </td>
+                          <td>
+                            <span *ngIf="item.ville">{{item.ville}}</span>
+                            <span *ngIf="!item.ville">Inconnue</span> 
+                          </td>
+                          <td>
+                            <span *ngIf="item.adresse">{{item.adresse}}</span>
+                            <span *ngIf="!item.adresse">Non Defini</span> 
+                          </td>
+                          
+                          <td>
+                            <span *ngIf="item.occupant">{{item.occupant}}</span>
+                            <span *ngIf="!item.occupant">Inconnu</span> 
+                          </td>
+                          <td>
+                            <span *ngIf="item.observation">{{item.observation}}</span>
+                            <span *ngIf="!item.observation">Aucune observation definie</span> 
+                          </td>
                           <td class="text-right">
                             <div class="dropdown">
                               <a class="btn btn-sm btn-icon-only text-light" href="#" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                                 <i class="fas fa-ellipsis-v"></i>
                               </a>
                               <div class="dropdown-menu dropdown-menu-right dropdown-menu-arrow">
-                                <a class="dropdown-item" href="admin/representation/locales/detail/{{item.id}}">Detail</a>
-                                <a class="dropdown-item" type="button"  (click)="editItem(item)">Edit</a>
-                                <a class="dropdown-item" type="button"  (click)="deleteItem(item.id)">Supprimer</a>
+                                <a class="dropdown-item" href="admin/locaux/detail/{{item.id}}">Detail &nbsp;<i class="fa fa-eye"></i></a>
+                                <a class="dropdown-item" type="button"  (click)="editItem(item)">Edit &nbsp; <i class="fa fa-edit"></i></a>
+                                <a class="dropdown-item" type="button"  (click)="deleteItem(item.id)">Supprimer &nbsp; <i class="fa fa-trash"></i></a>
                               </div>
                             </div>
                           </td>
@@ -143,10 +185,6 @@ aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
                     <input type="text" formControlName="adresse"  class="form-control" placeholder="Adresse ">
                   </div>
                   <div class="form-group">
-                    <label class="form-control-label" >Numer du Local</label>
-                    <input type="number" formControlName="numLocale"  class="form-control" placeholder="Numero du locale">
-                  </div>
-                  <div class="form-group">
                     <label class="form-control-label" >Designation</label>
                     <input type="text" formControlName="designation"  class="form-control" placeholder="Designation">
                   </div>
@@ -178,6 +216,10 @@ aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
                   <div class="form-group">
                     <label class="form-control-label" >Affectation</label>
                     <input type="text" formControlName="affectation"  class="form-control" placeholder="Affectation">
+                  </div>
+                  <div class="form-group">
+                    <label class="form-control-label" >Occupant</label>
+                    <input type="text" formControlName="occupant"  class="form-control" placeholder="Occupant">
                   </div>
                   <div class="form-group">
                     <label class="form-control-label" >Observation</label>
@@ -284,10 +326,6 @@ aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
                 <input type="text" formControlName="adresse"  class="form-control" placeholder="Adresse ">
               </div>
               <div class="form-group">
-                <label class="form-control-label" >Numer du Local</label>
-                <input type="number" formControlName="numLocale"  class="form-control" placeholder="Numero du locale">
-              </div>
-              <div class="form-group">
                 <label class="form-control-label" >Designation</label>
                 <input type="text" formControlName="designation"  class="form-control" placeholder="Designation">
               </div>
@@ -319,6 +357,10 @@ aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
               <div class="form-group">
                 <label class="form-control-label" >Affectation</label>
                 <input type="text" formControlName="affectation"  class="form-control" placeholder="Affectation">
+              </div>
+              <div class="form-group">
+                <label class="form-control-label" >Occupant</label>
+                <input type="text" formControlName="occupant"  class="form-control" placeholder="Occupant">
               </div>
               <div class="form-group">
                 <label class="form-control-label" >Observation</label>

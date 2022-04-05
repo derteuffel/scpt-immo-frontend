@@ -2,7 +2,7 @@
 // `ng build` replaces `environment.ts` with `environment.prod.ts`.
 // The list of file replacements can be found in `angular.json`.
 
-export const HOST = 'http://localhost:8080/api'
+export const HOST = 'http://192.168.1.108:8080/api'
 export const environment = {
   production: false,
 
@@ -10,7 +10,8 @@ export const environment = {
   REPRESENTATION: `${HOST}/representation`,
   LOCALE: `${HOST}/locale`,
   CONTRAT: `${HOST}/contrat`,
-  MENSUALITE: `${HOST}/mensualite`
+  MENSUALITE: `${HOST}/mensualite`,
+  OCCUPATION: `${HOST}/occupation`
 };
 
 /*

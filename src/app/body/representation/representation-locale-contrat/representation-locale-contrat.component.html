@@ -9,10 +9,10 @@
                       <h6 class="h2 text-primary d-inline-block mb-0">Accueil</h6>
                       <nav aria-label="breadcrumb" class="d-none d-md-inline-block ml-md-4">
                         <ol class="breadcrumb breadcrumb-links breadcrumb-dark">
-                          <li class="breadcrumb-item"><a href="admin/representations"><i class="fas fa-home"></i></a></li>
-                          <li class="breadcrumb-item " ><a href="admin/representation/locales/{{currentLocale?.representation?.id}}">Representations</a></li>
-                          <li class="breadcrumb-item " ><a href="admin/representation/locales/detail/{{currentLocale?.id}}">{{currentLocale?.province+' '+currentLocale?.ville}}</a></li>
-                          <li class="breadcrumb-item active" aria-current="page"><a href="#">{{currentLocale?.designation}}</a></li>
+                          <li class="breadcrumb-item"><a href="admin/locaux"><i class="fas fa-home"></i></a></li>
+                          <li class="breadcrumb-item " ><a href="admin/locaux">Locaux</a></li>
+                          <li class="breadcrumb-item " ><a href="admin/locaux/detail/{{currentLocale?.id}}">{{currentLocale?.province+' '+currentLocale?.ville}}</a></li>
+                          <li class="breadcrumb-item active" aria-current="page"><a href="#">{{currentOccupation?.numeroOccupation}}</a></li>
                         </ol>
                       </nav>
                     </div>
@@ -25,85 +25,30 @@
           <div class="col">
             <div class="card">
               <div class="card-header border-0">
-                <h3>Detail d'un local</h3>
+                <h3>Detail d'une occupation</h3>
               </div>
               <div class="card-body">
                 <table class="table table-bordered">
 
                       <tr>
-                        <th>Province</th>
-                        <td>{{currentLocale.province}}</td>
+                        <th>Numero de l'occupation</th>
+                        <td>{{currentOccupation.numeroOccupation}}</td>
                       </tr>
                       <tr>
-                        <th>Ville</th>
-                        <td>{{currentLocale.ville}}</td>
+                        <th>Superficie </th>
+                        <td>{{currentOccupation.supperficieOccupation+' m2'}}</td>
                       </tr>
                       <tr>
-                        <th>Commune/Localite</th>
-                        <td>{{currentLocale.commune}}</td>
-                      </tr>
-                      <tr>
-                        <th>Adresse</th>
-                        <td>{{currentLocale.adresse}}</td>
-                      </tr>
-                      <tr>
-                        <th>Designation</th>
-                        <td>{{currentLocale.designation}}</td>
-                      </tr>
-                      <tr>
-                        <th>Numer du local</th>
-                        <td>{{currentLocale.numLocale}}</td>
-                      </tr>
-                      <tr>
-                        <th>Denomination</th>
-                        <td>{{currentLocale.denomination}}</td>
-                      </tr>
-                      <tr>
-                        <th>Reference</th>
-                        <td>{{currentLocale.reference}}</td>
-                      </tr>
-                      <tr>
-                        <th>Occupant</th>
-                        <td>{{currentLocale.occupant}}</td>
-                      </tr>
-                      <tr>
-                        <th>Affectation</th>
-                        <td>{{currentLocale.affectation}}</td>
-                      </tr>
-                      <tr>
-                        <th>Superficie</th>
-                        <td>{{currentLocale.superficie}}</td>
-                      </tr>
-                      <tr>
-                        <th>Montant</th>
-                        <td>{{currentLocale.montant}}</td>
-                      </tr>
-                      <tr>
-                        <th>Taux de change</th>
-                        <td>{{currentLocale.taux}}</td>
-                      </tr>
-                      <tr>
-                        <th>Montant en franc congolais</th>
-                        <td>{{currentLocale.montantFranc}}</td>
+                        <th>Montant Locatif</th>
+                        <td>{{currentOccupation.montantOccupation+' USD'}}</td>
                       </tr>
                       
                       <tr>
-                        <th>Spoiliateur<th>
-                        <td>{{currentLocale.spoiliateur}}</td>
-                      </tr>
-                      <tr>
-                        <th>Observation</th>
-                        <td>{{currentLocale.observation}}</td>
-                      </tr>
-                      <tr>
                         <th>Status</th>
-                        <td *ngIf="currentLocale.status" class="alert alert-warning">Occupe</td>
-                        <td *ngIf="!currentLocale.status" class="alert alert-success">Libre</td>
+                        <td *ngIf="currentOccupation.status" class="alert alert-warning">Occupe</td>
+                        <td *ngIf="!currentOccupation.status" class="alert alert-success">Libre</td>
                       </tr>
-                      <tr>
-                        <th>Date de mise en service<th>
-                        <td>{{currentLocale.miseEnService}}</td>
-                      </tr>                    
+                                       
 
                 </table>
               </div>
@@ -119,7 +64,7 @@
                   <div class="card-header border-0">
                       <div class="row">
                           <div class="col-3 alert alert-secondary">
-                            <h3 class="mb-0"><a type="button" class="btn btn-outline-info" (click)="getContratByLocale()">Tous les contrats({{alls.length}})</a></h3>
+                            <h3 class="mb-0"><a type="button" class="btn btn-outline-info" (click)="getContratByOccupation()">Tous les contrats({{alls.length}})</a></h3>
                           </div>
                           <div class="col-3 alert alert-secondary mr-1">
                             <h3 class="mb-0"><a type="button" class="btn btn-outline-warning" (click)="getContratTermine()">Contrats termines ({{termines.length}})</a> </h3>
@@ -135,47 +80,71 @@
                   </div>
                   <div *ngIf="message" class="card-header border-0">
                     <div  class="alert alert-warning">
-                        <span>{{message}}</span>
+                      <h3><span>{{message}}</span></h3>
+                        
                     </div>
                   </div>
                   <!-- Light table -->
-                  <div class="table-responsive">
-                    <table class="table align-items-center table-flush">
-                      <thead class="thead-light">
-                        <tr>
-                            <th scope="col" class="sort" data-sort="numContrat">Contrat Numero</th>
-                          <th scope="col" class="sort" data-sort="nameClient">Nom du client</th>
-                          <th scope="col" class="sort" data-sort="typeClient">Type de client</th>
-                          <th scope="col" class="sort" data-sort="secteurActivite">Secteur d'activite</th>
-                          <th scope="col" class="sort" data-sort="contact">Contact</th>
-                          <th scope="col">Actions</th>
-                        </tr>
-                      </thead>
-                      <tbody class="list">
-                        <tr  *ngFor="let item of lists | paginate: { itemsPerPage: 10, currentPage: p }">
-                          <td>{{item.numContrat}}</td>
-                          <td>{{item.nameClient}}</td>
-                          <td>{{item.typeClient}}</td>
-                          <td>{{item.secteurActivite}}</td>
-                          <td>{{item.contact}}</td>
-                          
-                          <td class="text-right">
-                            <div class="dropdown">
-                              <a class="btn btn-sm btn-icon-only text-light" href="#" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                                <i class="fas fa-ellipsis-v"></i>
-                              </a>
-                              <div class="dropdown-menu dropdown-menu-right dropdown-menu-arrow">
-                                <a class="dropdown-item" type="button"  (click)="detailItem(item)">Detail</a>
-                                <a class="dropdown-item" type="button"  (click)="detailMensualite(item)">Voir les mensualites</a>
-                                <a class="dropdown-item" type="button" *ngIf="item.status"  (click)="editItem(item)">Edit</a>
-                                <a class="dropdown-item" type="button" *ngIf="item.status"  (click)="cancelItem(item)">Terminer un contrat</a>
-                                <a class="dropdown-item" type="button" *ngIf="item.status"  (click)="deleteItem(item.id)">Supprimer</a>
+                  <div class="card-body">
+                    <div class="table-responsive">
+                      <table class="table align-items-center table-flush">
+                        <thead class="thead-light">
+                          <tr>
+                              <th scope="col" class="sort" data-sort="numContrat">Contrat Numero</th>
+                            <th scope="col" class="sort" data-sort="nameClient">Nom du client</th>
+                            <th scope="col" class="sort" data-sort="typeClient">Type de client</th>
+                            <th scope="col" class="sort" data-sort="secteurActivite">Secteur d'activite</th>
+                            <th scope="col" class="sort" data-sort="status">Status</th>
+                            <th scope="col" class="sort" data-sort="contact">Contact</th>
+                            <th scope="col">Actions</th>
+                          </tr>
+                        </thead>
+                        <tbody class="list">
+                          <tr  *ngFor="let item of lists | paginate: { itemsPerPage: 20, currentPage: p }">
+                            <td >
+                              <span *ngIf="item.numContrat">{{item.numContrat}}</span> 
+                              <span *ngIf="!item.numContrat">Non defini</span> 
+                            </td>
+                            <td>
+                              <span *ngIf="item.nameClient">{{item.nameClient}}</span> 
+                              <span *ngIf="!item.nameClient">Non defini</span>
+                            </td>
+                            <td>
+                              <span *ngIf="item.typeClient">{{item.typeClient}}</span> 
+                              <span *ngIf="!item.typeClient">Non defini</span> 
+                            </td>
+                            <td>
+                              <span *ngIf="item.secteurActivite">{{item.secteurActivite}}</span> 
+                              <span *ngIf="!item.secteurActivite">Non defini</span> 
+                            </td>
+                            <td *ngIf="item.status" class="alert alert-success">
+                              Contrat en cours
+                            </td>
+                            <td *ngIf="!item.status" class="alert alert-warning">
+                              Contrat terminer
+                            </td>
+                            <td>
+                              <span *ngIf="item.contact">{{item.contact}}</span> 
+                              <span *ngIf="!item.contact">Non defini</span> 
+                            </td>
+                            
+                            <td class="text-right">
+                              <div class="dropdown">
+                                <a class="btn btn-sm btn-icon-only text-light" href="#" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                  <i class="fas fa-ellipsis-v"></i>
+                                </a>
+                                <div class="dropdown-menu dropdown-menu-right dropdown-menu-arrow">
+                                  <a class="dropdown-item" href="admin/contrats/detail/{{item.id}}">Detail&nbsp; <i class="fa fa-eye"></i></a>
+                                  <a class="dropdown-item" type="button" *ngIf="item.status"  (click)="editItem(item)">Edit &nbsp; <i class="fa fa-edit"></i></a>
+                                  <a class="dropdown-item" type="button" *ngIf="item.status"  (click)="cancelItem(item)">Terminer un contrat &nbsp; <i class="fa fa-check"></i> </a>
+                                  <a class="dropdown-item" type="button" *ngIf="item.status"  (click)="deleteItem(item.id)">Supprimer &nbsp; <i class="fa fa-trash"></i></a>
+                                </div>
                               </div>
-                            </div>
-                          </td>
-                        </tr>
-                      </tbody>
-                    </table>
+                            </td>
+                          </tr>
+                        </tbody>
+                      </table>
+                    </div>
                   </div>
                   <!-- Card footer -->
                   <div class="card-footer py-4">
@@ -197,8 +166,7 @@
 <button [hidden]="true" type="button" id="openDetail" data-toggle="modal" data-target="#detailContratModal">
 </button>
 
-<button [hidden]="true" type="button" id="openDetailMensualite" data-toggle="modal" data-target="#detailMensualiteModal">
-</button>
+
 
 <!-- model add user -->
 <div  class="modal draggable fade bd-example-modal-lg" id="addContratModal" tabindex="-1" role="dialog"
@@ -332,46 +300,3 @@ aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
   
 </div>
 </div>
-
-<!-- model add user -->
-<div  class="modal draggable fade bd-example-modal-lg" id="detailMensualiteModal" tabindex="-1" role="dialog"
-aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
-<div class="modal-dialog" role="document">
-  <div class="modal-content">
-    <div class="modal-header">
-      <h5 class="modal-title text-center">Modification Contrat</h5>
-      <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-        <span aria-hidden="true">&times;</span>
-      </button>
-    </div>
-    <div class="modal-body">
-      <!-- Light table -->
-      <div class="table-responsive">
-        <table class="table align-items-center table-flush">
-          <thead class="thead-light">
-            <tr>
-                <th scope="col" class="sort" data-sort="numContrat">Mensualite Numero</th>
-              <th scope="col" class="sort" data-sort="nameClient">Nom du client</th>
-              <th scope="col" class="sort" data-sort="typeClient">Date  paiement</th>
-              <th scope="col" class="sort" data-sort="secteurActivite">Montant</th>
-            </tr>
-          </thead>
-          <tbody class="list">
-            <tr  *ngFor="let item of mensualites | paginate: { itemsPerPage: 10, currentPage: p }">
-              <td>{{item.numeroBodereau}}</td>
-              <td>{{item.contrat.nameClient}}</td>
-              <td>{{item.dateVersement}}</td>
-              <td>{{item.montant}}</td>
-            </tr>
-          </tbody>
-        </table>
-      </div>
-    </div>
-    <div class="modal-footer">
-      <button type="button" class="btn btn-secondary" data-dismiss="modal" (click)="clickButton('edit-contrat-close')" >Fermer</button>
-    </div>
-  </div>
-  
-</div>
-</div>
-

@@ -5,10 +5,11 @@ import { ActivatedRoute } from '@angular/router';
 import { Subscription } from 'rxjs';
 import { Contrat } from 'src/app/models/contrat';
 import { Locale } from 'src/app/models/locale';
-import { Representation } from 'src/app/models/representation';
+import { Occupation } from 'src/app/models/occupation';
 import { ContratService } from 'src/app/services/contrat.service';
 import { LocaleService } from 'src/app/services/locale.service';
 import { MensualiteService } from 'src/app/services/mensualite.service';
+import { OccupationService } from 'src/app/services/occupation.service';
 
 @Component({
   selector: 'app-contrats',
@@ -23,7 +24,7 @@ export class ContratsComponent implements OnInit {
   activites: string[]=[];
   mensualites: any[]=[];
   existedContrat:any[]=[];
-  locales: Locale[]=[];
+  occupations: Occupation[]=[];
   form: any ={};
   selectedItem: any ={};
   message?:string;
@@ -32,7 +33,7 @@ export class ContratsComponent implements OnInit {
   private subscriptions: Subscription[] = [];
 
   constructor(private contratService:ContratService, private activatedRoute: ActivatedRoute,
-    private localeService: LocaleService, private mensualiteService: MensualiteService) { }
+    private occupationService: OccupationService, private mensualiteService: MensualiteService) { }
 
   ngOnInit(): void {
     this.types = ['ONG','FONDATION','SOCIETE PRIVE','EGLISE','SOCIETE PUBLIQUE','INDIVIDU'];
@@ -87,14 +88,15 @@ export class ContratsComponent implements OnInit {
       secteurActivite: new FormControl(''),
       dateSignature: new FormControl(null),
       dureeGaranti: new FormControl(null),
-      locale: new FormControl(null),
+      occupation: new FormControl(null),
+      montant: new FormControl(null)
     });
   }
 
   setLocale(){
-    this.localeService.findAll().subscribe(
+    this.occupationService.findAll().subscribe(
       data =>{
-        this.locales = data;
+        this.occupations = data;
         console.log(data);
       },
       error =>{
@@ -111,9 +113,12 @@ export class ContratsComponent implements OnInit {
       contact: this.form.get('contact').value,
       secteurActivite: this.form.get('secteurActivite').value,
       dateSignature: this.form.get('dateSignature').value,
-      dureeGaranti: this.form.get('dureeGaranti').value
+      dureeGaranti: this.form.get('dureeGaranti').value,
+      id: this.form.get('occupation').value,
+      montant: this.form.get('montant').value
     }
-    this.contratService.findAllByLocaleAndStatus(this.form.get('locale').value,true).subscribe(
+    if(this.form.get('occupation').value != null || this.form.get('occupation').value != ''){
+    this.contratService.findAllByOccupationAndStatus(this.form.get('occupation').value,true).subscribe(
       data => {
         this.existedContrat = data;
         console.log(data);
@@ -122,7 +127,7 @@ export class ContratsComponent implements OnInit {
           this.message = 'Vous avez un contrat encours avec '+this.existedContrat[0].clientName+' bienvouloir regularise avant d\'enregistrer un nouveau contrat'; 
           this.clickButton('new-contrat-close');
         }else{
-          this.contratService.save(formData, this.form.get('locale').value).subscribe(
+          this.contratService.save(formData).subscribe(
             data => {
               console.log(data);
               this.getAll();
@@ -139,6 +144,19 @@ export class ContratsComponent implements OnInit {
         console.log(error);
       }
     );
+    }else{
+      this.contratService.save(formData).subscribe(
+        data => {
+          console.log(data);
+          this.getAll();
+          this.clickButton('new-contrat-close');
+          this.init();
+        },
+        error =>{
+          console.log(error);
+        }
+      );
+    }
     console.log(this.existedContrat);
     
     

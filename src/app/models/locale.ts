@@ -2,7 +2,6 @@ import { Representation } from "./representation";
 
 export class Locale{
     id:any;
-    numLocale?:any;
     montant?:any;
     superficie?:any;
     status?:any;

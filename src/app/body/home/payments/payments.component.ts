@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { FormGroup, FormControl, MaxLengthValidator } from '@angular/forms';
-import { ActivatedRoute } from '@angular/router';
+import { ActivatedRoute, NavigationExtras, Router } from '@angular/router';
 import { max, Subscription } from 'rxjs';
 import { Contrat } from 'src/app/models/contrat';
 import { ContratService } from 'src/app/services/contrat.service';
@@ -22,16 +22,19 @@ export class PaymentsComponent implements OnInit {
   mensualites: any[]=[];
   p:number=1;
   term: string='';
+  date:any;
+  searchForm:any ={};
   form: any ={};
   months: string[]=[];
+  navigationParams: any ={};
+  search: any ={};
   private subscriptions: Subscription[] = [];
 
-  constructor(private contratService:ContratService, private activatedRoute: ActivatedRoute,
+  constructor(private contratService:ContratService, private route: Router,
     private localeService: LocaleService, private mensualiteService: MensualiteService) { }
 
   ngOnInit(): void {
   this.getContratActifs();
-  this.months = ['Janvier','Fevrier','Mars','Avril','Mai','Juin','Juillet','Aout','Septembre','Octobre','Novembre','Decembre'];
   this.init();
   }
 
@@ -39,9 +42,15 @@ export class PaymentsComponent implements OnInit {
   init(){
     this.form = new FormGroup({
       numeroBodereau: new FormControl(''),
-      mois: new FormControl(''),
+      date: new FormControl(null),
       montant: new FormControl('')
     });
+
+    this.searchForm = new FormGroup({
+      date: new FormControl(null),
+      value: new FormControl('')
+    });
+    
   }
   
   getContratActifs(){
@@ -58,12 +67,38 @@ export class PaymentsComponent implements OnInit {
     );
   }
 
+  onSubmitSearch(){
+    const searchValue = {date:this.searchForm.get('date').value}
+    const searchNavigationExtras: NavigationExtras = {
+      queryParams:{
+        'values':JSON.stringify(searchValue)
+      }
+    }
+    this.route.navigate(['/admin/payments/search'], searchNavigationExtras);
+    
+  }
+
+  onSubmitSearchContract(){
+    this.contratService.searchContract(this.searchForm.get('value').value).subscribe(
+      data =>{
+        this.lists = data;
+        console.log(data);
+        this.init();
+      },
+      error =>{
+        console.log(error);
+      }
+    );
+  }
+
+
   getMensualites(){
     this.mensualiteService.findAll().subscribe(
       data =>{
+        this.mensualites = data;
         this.isMensualite = true;
         this.isContrat = false;
-        this.mensualites = data;
+       
         console.log(data);
       },
       error =>{
@@ -84,11 +119,11 @@ export class PaymentsComponent implements OnInit {
     const formData = {
       numeroBodereau: this.form.get('numeroBodereau').value,
       montant: this.form.get('montant').value,
-      mois: this.form.get('mois').value
+      date: this.form.get('date').value
     }
 
     console.log(numContrat);
-    this.mensualiteService.save(formData,numContrat).subscribe(
+    this.mensualiteService.update(formData,numContrat).subscribe(
       data =>{
         console.log(data);
         this.getContratActifs();

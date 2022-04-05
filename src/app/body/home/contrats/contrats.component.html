@@ -61,7 +61,8 @@
                     <table class="table align-items-center table-flush">
                       <thead class="thead-light">
                         <tr>
-                            <th scope="col" class="sort" data-sort="numContrat">Contrat Numero</th>
+                          <th scope="col" class="sort" data-sort="numContrat">Contrat Numero</th>
+                          <th scope="col" class="sort" data-sort="numContrat">Status</th>
                           <th scope="col" class="sort" data-sort="nameClient">Nom du client</th>
                           <th scope="col" class="sort" data-sort="typeClient">Type de client</th>
                           <th scope="col" class="sort" data-sort="secteurActivite">Secteur d'activite</th>
@@ -72,14 +73,34 @@
                         </tr>
                       </thead>
                       <tbody class="list">
-                        <tr  *ngFor="let item of lists | paginate: { itemsPerPage: 10, currentPage: p }| filter:term">
-                          <td>{{item.numContrat}}</td>
-                          <td>{{item.nameClient}}</td>
-                          <td>{{item.typeClient}}</td>
-                          <td>{{item.secteurActivite}}</td>
-                          <td>{{item.locale?.designation}}</td>
-                          <td>{{item.locale?.ville+', '+item.locale?.adresse}}</td>
-                          <td>{{item.contact}}</td>
+                        <tr  *ngFor="let item of lists | paginate: { itemsPerPage: 100, currentPage: p }| filter:term">
+                          <td>
+                            <span *ngIf="item.numContrat">{{item.numContrat}}</span>
+                            <span *ngIf="!item.numContrat">Non Defini</span>
+                          </td>
+                          <td *ngIf="item.status" class="alert alert-success">Encours</td>
+                          <td *ngIf="!item.status" class="alert alert-warning">Terminer</td>
+                          <td>
+                            <span *ngIf="item.nameClient">{{item.nameClient}}</span>
+                            <span *ngIf="!item.nameClient || item.nameClient =='null'">Non Defini</span>
+                          </td>
+                          <td>
+                            <span *ngIf="item.typeClient">{{item.typeClient}}</span>
+                            <span *ngIf="!item.typeClient">Non Defini</span>
+                          </td>
+                          <td>
+                            <span *ngIf="item.secteurActivite">{{item.secteurActivite}}</span>
+                            <span *ngIf="!item.secteurActivite">Non Defini</span>
+                          </td>
+                          <td>
+                            <span *ngIf="item.occupation?.numeroOccupation">{{item.occupation?.numeroOccupation}}</span>
+                            <span *ngIf="!item.occupation?.numeroOccupation">Non Defini</span>
+                          </td>
+                          <td>{{item.occupation?.locale?.ville+', '+item.occupation?.locale?.adresse}}</td>
+                          <td>
+                            <span *ngIf="item.contact">{{item.contact}}</span>
+                            <span *ngIf="!item.contact">Non Defini</span> 
+                          </td>
                           
                           <td class="text-right">
                             <div class="dropdown">
@@ -87,7 +108,7 @@
                                 <i class="fas fa-ellipsis-v"></i>
                               </a>
                               <div class="dropdown-menu dropdown-menu-right dropdown-menu-arrow">
-                                <a class="dropdown-item" type="button"  (click)="detailItem(item)">Detail</a>
+                                <a class="dropdown-item" type="button"  href="admin/contrats/detail/{{item.id}}">Detail</a>
                                 <a class="dropdown-item" type="button"  (click)="detailMensualite(item)">Voir les mensualites</a>
                                 <a class="dropdown-item" type="button" *ngIf="item.status"  (click)="editItem(item)">Edit</a>
                                 <a class="dropdown-item" type="button" *ngIf="item.status"  (click)="cancelItem(item)">Terminer un contrat</a>
@@ -160,6 +181,10 @@ aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
                     <input type="number" formControlName="dureeGaranti"  class="form-control" placeholder="Duree de la guarantie">
                   </div>
                   <div class="form-group">
+                    <label class="form-control-label" >Montant</label>
+                    <input type="number" formControlName="montant"  class="form-control" placeholder="Montant garantie">
+                  </div>
+                  <div class="form-group">
                     <label class="form-control-label" >Type de client</label>
                     <select formControlName="typeClient" class="form-control" >
                         <option *ngFor="let item of types" value="{{item}}">{{item}}</option>
@@ -173,9 +198,10 @@ aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
                     </select>
                   </div>
                   <div class="form-group">
-                    <label class="form-control-label" >Local</label>
-                    <select formControlName="locale"  class="form-control" >
-                        <option *ngFor="let item of locales" value="{{item.id}}">{{item.designation+', '+item.ville+', '+item.adresse}}</option>
+                    <label class="form-control-label" >Occupation</label>
+                    <select formControlName="occupation"  class="form-control" >
+                        <option value="">--Espace ouvert--</option>
+                        <option *ngFor="let item of occupations" value="{{item.id}}">{{item?.numeroOccupation+', '+item?.locale?.ville+', '+item?.locale?.adresse}}</option>
                     </select>
                   </div>
                 
@@ -246,9 +272,9 @@ aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
                     </select>
                   </div>
                   <div class="form-group">
-                    <label class="form-control-label" >Local</label>
-                    <select formControlName="locale"  class="form-control" >
-                        <option *ngFor="let item of locales" value="{{item.id}}">{{item.designation+', '+item.ville+', '+item.adresse}}</option>
+                    <label class="form-control-label" >Occupation</label>
+                    <select formControlName="occupation"  class="form-control" >
+                        <option *ngFor="let item of occupations" value="{{item.id}}">{{item.numeroOccupation+', '+item?.locale?.ville+', '+item?.locale?.adresse}}</option>
                     </select>
                   </div>
                 
@@ -326,31 +352,52 @@ aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
         <table class="table align-items-center table-flush">
          <tr>
            <td>Numero du contrat</td>
-           <td>{{selectedItem.numContrat}}</td>
+           <td>
+            <span *ngIf="selectedItem.numContrat">{{selectedItem.numContrat}}</span>
+            <span *ngIf="!selectedItem.numContrat">Non Defini</span>  
+          </td>
          </tr>
          <tr>
           <td>Nom du Client</td>
-          <td>{{selectedItem.nameClient}}</td>
+          <td>
+            <span *ngIf="selectedItem.nameClient">{{selectedItem.nameClient}}</span>
+            <span *ngIf="!selectedItem.nameClient">Non Defini</span> 
+          </td>
         </tr>
         <tr>
           <td>Type de Client</td>
-          <td>{{selectedItem.typeClient}}</td>
+          <td>
+            <span *ngIf="selectedItem.typeClient">{{selectedItem.typeClient}}</span>
+            <span *ngIf="!selectedItem.typeClient">Non Defini</span> 
+          </td>
         </tr>
         <tr>
           <td>Email du Client</td>
-          <td>{{selectedItem.email}}</td>
+          <td>
+            <span *ngIf="selectedItem.email">{{selectedItem.email}}</span>
+            <span *ngIf="!selectedItem.email">Non Defini</span> 
+          </td>
         </tr>
         <tr>
           <td>Secteur d'activite</td>
-          <td>{{selectedItem.secteurActivite}}</td>
+          <td>
+            <span *ngIf="selectedItem.secteurActivite">{{selectedItem.secteurActivite}}</span>
+            <span *ngIf="!selectedItem.secteurActivite">Non Defini</span> 
+          </td>
         </tr>
         <tr>
           <td>Contact</td>
-          <td>{{selectedItem.contact}}</td>
+          <td>
+            <span *ngIf="selectedItem.contact">{{selectedItem.contact}}</span>
+            <span *ngIf="!selectedItem.contact">Non Fourni</span> 
+          </td>
         </tr>
         <tr>
           <td>Duree de la garantie</td>
-          <td>{{selectedItem.dureeGaranti}}</td>
+          <td>
+            <span *ngIf="selectedItem.dureeGaranti">{{selectedItem.dureeGaranti}}</span>
+            <span *ngIf="!selectedItem.dureeGaranti">Non Defini</span> 
+          </td>
         </tr>
         <tr>
           <td>Montant de la garantie</td>

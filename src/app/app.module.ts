@@ -15,10 +15,20 @@ import { UsersComponent } from './body/home/users/users.component';
 import { RepresentationLocaleContratComponent } from './body/representation/representation-locale-contrat/representation-locale-contrat.component';
 import { RepresentationUsersComponent } from './body/representation/representation-users/representation-users.component';
 import { ClientsComponent } from './body/home/clients/clients.component';
-import { LocaleContratMensualitesComponent } from './body/representation/locale/locale-contrat-mensualites/locale-contrat-mensualites.component';
 import { NgxPaginationModule } from 'ngx-pagination';
 import { Ng2SearchPipeModule } from 'ng2-search-filter';
 import { PaymentsComponent } from './body/home/payments/payments.component';
+import { PaymentsSearchComponent } from './body/home/payments-search/payments-search.component';
+import { ContratDetailComponent } from './body/representation/contrat-detail/contrat-detail.component';
+import { OccupationsComponent } from './body/representation/occupations/occupations.component';
+import { NotificationService } from './services/notification.service';
+import { AuthenticationGuard } from './auth/authentication.guard';
+import { AuthService } from './auth/auth.service';
+import { LocaleService } from './services/locale.service';
+import { OccupationService } from './services/occupation.service';
+import { ContratService } from './services/contrat.service';
+import { MensualiteService } from './services/mensualite.service';
+import { NotificationModule } from './notification.module';
 
 @NgModule({
   declarations: [
@@ -33,8 +43,11 @@ import { PaymentsComponent } from './body/home/payments/payments.component';
     RepresentationLocaleContratComponent,
     RepresentationUsersComponent,
     ClientsComponent,
-    LocaleContratMensualitesComponent,
-    PaymentsComponent
+    PaymentsComponent,
+    PaymentsSearchComponent,
+    ContratDetailComponent,
+    OccupationsComponent
+
   ],
   imports: [
     BrowserModule,
@@ -43,7 +56,7 @@ import { PaymentsComponent } from './body/home/payments/payments.component';
     ReactiveFormsModule,
     HttpClientModule,
     NgxPaginationModule,
-    Ng2SearchPipeModule
+    Ng2SearchPipeModule,
   ],
   providers: [],
   bootstrap: [AppComponent]
