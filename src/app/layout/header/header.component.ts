@@ -2,6 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
 import { AuthService } from 'src/app/auth/auth.service';
 import { TokenStorageService } from 'src/app/auth/token-storage.service';
+import { User } from 'src/app/models/user';
 
 @Component({
   selector: 'app-header',
@@ -10,27 +11,26 @@ import { TokenStorageService } from 'src/app/auth/token-storage.service';
 })
 export class HeaderComponent implements OnInit {
 
-  isLoggedIn = false;
-  isLoginFailed = false;
-  errorMessage = '';
-  roles: string[] = [];
-  username: string ='';
+  roles?: string[];
+  isConnected?: boolean;
+  user?: User;
 
   constructor(private authService: AuthService,
     private tokenStorage: TokenStorageService,
     private router: Router) { }
 
   ngOnInit(): void {
-    if (this.tokenStorage.getToken()) {
-      this.isLoggedIn = true;
-      this.roles = this.tokenStorage.getUser().authorities;
-      this.username = this.authService.currentUserValue.firstname;
+    if (this.authService.currentUserValue.token) {
+      this.isConnected = true;
+      this.user = this.authService.currentUserValue;
+    }else{
+      this.isConnected = false;
     }
   }
 
   logout(){
-    this.tokenStorage.signOut();
-    this.router.navigateByUrl('login');
+    this.authService.logOut()
+    this.router.navigateByUrl('/login');
   }
 
 }

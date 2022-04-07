@@ -2,6 +2,8 @@ import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
 import { AuthService } from 'src/app/auth/auth.service';
 import { TokenStorageService } from 'src/app/auth/token-storage.service';
+import { Role } from 'src/app/enums/role.enum';
+import { User } from 'src/app/models/user';
 
 @Component({
   selector: 'app-sidebar',
@@ -10,10 +12,10 @@ import { TokenStorageService } from 'src/app/auth/token-storage.service';
 })
 export class SidebarComponent implements OnInit {
 
-  isLoggedIn = false;
-  isLoginFailed = false;
+  isConnected?: boolean;
+  user?: User;
   errorMessage = '';
-  isAdminTest: Boolean = false;
+  isAdminTest?: boolean;
   roles: string[] = [];
 
   constructor(private authService: AuthService,
@@ -21,17 +23,29 @@ export class SidebarComponent implements OnInit {
     private router: Router) { }
 
   ngOnInit(): void {
-    if (this.tokenStorage.getToken()) {
-      this.isLoggedIn = true;
-      this.roles = this.tokenStorage.getUser().authorities;
-      console.log(this.roles);
+    if (this.authService.currentUserValue.token) {
+      this.isConnected = true;
+      this.user = this.authService.currentUserValue;
+      switch(this.user.role){
+        case Role.ROOT:{
+          this.isAdminTest = true;
+          break;
+        }
+        case Role.DSI:{
+          this.isAdminTest = true;
+          break;
+        }
+        default:{
+          break;
+        }
+      }
+      console.log(this.isAdminTest);
+    }else{
+      this.isConnected = false;
     }
+    
   }
 
-  isAdmin() {
-    if(this.roles.includes('ROLE_ROOT') || this.roles.includes('ROLE_ADMIN')){
-      this.isAdminTest = true;
-    }
-  }
+  
 
 }

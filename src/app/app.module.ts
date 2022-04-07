@@ -29,6 +29,7 @@ import { OccupationService } from './services/occupation.service';
 import { ContratService } from './services/contrat.service';
 import { MensualiteService } from './services/mensualite.service';
 import { NotificationModule } from './notification.module';
+import { UserDetailComponent } from './body/home/user-detail/user-detail.component';
 
 @NgModule({
   declarations: [
@@ -46,7 +47,8 @@ import { NotificationModule } from './notification.module';
     PaymentsComponent,
     PaymentsSearchComponent,
     ContratDetailComponent,
-    OccupationsComponent
+    OccupationsComponent,
+    UserDetailComponent
 
   ],
   imports: [

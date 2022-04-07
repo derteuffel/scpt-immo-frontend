@@ -25,8 +25,42 @@
             <div class="card">
               <div class="card-header border-0">
                 <h3>Detail d'un contrat</h3>
-                <button type="button" class="btn btn-outline-default" (click)="getAllMensualites()">Produire facture &nbsp; <i class="fa fa-file"></i></button>
+                <button type="button" class="btn btn-outline-default" href="#" type="button"  data-toggle="modal" data-target="#produceFactureModal">Produire facture &nbsp; <i class="fa fa-file"></i></button>
               </div>
+              <!-- model add user -->
+<div  class="modal draggable fade bd-example-modal-lg" id="produceFactureModal" tabindex="-1" role="dialog"
+aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
+<div class="modal-dialog" role="document">
+  <div class="modal-content">
+    <form (submit)="onProduce()" [formGroup]="produceForm">
+    <div class="modal-header">
+      <h5 class="modal-title text-center">Produire la facture d'un mois</h5>
+      <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+        <span aria-hidden="true">&times;</span>
+      </button>
+    </div>
+    <div class="modal-body">
+      <div>
+        
+            <h6 class="heading-small text-muted mb-4">Formulaire</h6>
+            <div class="pl-lg-4"> <div class="form-group">
+                    <label class="form-control-label" >Choisir le mois concerner</label>
+                    <input type="date" formControlName="date"  class="form-control" placeholder="Date concerner">
+                  </div>
+            </div>
+              
+         
+      </div>
+    </div>
+    <div class="modal-footer">
+      <button type="button" class="btn btn-secondary" data-dismiss="modal" id="new-facture-close">Fermer</button>
+      <button type="submit"  class="btn btn-primary">Enregistrer</button>
+    </div>
+    </form> 
+  </div>
+  
+</div>
+</div>
               <div class="card-body">
                 <table class="table table-bordered">
 

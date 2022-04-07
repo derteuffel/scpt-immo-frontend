@@ -1,1 +1,278 @@
-<p>users works!</p>
+<app-sidebar></app-sidebar>
+<div class="main-content" id="panel">
+    <app-header></app-header>
+    <div class="header pb-6 ">
+        <div class="container-fluid">
+            <div class="header-body">
+                <div class="row align-items-center py-4">
+                    <div class="col-lg-6 col-7">
+                      <nav aria-label="breadcrumb" class="d-none d-md-inline-block ml-md-4">
+                        <ol class="breadcrumb breadcrumb-links breadcrumb-dark">
+                          <li class="breadcrumb-item"><a href="admin/locaux"><i class="fas fa-home"></i></a></li>
+                          <li class="breadcrumb-item active" aria-current="page"><a href="admin/users">Utilisateurs</a></li>
+                        </ol>
+                      </nav>
+                    </div>
+                  </div>
+            </div>
+        </div>
+    </div>
+    <div class="container-fluid mt--6">
+        <div class="row">
+            <div class="col">
+                <div class="card">
+                  <!-- Card header -->
+                  <div class="card-header border-0">
+                      <div class="row">
+                          <div class="col-6 alert alert-secondary">
+                            <h3 class="mb-0"><a type="button" class="btn btn-outline-primary" (click)="loadList()"><i class="fa fa-list"></i>&nbsp; Tout les utilisateur ({{lists.length}})</a></h3>
+                          </div>
+                          
+                          <div class="col-6 alert alert-secondary">
+                            <a href="#" type="button"  data-toggle="modal" data-target="#addUserModal" class="btn btn-md btn-outline-primary">Ajouter un utilisateur&nbsp;<i class="fa fa-plus"></i></a>
+                          </div>
+                        </div>
+                  </div>
+                  <div class="card-header border-0">
+                    <div class="navbar-search navbar-search-light form-inline mr-sm-3" id="navbar-search-main">
+                      <div class="row">
+                        <div class="col-md-6 col-lg-4">
+                          <div class="form-group mb-0">
+                            <div class="input-group input-group-alternative input-group-merge">
+                              <div class="input-group-prepend">
+                                <span class="input-group-text"><i class="fas fa-search"></i></span>
+                              </div>
+                              <input class="form-control" placeholder="Rechercher un local" [(ngModel)]="term" type="text">
+                            </div>
+                          </div>
+                        </div>
+                        <div class="col-md-6 col-lg-7 ml-2" >
+                          <form [formGroup]="searchForm" (submit)="onSubmitSearch()">
+                          <div class="row">
+                            <div class="form-group mb-0  ">
+                              <div class="input-group input-group-alternative input-group-merge">
+                                <label class="mx-2">Rechercher par province</label>
+                                <select formControlName="province" class="form-control">
+                                  <option *ngFor="let item of provinces" value="{{item}}">{{item}}</option>
+                                </select>
+                              </div>
+                            </div>
+                            <div>
+                              <button type="submit" class="btn btn-icon-only mb-0" >
+                                <span class="input-group-text"><i class="fas fa-search"></i></span>
+                              </button>
+                            </div>
+                          </div>
+                         </form>
+                        </div>
+                        
+                      </div>
+                       
+                    </div>
+                  </div>
+                  <!-- Light table -->
+                  <div class="table-responsive">
+                    <table class="table align-items-center table-flush">
+                      <thead class="thead-light">
+                        <tr>
+                          <th scope="col" class="sort" data-sort="province">Nom complet</th>
+                          <th scope="col" class="sort" data-sort="ville">Province</th>
+                          <th scope="col" class="sort" data-sort="avenue">Email</th>
+                          <th scope="col" class="sort" data-sort="numParcelle">Fonction</th>
+                          <th scope="col" class="sort" data-sort="observation">Matricule</th>
+                          <th scope="col">Actions</th>
+                        </tr>
+                      </thead>
+                      <tbody class="list">
+                        <tr *ngFor="let item of lists | paginate: { itemsPerPage: 50, currentPage: p } | filter:term">
+                          <td>
+                            <span *ngIf="item.firstname || item.lastname">{{item.firstname+' '+item.lastname}}</span>
+                            <span *ngIf="!item.firstname || !item.lastname">Inconnue</span> 
+                          </td>
+                          <td>
+                            <span *ngIf="item.province">{{item.province}}</span>
+                            <span *ngIf="!item.province">Inconnue</span> 
+                          </td>
+                          <td>
+                            <span *ngIf="item.email">{{item.email}}</span>
+                            <span *ngIf="!item.email">Non Defini</span> 
+                          </td>
+                          
+                          <td>
+                            <span *ngIf="item.fonction">{{item.fonction}}</span>
+                            <span *ngIf="!item.fonction">Inconnu</span> 
+                          </td>
+                          <td>
+                            <span *ngIf="item.matricule">{{item.matricule}}</span>
+                            <span *ngIf="!item.matricule">non definie</span> 
+                          </td>
+                          <td class="text-right">
+                            <div class="dropdown">
+                              <a class="btn btn-sm btn-icon-only text-light" href="#" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                <i class="fas fa-ellipsis-v"></i>
+                              </a>
+                              <div class="dropdown-menu dropdown-menu-right dropdown-menu-arrow">
+                                <a class="dropdown-item" href="admin/user/detail/{{item.id}}">Detail &nbsp;<i class="fa fa-eye"></i></a>
+                                <a class="dropdown-item" type="button"  (click)="editItem(item)">Edit &nbsp; <i class="fa fa-edit"></i></a>
+                                <a class="dropdown-item" type="button"  (click)="deleteItem(item.id)">Supprimer &nbsp; <i class="fa fa-trash"></i></a>
+                              </div>
+                            </div>
+                          </td>
+                        </tr>
+                      </tbody>
+                    </table>
+                  </div>
+                  <!-- Card footer -->
+                  <div class="card-footer py-4">
+                    <nav aria-label="...">
+                      <ul class="pagination justify-content-end mb-0">
+                        <pagination-controls (pageChange)="p = $event"></pagination-controls>
+                      </ul>
+                    </nav>
+                  </div>
+                </div>
+              </div>
+        </div>
+        <app-footer></app-footer>
+    </div>
+</div>
+<button [hidden]="true" type="button" id="openEdit" data-toggle="modal" data-target="#editUserModal">
+</button>
+
+<!-- model add user -->
+<div  class="modal draggable fade bd-example-modal-lg" id="addUserModal" tabindex="-1" role="dialog"
+aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
+<div class="modal-dialog" role="document">
+  <div class="modal-content">
+    <form (submit)="onSubmit()" [formGroup]="form">
+    <div class="modal-header">
+      <h5 class="modal-title text-center">Nouvel</h5>
+      <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+        <span aria-hidden="true">&times;</span>
+      </button>
+    </div>
+    <div class="modal-body">
+      <div>
+        
+            <h6 class="heading-small text-muted mb-4">Formulaire</h6>
+            <div class="pl-lg-4">
+              
+                  <div class="form-group">
+                    <label class="form-control-label" for="input-username">Province</label>
+                    <select formControlName="province" class="form-control" >
+                        <option *ngFor="let item of provinces" value="{{item}}">{{item}}</option>
+                    </select>
+                  </div>
+
+                  <div class="form-group">
+                    <label class="form-control-label" >Nom et post nom</label>
+                    <input type="text" formControlName="lastname" class="form-control" placeholder="Nom et Post nom">
+                  </div>
+                  <div class="form-group">
+                    <label class="form-control-label" >Prenom</label>
+                    <input type="text" formControlName="firstname"  class="form-control" placeholder="Prenom ">
+                  </div>
+                  <div class="form-group">
+                    <label class="form-control-label" >Email</label>
+                    <input type="email" formControlName="email"  class="form-control" placeholder="Email">
+                  </div>
+
+                  <div class="form-group">
+                    <label class="form-control-label" >Telephone</label>
+                    <input type="text" formControlName="telephone"  class="form-control" placeholder="Telephone">
+                  </div>
+                  <div class="form-group">
+                    <label class="form-control-label" >Fonction</label>
+                    <input type="text" formControlName="fonction"  class="form-control" placeholder="Fonction">
+                  </div>
+                  <div class="form-group">
+                    <label class="form-control-label" >Numero identite</label>
+                    <input type="text" formControlName="idNumber"  class="form-control" placeholder="Numero identite">
+                  </div>
+
+                  <div class="form-group">
+                    <label class="form-control-label" >Matricule</label>
+                    <input type="text" formControlName="matricule"  class="form-control" placeholder="Matricule">
+                  </div>
+                     
+            </div>
+      </div>
+    </div>
+    <div class="modal-footer">
+      <button type="button" class="btn btn-secondary" data-dismiss="modal" id="new-user-close">Fermer</button>
+      <button type="submit"  class="btn btn-primary">Enregistrer</button>
+    </div>
+    </form> 
+  </div>
+  
+</div>
+</div>
+
+<!-- model add user -->
+<div  class="modal draggable fade bd-example-modal-lg" id="editUserModal" tabindex="-1" role="dialog"
+aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
+<div class="modal-dialog" role="document">
+  <div class="modal-content">
+    <form (submit)="onEditSubmit(selectedItem.id)" [formGroup]="form">
+    <div class="modal-header">
+      <h5 class="modal-title text-center">Modification d'un local</h5>
+      <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+        <span aria-hidden="true">&times;</span>
+      </button>
+    </div>
+    <div class="modal-body">
+      <div>
+        
+            <h6 class="heading-small text-muted mb-4">Formulaire</h6>
+            <div class="pl-lg-4">
+              
+                <div class="form-group">
+                  <label class="form-control-label" for="input-username">Province</label>
+                  <select formControlName="province" class="form-control" >
+                      <option *ngFor="let item of provinces" value="{{item}}">{{item}}</option>
+                  </select>
+                </div>
+
+                <div class="form-group">
+                  <label class="form-control-label" >Nom et post nom</label>
+                  <input type="text" formControlName="lastname" class="form-control" placeholder="Nom et Post nom">
+                </div>
+                <div class="form-group">
+                  <label class="form-control-label" >Prenom</label>
+                  <input type="text" formControlName="firstname"  class="form-control" placeholder="Prenom ">
+                </div>
+                <div class="form-group">
+                  <label class="form-control-label" >Email</label>
+                  <input type="email" formControlName="email"  class="form-control" placeholder="Email">
+                </div>
+
+                <div class="form-group">
+                  <label class="form-control-label" >Telephone</label>
+                  <input type="text" formControlName="telephone"  class="form-control" placeholder="Telephone">
+                </div>
+                <div class="form-group">
+                  <label class="form-control-label" >Fonction</label>
+                  <input type="text" formControlName="fonction"  class="form-control" placeholder="Fonction">
+                </div>
+                <div class="form-group">
+                  <label class="form-control-label" >Numero identite</label>
+                  <input type="text" formControlName="idNumber"  class="form-control" placeholder="Numero identite">
+                </div>
+
+                <div class="form-group">
+                  <label class="form-control-label" >Matricule</label>
+                  <input type="text" formControlName="matricule"  class="form-control" placeholder="Matricule">
+                </div>
+                   
+          </div>
+      </div>
+    </div>
+    <div class="modal-footer">
+      <button type="button" class="btn btn-secondary" data-dismiss="modal" id="edit-user-close">Fermer</button>
+      <button type="submit"  class="btn btn-primary">Enregistrer</button>
+    </div>
+    </form> 
+  </div>
+  
+</div>
+</div>

@@ -4,5 +4,6 @@ export enum Role {
     DG ,
     COMMERCIAL ,
     SECRETARIAT_PROVINCIAL ,
-    PAYMENT 
+    PAYMENT,
+    DSI
   }

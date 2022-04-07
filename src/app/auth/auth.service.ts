@@ -114,4 +114,32 @@ export class AuthService {
     return throwError(errorMessage);
  }
 
+ findAll(): Observable<any>{
+   return this.http.get(`${host}/all`, {headers: this.headers});
+ }
+
+ findAllByProvince(province:any): Observable<any>{
+  return this.http.get(`${host}/province/${province}`, {headers: this.headers});
+}
+
+ save(form:any): Observable<any>{
+   return this.http.post(`${host}/signup`, form, {headers: this.headers});
+ }
+
+ update(id:any, form:any): Observable<any>{
+   return this.http.put(`${host}/update/${id}`, form,{headers: this.headers});
+ }
+
+ findOne(id:any): Observable<any>{
+   return this.http.get(`${host}/get/${id}`, {headers:this.headers});
+ }
+
+ updateRole(id:any,role:any): Observable<any>{
+  return this.http.get(`${host}/update/role/${id}/${role}`, {headers:this.headers});
+}
+
+ delete(id:any): Observable<any>{
+   return this.http.delete(`${host}/delete/${id}`, {headers: this.headers});
+ }
+
 }

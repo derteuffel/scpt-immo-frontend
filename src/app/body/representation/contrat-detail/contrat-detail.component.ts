@@ -24,6 +24,7 @@ export class ContratDetailComponent implements OnInit {
   effectues: any[]=[];
   nonEffectues: any[]=[];
   form: any ={};
+  produceForm: any = {};
   selectedItem: any ={};
   message?:string;
   existedContrat:any[]=[];
@@ -113,6 +114,10 @@ export class ContratDetailComponent implements OnInit {
       montant: new FormControl(null),
       date: new FormControl(null)
     });
+
+    this.produceForm = new FormGroup({
+      date: new FormControl(null)
+    })
   }
 
   onSubmit(){
@@ -132,6 +137,17 @@ export class ContratDetailComponent implements OnInit {
         console.log(error);
       }
     );    
+  }
+
+  onProduce(){
+    this.contratService.produceFacture(this.currentContrat.id,this.produceForm.get('date').value).subscribe(
+      data =>{
+        this.clickButton('new-facture-close');
+      },
+      error =>{
+        console.log(error);
+      }
+    );
   }
 
  

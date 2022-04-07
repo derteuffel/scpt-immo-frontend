@@ -1,0 +1,158 @@
+<app-sidebar></app-sidebar>
+<div class="main-content" id="panel">
+    <app-header></app-header>
+    <div class="header pb-6 ">
+        <div class="container-fluid">
+            <div class="header-body">
+                <div class="row align-items-center py-4">
+                    <div class="col-lg-8 col-8">
+                      <h6 class="h2 text-primary d-inline-block mb-0">Accueil</h6>
+                      <nav aria-label="breadcrumb" class="d-none d-md-inline-block ml-md-4">
+                        <ol class="breadcrumb breadcrumb-links breadcrumb-dark">
+                          <li class="breadcrumb-item"><a href="admin/locaux"><i class="fas fa-home"></i></a></li>
+                          <li class="breadcrumb-item " ><a href="admin/users">Utilisateurs</a></li>
+                          <li class="breadcrumb-item " ><a href="admin/user/detail/{{currentUser?.id}}">Detail utilisateur</a></li>
+                          <li class="breadcrumb-item active" aria-current="page"><a href="#">{{currentUser?.firstname+' '+currentUser?.lastname}}</a></li>
+                        </ol>
+                      </nav>
+                    </div>
+                  </div>
+            </div>
+        </div>
+    </div>
+    <div class="container-fluid mt--6 mb-4">
+      <div class="row">
+          <div class="col">
+            <div class="card">
+              <div class="card-header border-0">
+                <h3>Detail d'un utilisateur</h3>
+              </div>
+              <div class="card-body">
+                <table class="table table-bordered">
+
+                      <tr>
+                        <th>Nom complet</th>
+                        <td>{{currentUser.firstname+' '+currentUser.lastname}}</td>
+                      </tr>
+                      <tr>
+                        <th>Email </th>
+                        <td>{{currentUser.email}}</td>
+                      </tr>
+                      <tr>
+                        <th>Nom d'utilisateur </th>
+                        <td>{{currentUser.username}}</td>
+                      </tr>
+                      <tr>
+                        <th>Telephone</th>
+                        <td>{{currentUser.telephone}}</td>
+                      </tr>
+                      <tr>
+                        <th>Numero d'identite</th>
+                        <td>{{currentUser.idNumber}}</td>
+                      </tr>
+                      <tr>
+                        <th>Matricule</th>
+                        <td>{{currentUser.matricule}}</td>
+                      </tr>
+                      <tr>
+                        <th>Fonction</th>
+                        <td>{{currentUser.fonction}}</td>
+                      </tr>
+
+                      <tr>
+                        <th>Role</th>
+                        <td>{{currentUser.role}}</td>
+                      </tr>
+                      <tr>
+                        <th>Province</th>
+                        <td>{{currentUser.province}}</td>
+                      </tr>
+                      
+                      <tr>
+                        <th>Status</th>
+                        <td *ngIf="currentUser.status" class="alert alert-success">Actif</td>
+                        <td *ngIf="!currentUser.status" class="alert alert-warning">Bloquer</td>
+                      </tr>
+                                       
+
+                </table>
+              </div>
+            </div>
+          </div>
+      </div>
+    </div>
+    <div class="container-fluid mt--6">
+        <div class="row">
+            <div class="col">
+                <div class="card">
+                  <!-- Card header -->
+                  <div class="card-header border-0">
+                      <div class="row">
+                      
+                          <div class="col-4">
+                            <a href="#" type="button"  data-toggle="modal" data-target="#editRoleModal" class="btn btn-md btn-outline-primary">Modifier le role</a>
+                          </div>
+                        </div>
+                  </div>
+                  <div *ngIf="message" class="card-header border-0">
+                    <div  class="alert alert-warning">
+                      <h3><span>{{message}}</span></h3>
+                        
+                    </div>
+                  </div>
+                </div>
+              </div>
+        </div>
+        <app-footer></app-footer>
+    </div>
+</div>
+<button [hidden]="true" type="button" id="openEdit" data-toggle="modal" data-target="#editContratModal">
+</button>
+
+<button [hidden]="true" type="button" id="openDetail" data-toggle="modal" data-target="#detailContratModal">
+</button>
+
+
+
+<!-- model add user -->
+<div  class="modal draggable fade bd-example-modal-lg" id="editRoleModal" tabindex="-1" role="dialog"
+aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
+<div class="modal-dialog" role="document">
+  <div class="modal-content">
+    <form (submit)="onSubmit()" [formGroup]="form">
+    <div class="modal-header">
+      <h5 class="modal-title text-center">Modifier le role d'un utilisateur</h5>
+      <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+        <span aria-hidden="true">&times;</span>
+      </button>
+    </div>
+    <div class="modal-body">
+      <div>
+        
+            <h6 class="heading-small text-muted mb-4">Formulaire</h6>
+            <div class="pl-lg-4">
+                  
+                  <div class="form-group">
+                    <label class="form-control-label" >Role</label>
+                    <select formControlName="role" class="form-control" >
+                        <option *ngFor="let item of roles" value="{{item}}">{{item}}</option>
+                    </select>
+                  </div>
+
+                
+            </div>
+              
+         
+      </div>
+    </div>
+    <div class="modal-footer">
+      <button type="button" class="btn btn-secondary" data-dismiss="modal" id="edit-role-close">Fermer</button>
+      <button type="submit"  class="btn btn-primary">Enregistrer</button>
+    </div>
+    </form> 
+  </div>
+  
+</div>
+</div>
+
+
