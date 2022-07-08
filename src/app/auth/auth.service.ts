@@ -58,6 +58,8 @@ export class AuthService {
   }
 
   
+
+  
   reloadPage() {
     window.location.replace('/login');
   }

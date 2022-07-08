@@ -46,7 +46,7 @@
                               <div class="input-group-prepend">
                                 <span class="input-group-text"><i class="fas fa-search"></i></span>
                               </div>
-                              <input class="form-control" placeholder="Rechercher un local" [(ngModel)]="term" type="text">
+                              <input class="form-control" placeholder="Rechercher une parcelle" [(ngModel)]="term" type="text">
                             </div>
                           </div>
                         </div>
@@ -82,8 +82,8 @@
                           <th scope="col" class="sort" data-sort="province">Province</th>
                           <th scope="col" class="sort" data-sort="ville">Ville</th>
                           <th scope="col" class="sort" data-sort="avenue">Adresse</th>
-                          <th scope="col" class="sort" data-sort="numParcelle">Occupant</th>
-                          <th scope="col" class="sort" data-sort="observation">Observation</th>
+                          <th scope="col" class="sort" data-sort="numParcelle">Mise en service</th>
+                          <th scope="col" class="sort" data-sort="observation">Refference</th>
                           <th scope="col">Actions</th>
                         </tr>
                       </thead>
@@ -103,12 +103,12 @@
                           </td>
                           
                           <td>
-                            <span *ngIf="item.occupant">{{item.occupant}}</span>
-                            <span *ngIf="!item.occupant">Inconnu</span> 
+                            <span *ngIf="item.miseEnService">{{item.miseEnService}}</span>
+                            <span *ngIf="!item.miseEnService">Inconnu</span> 
                           </td>
                           <td>
-                            <span *ngIf="item.observation">{{item.observation}}</span>
-                            <span *ngIf="!item.observation">Aucune observation definie</span> 
+                            <span *ngIf="item.reference">{{item.reference}}</span>
+                            <span *ngIf="!item.reference">Aucune reference definie</span> 
                           </td>
                           <td class="text-right">
                             <div class="dropdown">
@@ -116,7 +116,7 @@
                                 <i class="fas fa-ellipsis-v"></i>
                               </a>
                               <div class="dropdown-menu dropdown-menu-right dropdown-menu-arrow">
-                                <a class="dropdown-item" href="admin/locaux/detail/{{item.id}}">Detail &nbsp;<i class="fa fa-eye"></i></a>
+                                <a class="dropdown-item" href="admin/locations/detail/{{item.id}}">Detail &nbsp;<i class="fa fa-eye"></i></a>
                                 <a class="dropdown-item" type="button"  (click)="editItem(item)">Edit &nbsp; <i class="fa fa-edit"></i></a>
                                 <a class="dropdown-item" type="button"  (click)="deleteItem(item.id)">Supprimer &nbsp; <i class="fa fa-trash"></i></a>
                               </div>
@@ -181,7 +181,7 @@ aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
                     <input type="text" formControlName="commune"  class="form-control" placeholder="Commune">
                   </div>
                   <div class="form-group">
-                    <label class="form-control-label" >Adresse</label>
+                    <label class="form-control-label" >Adresse physique</label>
                     <input type="text" formControlName="adresse"  class="form-control" placeholder="Adresse ">
                   </div>
                   <div class="form-group">
@@ -208,18 +208,6 @@ aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
                   <div class="form-group">
                     <label class="form-control-label" >Taux</label>
                     <input type="number" formControlName="taux"  class="form-control" placeholder="Taux d'echange">
-                  </div>
-                  <div class="form-group">
-                    <label class="form-control-label" >Spoiliateur</label>
-                    <input type="text" formControlName="spoiliateur"  class="form-control" placeholder="Spoiliateur">
-                  </div>
-                  <div class="form-group">
-                    <label class="form-control-label" >Affectation</label>
-                    <input type="text" formControlName="affectation"  class="form-control" placeholder="Affectation">
-                  </div>
-                  <div class="form-group">
-                    <label class="form-control-label" >Occupant</label>
-                    <input type="text" formControlName="occupant"  class="form-control" placeholder="Occupant">
                   </div>
                   <div class="form-group">
                     <label class="form-control-label" >Observation</label>
@@ -322,7 +310,7 @@ aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
                 <input type="text" formControlName="commune"  class="form-control" placeholder="Commune">
               </div>
               <div class="form-group">
-                <label class="form-control-label" >Adresse</label>
+                <label class="form-control-label" >Adresse physique</label>
                 <input type="text" formControlName="adresse"  class="form-control" placeholder="Adresse ">
               </div>
               <div class="form-group">
@@ -349,18 +337,6 @@ aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
               <div class="form-group">
                 <label class="form-control-label" >Taux</label>
                 <input type="number" formControlName="taux"  class="form-control" placeholder="Taux d'echange">
-              </div>
-              <div class="form-group">
-                <label class="form-control-label" >Spoiliateur</label>
-                <input type="text" formControlName="spoiliateur"  class="form-control" placeholder="Spoiliateur">
-              </div>
-              <div class="form-group">
-                <label class="form-control-label" >Affectation</label>
-                <input type="text" formControlName="affectation"  class="form-control" placeholder="Affectation">
-              </div>
-              <div class="form-group">
-                <label class="form-control-label" >Occupant</label>
-                <input type="text" formControlName="occupant"  class="form-control" placeholder="Occupant">
               </div>
               <div class="form-group">
                 <label class="form-control-label" >Observation</label>

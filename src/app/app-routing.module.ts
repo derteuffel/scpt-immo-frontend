@@ -16,8 +16,8 @@ import { RepresentationLocaleContratComponent } from './body/representation/repr
 const routes: Routes = [
   { path: '', redirectTo: '/login', pathMatch: 'full' },
   { path: 'login', component: LoginComponent },
-  { path: 'admin/locaux', component: RepresentationsComponent, canActivate:[AuthenticationGuard] },
-  { path: 'admin/locaux/detail/:id', component: OccupationsComponent, canActivate:[AuthenticationGuard]},
+  { path: 'admin/locations', component: RepresentationsComponent, canActivate:[AuthenticationGuard] },
+  { path: 'admin/locations/detail/:id', component: OccupationsComponent, canActivate:[AuthenticationGuard]},
   { path: 'admin/occupation/contrats/:id', component: RepresentationLocaleContratComponent, canActivate:[AuthenticationGuard]},
   { path: 'admin/contrats', component: ContratsComponent, canActivate:[AuthenticationGuard]},
   { path: 'admin/contrats/detail/:id', component: ContratDetailComponent, canActivate:[AuthenticationGuard]},

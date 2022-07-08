@@ -4,6 +4,7 @@ import { FormControl, FormGroup } from '@angular/forms';
 import { Subscription } from 'rxjs';
 import { constant } from 'src/app/constant';
 import { LocaleService } from 'src/app/services/locale.service';
+import Swal from 'sweetalert2';
 
 @Component({
   selector: 'app-representations',
@@ -48,10 +49,7 @@ export class RepresentationsComponent implements OnInit {
       designation: new FormControl(''),
       denomination: new FormControl(''),
       reference: new FormControl(''),
-      spoiliateur: new FormControl(''),
-      occupant: new FormControl(''),
       observation: new FormControl(''),
-      affectation: new FormControl(''),
       miseEnService: new FormControl(''),
       montant: new FormControl(null),
       superficie: new FormControl(null),
@@ -85,10 +83,7 @@ export class RepresentationsComponent implements OnInit {
       designation: this.form.get('designation').value,
       denomination: this.form.get('denomination').value,
       reference: this.form.get('reference').value,
-      spoiliateur: this.form.get('spoiliateur').value,
-      occupant: this.form.get('occupant').value,
       observation: this.form.get('observation').value,
-      affectation: this.form.get('affectation').value,
       miseEnService: this.form.get('miseEnService').value,
       montant: this.form.get('montant').value,
       superficie: this.form.get('superficie').value,
@@ -98,10 +93,16 @@ export class RepresentationsComponent implements OnInit {
     console.log(formData);
     this.localeService.save(formData).subscribe(
       data => {
-        console.log(data);
-        this.loadList();
-        this.init();
-        this.clickButton('new-representation-close');
+        Swal.fire('Thank you...', 'You submitted succesfully!', 'success')
+        .then((result)=>{
+          if(result.isConfirmed){
+            this.loadList();
+            this.init();
+            this.clickButton('new-representation-close');
+          }
+        })
+       
+
       },
       error =>{
         console.log(error);
@@ -141,10 +142,7 @@ export class RepresentationsComponent implements OnInit {
       designation: item.designation,
       denomination: item.denomination,
       reference: item.reference,
-      spoiliateur: item.spoiliateur,
-      occupant: item.occupant,
       observation: item.observateur,
-      affectation: item.affectation,
       miseEnService: item.miseEnService,
       montant: item.montant,
       superficie: item.superficie,
@@ -186,10 +184,7 @@ export class RepresentationsComponent implements OnInit {
       designation: this.form.get('designation').value,
       denomination: this.form.get('denomination').value,
       reference: this.form.get('reference').value,
-      spoiliateur: this.form.get('spoiliateur').value,
-      occupant: this.form.get('occupant').value,
       observation: this.form.get('observation').value,
-      affectation: this.form.get('affectation').value,
       miseEnService: this.form.get('miseEnService').value,
       montant: this.form.get('montant').value,
       superficie: this.form.get('superficie').value,
@@ -240,6 +235,10 @@ export class RepresentationsComponent implements OnInit {
 
   private clickButton(buttonId: string): void {
     document.getElementById(buttonId)?.click();
+  }
+
+  alertWithSuccess(){
+    Swal.fire('Thank you...', 'You submitted succesfully!', 'success')
   }
 
 }

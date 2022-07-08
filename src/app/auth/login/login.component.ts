@@ -27,6 +27,14 @@ import { TokenStorageService } from '../token-storage.service';
 
   ngOnInit(): void {
 
+    if(this.authService.getUserToken != null){
+      if(this.authService.currentUserValue.role == Role.PAYMENT){
+        this.router.navigateByUrl("/admin/payments");
+      }else{
+        this.router.navigateByUrl("/admin/locations")
+      }
+    }
+
   }
   onSubmit() {
     console.log(this.form);
@@ -52,7 +60,7 @@ import { TokenStorageService } from '../token-storage.service';
           break;
         
         default: 
-          this.router.navigate(["/admin/locaux"]);
+          this.router.navigate(["/admin/locations"]);
       }
       console.log(this.role);
       }

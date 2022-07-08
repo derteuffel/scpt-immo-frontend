@@ -80,7 +80,7 @@
                             <span *ngIf="!item.secteurActivite">Secteur d'activite non defini</span>
                           </td>
                           <td>{{item?.occupation?.numeroOccupation}}</td>
-                          <td>{{item?.occupation.locale?.ville+' '+item.occupation?.locale?.adresse}}</td>
+                          <td>{{item?.occupation?.locale?.ville+' '+item?.occupation?.locale?.adresse}}</td>
                           <td>
                             <span *ngIf="item.contact">{{item.contact}}</span>
                             <span *ngIf="!item.contact">Pas de contact pour ce client</span> 
