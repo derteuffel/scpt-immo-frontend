@@ -89,7 +89,9 @@ export class ContratsComponent implements OnInit {
       dateSignature: new FormControl(null),
       dureeGaranti: new FormControl(null),
       occupation: new FormControl(null),
-      montant: new FormControl(null)
+      montant: new FormControl(null),
+      rccm: new FormControl(''),
+      idNumber: new FormControl('')
     });
   }
 
@@ -115,7 +117,9 @@ export class ContratsComponent implements OnInit {
       dateSignature: this.form.get('dateSignature').value,
       dureeGaranti: this.form.get('dureeGaranti').value,
       id: this.form.get('occupation').value,
-      montant: this.form.get('montant').value
+      montant: this.form.get('montant').value,
+      rccm: this.form.get('rccm').value,
+      idNumber: this.form.get('idNumber').value
     }
     if(this.form.get('occupation').value != null || this.form.get('occupation').value != ''){
     this.contratService.findAllByOccupationAndStatus(this.form.get('occupation').value,true).subscribe(
@@ -213,7 +217,9 @@ export class ContratsComponent implements OnInit {
       secteurActivite: item.secteurActivite,
       dateSignature: item.dateSignature,
       dureeGaranti: item.dureeGaranti,
-      locale: item.locale.designation,
+      occupation: item.locale.designation,
+      rccm: item.rccm,
+      idNumber: item.idNumber
     });
   }
 
@@ -248,9 +254,12 @@ export class ContratsComponent implements OnInit {
       contact: this.form.get('contact').value,
       secteurActivite: this.form.get('secteurActivite').value,
       dateSignature: this.form.get('dateSignature').value,
-      dureeGaranti: this.form.get('dureeGaranti').value
+      dureeGaranti: this.form.get('dureeGaranti').value,
+      rccm: this.form.get('rccm').value,
+      idNumber: this.form.get('idNumber').value
+
     }
-    this.contratService.update(formData, this.form.get('locale').value).subscribe(
+    this.contratService.update(formData, this.form.get('occupation').value).subscribe(
       data => {
         console.log(data);
         this.getAll();

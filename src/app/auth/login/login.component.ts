@@ -28,7 +28,7 @@ import { TokenStorageService } from '../token-storage.service';
   ngOnInit(): void {
 
     if(this.authService.getUserToken != null){
-      if(this.authService.currentUserValue.role == Role.PAYMENT){
+      if(this.authService.currentUserO.role == Role.PAYMENT){
         this.router.navigateByUrl("/admin/payments");
       }else{
         this.router.navigateByUrl("/admin/locations")

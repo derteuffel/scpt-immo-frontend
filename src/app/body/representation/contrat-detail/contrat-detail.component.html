@@ -8,9 +8,9 @@
                     <div class="col-lg-8 col-8">
                       <nav aria-label="breadcrumb" class="d-none d-md-inline-block ml-md-4">
                         <ol class="breadcrumb breadcrumb-links breadcrumb-dark">
-                          <li class="breadcrumb-item"><a href="admin/locaux"><i class="fas fa-home"></i></a></li>
-                          <li class="breadcrumb-item " ><a href="admin/locaux">Locaux</a></li>
-                          <li class="breadcrumb-item " ><a href="admin/locaux/detail/{{currentOccupation?.locale?.id}}">{{currentOccupation?.locale?.province+' '+currentOccupation?.locale?.ville}}</a></li>
+                          <li class="breadcrumb-item"><a href="admin/locations"><i class="fas fa-home"></i></a></li>
+                          <li class="breadcrumb-item " ><a href="admin/locations">Parcelles</a></li>
+                          <li class="breadcrumb-item " ><a href="admin/locations/detail/{{currentOccupation?.locale?.id}}">Local {{currentContrat?.occupation?.numeroOccupation}}</a></li>
                           <li class="breadcrumb-item active" aria-current="page"><a href="#">Contrat numero : {{currentContrat?.numContrat}}</a></li>
                         </ol>
                       </nav>
@@ -24,11 +24,14 @@
           <div class="col">
             <div class="card">
               <div class="card-header border-0">
-                <h3>Detail d'un contrat</h3>
-                <button type="button" class="btn btn-outline-default" href="#" type="button"  data-toggle="modal" data-target="#produceFactureModal">Produire facture &nbsp; <i class="fa fa-file"></i></button>
+                <h3>Detail du contrat {{currentContrat.numContrat}}</h3>
+                <input type="file" *ngIf="!currentContrat.contratFile" class="form-control" (change)="onChange($event)">
+                <button type="button" *ngIf="!currentContrat.contratFile" class="btn btn-outline-info" (click)="produceContract()" >Charger le contrat &nbsp; <i class="fa fa-file-export"></i></button>
+                
+                <button type="button" class="btn btn-outline-default" (click)="onProduce()">Produire facture &nbsp; <i class="fa fa-file"></i></button>
               </div>
               <!-- model add user -->
-<div  class="modal draggable fade bd-example-modal-lg" id="produceFactureModal" tabindex="-1" role="dialog"
+<!-- <div  class="modal draggable fade bd-example-modal-lg" id="produceFactureModal" tabindex="-1" role="dialog"
 aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
 <div class="modal-dialog" role="document">
   <div class="modal-content">
@@ -61,7 +64,7 @@ aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
   
 </div>
 </div>
-              <div class="card-body">
+          -->     <div class="card-body">
                 <table class="table table-bordered">
 
                       <tr>
@@ -105,7 +108,15 @@ aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
                         <th>Status</th>
                         <td *ngIf="currentContrat.status" class="alert alert-success">En cours</td>
                         <td *ngIf="!currentContrat.status" class="alert alert-warning">Terminer</td>
-                      </tr>                
+                      </tr>  
+                      <tr>
+                        <th>Document contrat</th>
+                        <td><a href="{{currentContrat.contratFile}}">Telecharger <i class="fa fa-download"></i></a></td>
+                      </tr>   
+                      <tr>
+                        <th>Factures</th>
+                        <td *ngFor="let item of currentContrat.billFiles"><a href="{{item}}">{{item}} <i class="fa fa-download"></i></a></td>
+                      </tr>              
 
                 </table>
               </div>
@@ -119,19 +130,23 @@ aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
                 <div class="card">
                   <!-- Card header -->
                   <div class="card-header border-0">
+                    <div class="mx-5 text-center">
+                      <h3><strong>Situation de paiement des factures </strong> </h3>
+                    </div>
+                    <br>
                       <div class="row">
-                          <div class="col-3 alert alert-secondary">
-                            <h3 class="mb-0"><a type="button" class="btn btn-outline-info" (click)="getAllMensualites()">Tous les paiements({{alls.length}})</a></h3>
+                          <div class="col-xl-3 col-md-6 ">
+                            <h3 class="mb-0"><a type="button" class="btn btn-outline-info" (click)="getAllMensualites()"> <i class="fa fa-list"></i>&nbsp; Les paiements ({{alls.length}})</a></h3>
                           </div>
-                          <div class="col-3 alert alert-secondary mr-1">
-                            <h3 class="mb-0"><a type="button" class="btn btn-outline-success" (click)="getAllTrueMensualites()">Paiements effectuer ({{effectues.length}})</a> </h3>
+                          <div class="col-xl-3 col-md-6  mr-1">
+                            <h3 class="mb-0"><a type="button" class="btn btn-outline-success" (click)="getAllTrueMensualites()"><i class="fa fa-list"></i>&nbsp;Effectuer ({{effectues.length}})</a> </h3>
                           </div>
-                          <div class="col-3 alert alert-secondary mr-1">
-                            <h3 class="mb-0 "><a type="button" class="btn btn-outline-warning" (click)="getAllFalseMensualites()">Paiements non effectuer ({{nonEffectues.length}})</a></h3>
+                          <div class="col-xl-3 col-md-6 mr-1">
+                            <h3 class="mb-0 "><a type="button" class="btn btn-outline-warning" (click)="getAllFalseMensualites()"><i class="fa fa-list"></i>&nbsp;Non effectuer ({{nonEffectues.length}})</a></h3>
                           </div>
                     
-                          <div class="col-2">
-                            <a href="#" type="button"  data-toggle="modal" data-target="#addPaymentModal" class="btn btn-md btn-outline-primary">Effectuer un paiement</a>
+                          <div class="col-xl-2 col-md-6">
+                            <a href="#" type="button"  data-toggle="modal" data-target="#addPaymentModal" class="btn btn-md btn-outline-primary"><i class="fa fa-money"></i>&nbsp;Payer?</a>
                           </div>
                         </div>
                   </div>
@@ -145,13 +160,14 @@ aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
                     <table class="table align-items-center table-flush">
                       <thead class="thead-light">
                         <tr>
-                            <th scope="col" class="sort" data-sort="numContrat">Paiement Numero</th>
-                            <th scope="col" class="sort" data-sort="numContrat">Numero de bordereau</th>
-                          <th scope="col" class="sort" data-sort="nameClient">Nom du client</th>
-                          <th scope="col" class="sort" data-sort="typeClient">Mois comptant</th>
+                            <th scope="col" class="sort" data-sort="numContrat">Numero</th>
+                            <th scope="col" class="sort" data-sort="numContrat">Bordereau</th>
+                          <th scope="col" class="sort" data-sort="nameClient">Client</th>
+                          <th scope="col" class="sort" data-sort="typeClient">Mois</th>
                           <th scope="col" class="sort" data-sort="typeClient">Date  paiement</th>
                           <th scope="col" class="sort" data-sort="secteurActivite">Montant</th>
                           <th scope="col" class="sort" data-sort="secteurActivite">Status</th>
+                          <th scope="col" class="sort" data-sort="secteurActivite">Quitance</th>
                           <th scope="col" class="sort" data-sort="secteurActivite">Actions</th>
 
                         </tr>
@@ -170,12 +186,15 @@ aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
                             <td *ngIf="!item.status" class="alert alert-warning">
                                 Non Effectuer
                               </td>
+                          <td *ngIf="item.mensualiteFile"><a href="{{item.mensualiteFile}}">Voir... <i class="fa fa-file"></i></a></td>
+                          <td *ngIf="!item.mensualiteFile">{{'Aucune quitance associer'}}</td>
                           <td class="text-right">
                             <div class="dropdown">
                               <a class="btn btn-sm btn-icon-only text-light" href="#" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                                 <i class="fas fa-ellipsis-v"></i>
                               </a>
                               <div class="dropdown-menu dropdown-menu-right dropdown-menu-arrow">
+                                <a class="dropdown-item" type="button" *ngIf="!item.mensualiteFile" (click)="addQuitance(item)">Charger quitance</a>
                                 <a class="dropdown-item" type="button" *ngIf="item.status"  (click)="editItem(item)">Edit</a>
                               </div>
                             </div>
@@ -199,6 +218,9 @@ aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
     </div>
 </div>
 <button [hidden]="true" type="button" id="openEdit" data-toggle="modal" data-target="#editPaymentModal">
+</button>
+
+<button [hidden]="true" type="button" id="openAddQuitance" data-toggle="modal" data-target="#addQuitanceModal">
 </button>
 
 
@@ -228,6 +250,10 @@ aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
           <div class="form-group">
             <label class="form-control-label" >Mois et Annee</label>
             <input type="date" formControlName="date" class="form-control" placeholder="Choisir un moi et une date">
+          </div>
+          <div class="form-group">
+            <label class="form-control-label" >Facture</label>
+            <input type="file"  class="form-control" (change)="selectFile($event)">
           </div>
       </div>
     </div>
@@ -272,6 +298,36 @@ aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
       </div>
     <div class="modal-footer">
       <button type="button" class="btn btn-secondary" data-dismiss="modal" id="edit-contrat-close">Fermer</button>
+      <button type="submit"  class="btn btn-primary">Enregistrer</button>
+    </div>
+    </form> 
+  </div>
+  
+</div>
+</div>
+
+<!-- model add user -->
+<div  class="modal draggable fade bd-example-modal-lg" id="addQuitanceModal" tabindex="-1" role="dialog"
+aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
+<div class="modal-dialog" role="document">
+  <div class="modal-content">
+    <form (submit)="onSubmitQuitance(selectedItem.id)" >
+    <div class="modal-header">
+      <h5 class="modal-title text-center">Ajouter une quitance a un paiement</h5>
+      <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+        <span aria-hidden="true">&times;</span>
+      </button>
+    </div>
+    <div class="modal-body">
+        <div>
+            <div class="form-group">
+              <label class="form-control-label" >Charger une quitance</label>
+              <input type="file"  class="form-control" (change)="uploadQuitance($event)">
+            </div>
+        </div>
+      </div>
+    <div class="modal-footer">
+      <button type="button" class="btn btn-secondary" data-dismiss="modal" id="add-quitance-close">Fermer</button>
       <button type="submit"  class="btn btn-primary">Enregistrer</button>
     </div>
     </form> 

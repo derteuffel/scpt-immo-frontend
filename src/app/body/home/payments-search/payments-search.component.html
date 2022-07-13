@@ -6,10 +6,9 @@
             <div class="header-body">
                 <div class="row align-items-center py-4">
                     <div class="col-lg-8 col-8">
-                      <h6 class="h2 text-primary d-inline-block mb-0">Accueil</h6>
                       <nav aria-label="breadcrumb" class="d-none d-md-inline-block ml-md-4">
                         <ol class="breadcrumb breadcrumb-links breadcrumb-dark">
-                          <li class="breadcrumb-item"><a href="admin/locaux"><i class="fas fa-home"></i></a></li>
+                          <li class="breadcrumb-item"><a href="admin/locations"><i class="fas fa-home"></i></a></li>
                           <li class="breadcrumb-item " ><a href="admin/payments">Paiements</a></li>
                           <li class="breadcrumb-item active" aria-current="page"><a href="#">Recherche de paiements</a></li>
                         </ol>
@@ -26,10 +25,10 @@
                   <!-- Card header -->
                   <div class="card-header border-0">
                     <div class="row">
-                        <div class="col-5 alert alert-secondary mr-1">
+                        <div class="col-xl-5 col-md-6 mr-1">
                           <h3 class="mb-0"><a type="button" class="btn btn-outline-primary" (click)="generateRepport()">Produire le rapport mensuel <i class="fa fa-file-excel"></i></a></h3>
                         </div>
-                        <div class="col-5 alert alert-secondary mr-1">
+                        <div class="col-xl-5 col-md-6  mr-1">
                           <h3 class="mb-0"><a type="button" *ngIf="isRepportProduce"  class="btn btn-outline-info" (click)="downloadRepport()">Telecharger le rapport mensuel <i class="fa fa-print"></i></a></h3>
                         </div>
                       </div>
@@ -73,9 +72,9 @@
                     <table *ngIf="mensualites.length > 0"  class="table align-items-center table-flush">
                         <thead class="thead-light">
                           <tr>
-                            <th scope="col" class="sort" data-sort="numContrat">Code Paiement</th>
+                            <th scope="col" class="sort" data-sort="numContrat">Code</th>
                             <th scope="col" class="sort" data-sort="action">Status</th>
-                            <th scope="col" class="sort" data-sort="nameClient">Numero de bordeau banque</th>
+                            <th scope="col" class="sort" data-sort="nameClient">Bordeau banque</th>
                             <th scope="col" class="sort" data-sort="typeClient">Mois</th>
                             <th scope="col" class="sort" data-sort="secteurActivite">Date de paiement</th>
                             <th scope="col" class="sort" data-sort="numLocale">Montant</th>

@@ -6,12 +6,11 @@
             <div class="header-body">
                 <div class="row align-items-center py-4">
                     <div class="col-lg-8 col-8">
-                      <h6 class="h2 text-primary d-inline-block mb-0">Accueil</h6>
                       <nav aria-label="breadcrumb" class="d-none d-md-inline-block ml-md-4">
                         <ol class="breadcrumb breadcrumb-links breadcrumb-dark">
-                          <li class="breadcrumb-item"><a href="admin/locaux"><i class="fas fa-home"></i></a></li>
-                          <li class="breadcrumb-item " ><a href="admin/locaux">Locaux</a></li>
-                          <li class="breadcrumb-item " ><a href="admin/locaux/detail/{{currentLocale?.id}}">{{currentLocale?.province+' '+currentLocale?.ville}}</a></li>
+                          <li class="breadcrumb-item"><a href="admin/locations"><i class="fas fa-home"></i></a></li>
+                          <li class="breadcrumb-item " ><a href="admin/locations">Parcelles</a></li>
+                          <li class="breadcrumb-item " ><a href="admin/locations/detail/{{currentLocale?.id}}">{{currentLocale?.province+' '+currentLocale?.ville}}</a></li>
                           <li class="breadcrumb-item active" aria-current="page"><a href="#">{{currentLocale?.designation}}</a></li>
                         </ol>
                       </nav>
@@ -25,14 +24,13 @@
           <div class="col">
             <div class="card">
               <div class="card-header border-0">
-                <h3>Detail d'un local</h3>
+                <h2>Detail d'une parcelle</h2>
               </div>
               <div class="card-body">
                   <div class="row">
                       <div class="col-md-6">
                           <div class="table-responsive">
                             <table class="table table-bordered align-items-center table-flush">
-                                <tbody>
                                     <tr>
                                         <th>Province</th>
                                         <td>{{currentLocale.province}}</td>
@@ -62,25 +60,15 @@
                                         <th>Reference</th>
                                         <td>{{currentLocale.reference}}</td>
                                     </tr>
-                                    <tr>
-                                        <th>Occupant</th>
-                                        <td>{{currentLocale.occupant}}</td>
-                                    </tr>
-                                </tbody>
                             </table>
                             </div>
                       </div>
                       <div class="col-md-6">
                             <div class="table-responsive">
                                 <table class="table table-bordered align-items-center table-flush ">
-                                    <tbody>
-                                        <tr>
-                                            <th>Affectation</th>
-                                            <td>{{currentLocale.affectation}}</td>
-                                        </tr>
                                         <tr>
                                             <th>Superficie</th>
-                                            <td>{{currentLocale.superficie}}</td>
+                                            <td>{{currentLocale.superficie+' m2'}}</td>
                                         </tr>
                                         <tr>
                                             <th>Montant</th>
@@ -94,11 +82,6 @@
                                             <th>Montant en franc congolais</th>
                                             <td>{{currentLocale.montantFranc+' FC'}}</td>
                                         </tr>
-                                        
-                                        <tr>
-                                            <th>Spoiliateur<th>
-                                            <td>{{currentLocale.spoiliateur}}</td>
-                                        </tr>
                                         <tr>
                                             <th>Observation</th>
                                             <td>{{currentLocale.observation}}</td>
@@ -106,9 +89,8 @@
                                         
                                         <tr>
                                             <th>Date de mise en service<th>
-                                            <td>{{currentLocale.miseEnService}}</td>
+                                            <td>{{currentLocale?.miseEnService}}</td>
                                         </tr>  
-                                    </tbody>
                                 </table>
                             </div>
                         
@@ -126,19 +108,22 @@
                 <div class="card">
                   <!-- Card header -->
                   <div class="card-header border-0">
+                    <div class="mx-5 text-center">
+                      <h3><strong>Situation d'occupation des locaux</strong> </h3>
+                    </div>
                       <div class="row">
-                          <div class="col-3 alert alert-secondary">
-                            <h3 class="mb-0"><a type="button" class="btn btn-outline-info" (click)="getOccupationByLocale()">Toutes les occupations({{alls.length}})</a></h3>
+                          <div class="col-xl-3 col-md-6 alert alert-secondary">
+                            <h3 class="mb-0"><a type="button" class="btn btn-outline-info" (click)="getOccupationByLocale()"><i class="fa fa-list"></i>&nbsp;Les locaux({{alls.length}})</a></h3>
                           </div>
-                          <div class="col-3 alert alert-secondary mr-1">
-                            <h3 class="mb-0"><a type="button" class="btn btn-outline-warning" (click)="getOccupationLibre()">Occupation Libre ({{libres.length}})</a> </h3>
+                          <div class="col-xl-3 col-md-6 alert alert-secondary mr-1">
+                            <h3 class="mb-0"><a type="button" class="btn btn-outline-warning" (click)="getOccupationLibre()"><i class="fa fa-list"></i>&nbsp;Libres ({{libres.length}})</a> </h3>
                           </div>
-                          <div class="col-3 alert alert-secondary mr-1">
-                            <h3 class="mb-0 "><a type="button" class="btn btn-outline-success" (click)="getOccupationOcuppe()">Occupation Occupe ({{occupes.length}})</a></h3>
+                          <div class="col-xl-3 col-md-6 alert alert-secondary mr-1">
+                            <h3 class="mb-0 "><a type="button" class="btn btn-outline-success" (click)="getOccupationOcuppe()"> <i class="fa fa-list"></i>&nbsp;Occupes ({{occupes.length}})</a></h3>
                           </div>
                     
-                          <div class="col-2 alert-secondary">
-                            <a href="#" type="button"  data-toggle="modal" data-target="#addOccupationModal" class="btn  btn-outline-primary">Ajouter une Occupation</a>
+                          <div class="col-xl-2 col-md-6 alert alert-secondary">
+                            <a href="#" type="button"  data-toggle="modal" data-target="#addOccupationModal" class="btn  btn-outline-primary"> <i class="fa fa-plus"></i>&nbsp; Local</a>
                           </div>
                         </div>
                   </div>
@@ -152,7 +137,7 @@
                     <table class="table align-items-center table-flush">
                       <thead class="thead-light">
                         <tr>
-                          <th scope="col" class="sort" data-sort="numContrat">Numero Occupation</th>
+                          <th scope="col" class="sort" data-sort="numContrat">Local numero</th>
                           <th scope="col" class="sort" data-sort="nameClient">Superficie</th>
                           <th scope="col" class="sort" data-sort="typeClient">Montant</th>
                           <th scope="col" class="sort" data-sort="secteurActivite">Status</th>
@@ -198,7 +183,7 @@
         <app-footer></app-footer>
     </div>
 </div>
-<button [hidden]="true" type="button" id="openEdit" data-toggle="modal" data-target="#editContratModal">
+<button [hidden]="true" type="button" id="openEdit" data-toggle="modal" data-target="#editOccupationModal">
 </button>
 
 
@@ -211,7 +196,7 @@ aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
   <div class="modal-content">
     <form (submit)="onSubmit()" [formGroup]="form">
     <div class="modal-header">
-      <h5 class="modal-title text-center">Nouvelle Occupation</h5>
+      <h5 class="modal-title text-center">Nouveau local</h5>
       <button type="button" class="close" data-dismiss="modal" aria-label="Close">
         <span aria-hidden="true">&times;</span>
       </button>
@@ -222,16 +207,16 @@ aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
             <h6 class="heading-small text-muted mb-4">Formulaire</h6>
             <div class="pl-lg-4">
                   <div class="form-group">
-                    <label class="form-control-label" >Numero de l'occupation</label>
-                    <input type="text" formControlName="numeroOccupation"  class="form-control" placeholder="Numero de l'occupation">
+                    <label class="form-control-label" >Numero du local</label>
+                    <input type="text" formControlName="numeroOccupation"  class="form-control" placeholder="Numero du local">
                   </div>
                   <div class="form-group">
                     <label class="form-control-label" >Superficie</label>
-                    <input type="number" formControlName="supperficieOccupation"  class="form-control" placeholder="SUperficie de l'occupation">
+                    <input type="number" formControlName="supperficieOccupation"  class="form-control" placeholder="Superficie du local">
                   </div>
                   <div class="form-group">
                     <label class="form-control-label" >Montant locatif</label>
-                    <input type="number" formControlName="montantOccupation"  class="form-control" placeholder="Montant de l'occupation">
+                    <input type="number" formControlName="montantOccupation"  class="form-control" placeholder="Montant locatif du local">
                   </div>
             </div>
               
@@ -249,13 +234,13 @@ aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
 </div>
 
 <!-- model add user -->
-<div  class="modal draggable fade bd-example-modal-lg" id="editContratModal" tabindex="-1" role="dialog"
+<div  class="modal draggable fade bd-example-modal-lg" id="editOccupationModal" tabindex="-1" role="dialog"
 aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
 <div class="modal-dialog" role="document">
   <div class="modal-content">
     <form (submit)="onEditSubmit(selectedItem.id)" [formGroup]="form">
     <div class="modal-header">
-      <h5 class="modal-title text-center">Modification Contrat</h5>
+      <h5 class="modal-title text-center">Modification local</h5>
       <button type="button" class="close" data-dismiss="modal" aria-label="Close">
         <span aria-hidden="true">&times;</span>
       </button>
@@ -267,16 +252,16 @@ aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
             <div class="pl-lg-4">
               
                 <div class="form-group">
-                    <label class="form-control-label" >Numero de l'occupation</label>
-                    <input type="text" formControlName="numeroOccupation"  class="form-control" placeholder="Numero de l'occupation">
+                    <label class="form-control-label" >Numero du local</label>
+                    <input type="text" formControlName="numeroOccupation"  class="form-control" placeholder="Numero du local">
                   </div>
                   <div class="form-group">
                     <label class="form-control-label" >Superficie</label>
-                    <input type="number" formControlName="supperficieOccupation"  class="form-control" placeholder="SUperficie de l'occupation">
+                    <input type="number" formControlName="supperficieOccupation"  class="form-control" placeholder="Superficie du local">
                   </div>
                   <div class="form-group">
                     <label class="form-control-label" >Montant locatif</label>
-                    <input type="number" formControlName="montantOccupation"  class="form-control" placeholder="Montant de l'occupation">
+                    <input type="number" formControlName="montantOccupation"  class="form-control" placeholder="Montant locatif du local">
                   </div>
                 
             </div>

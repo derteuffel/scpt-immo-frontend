@@ -7,6 +7,7 @@ import { ContratService } from 'src/app/services/contrat.service';
 import { LocaleService } from 'src/app/services/locale.service';
 import { MensualiteService } from 'src/app/services/mensualite.service';
 import { OccupationService } from 'src/app/services/occupation.service';
+import Swal from 'sweetalert2';
 
 @Component({
   selector: 'app-representation-locale-contrat',
@@ -109,7 +110,9 @@ export class RepresentationLocaleContratComponent implements OnInit {
       contact: new FormControl(''),
       secteurActivite: new FormControl(''),
       dateSignature: new FormControl(null),
-      dureeGaranti: new FormControl(null)
+      dureeGaranti: new FormControl(null),
+      rccm: new FormControl(''),
+      idNumber: new FormControl('')
     });
   }
 
@@ -122,9 +125,12 @@ export class RepresentationLocaleContratComponent implements OnInit {
       secteurActivite: this.form.get('secteurActivite').value,
       dateSignature: this.form.get('dateSignature').value,
       dureeGaranti: this.form.get('dureeGaranti').value,
+      rccm: this.form.get('rccm').value,
+      idNumber: this.form.get('idNumber').value,
       id: this.currentOccupation.id,
       montant: this.currentOccupation.montantOccupation
     }
+
     this.contratService.findAllByOccupationAndStatus(this.currentOccupation.id,true).subscribe(
       data => {
         this.existedContrat = data;
@@ -137,9 +143,12 @@ export class RepresentationLocaleContratComponent implements OnInit {
           this.contratService.save(formData).subscribe(
             data => {
               console.log(data);
+              Swal.fire('Thank you...', 'You submitted succesfully!', 'success').then((res)=>{
+                if(res.isConfirmed){
               this.getOccupation(this.currentOccupation.id);
               this.clickButton('new-contrat-close');
               this.init();
+                }});
             },
             error =>{
               console.log(error);
@@ -159,6 +168,8 @@ export class RepresentationLocaleContratComponent implements OnInit {
         data => {
           console.log(data);
           this.getContratByOccupation();
+          this.getContratEncour();
+          this.getContratTermine();
         },
         error =>{
           console.log(error);
@@ -201,7 +212,9 @@ export class RepresentationLocaleContratComponent implements OnInit {
       contact: item.contact,
       secteurActivite: item.secteurActivite,
       dateSignature: item.dateSignature,
-      dureeGaranti: item.dureeGaranti
+      dureeGaranti: item.dureeGaranti,
+      rccm: item.rccm,
+      idNumber: item.idNumber
     });
   }
 
@@ -236,19 +249,35 @@ export class RepresentationLocaleContratComponent implements OnInit {
       contact: this.form.get('contact').value,
       secteurActivite: this.form.get('secteurActivite').value,
       dateSignature: this.form.get('dateSignature').value,
-      dureeGaranti: this.form.get('dureeGaranti').value
+      dureeGaranti: this.form.get('dureeGaranti').value,
+      rccm: this.form.get('rccm').value,
+      idNumber: this.form.get('idNumber').value,
     }
+    Swal.fire({
+      title: 'Are you sure you want to save changes?',
+      text: 'The change will take effect after submit button pressed',
+      icon: 'warning',
+      showCancelButton:true,
+      showConfirmButton: true,
+      confirmButtonText: 'Yes',
+      cancelButtonText: 'No'
+    }).then((result)=>{
+      if(result.isConfirmed){
     this.contratService.update(formData, id).subscribe(
       data => {
         console.log(data);
+        Swal.fire('Thank you...', 'You submitted succesfully!', 'success').then((res)=>{
+          if(res.isConfirmed){
         this.init();
         this.getOccupation(this.currentOccupation.id);
         this.clickButton('edit-contrat-close');
+          }});
       },
       error =>{
         console.log(error);
       }
     );
+      }});
   }
 
   deleteItem(id:any){
@@ -270,6 +299,7 @@ export class RepresentationLocaleContratComponent implements OnInit {
 
    clickButton(buttonId: string): void {
     document.getElementById(buttonId)?.click();
+    this.init();
   }
 
 }

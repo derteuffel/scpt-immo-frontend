@@ -8,7 +8,7 @@
                     <div class="col-lg-6 col-7">
                       <nav aria-label="breadcrumb" class="d-none d-md-inline-block ml-md-4">
                         <ol class="breadcrumb breadcrumb-links breadcrumb-dark">
-                          <li class="breadcrumb-item"><a href="admin/locaux"><i class="fas fa-home"></i></a></li>
+                          <li class="breadcrumb-item"><a href="admin/locations"><i class="fas fa-home"></i></a></li>
                           <li class="breadcrumb-item active" aria-current="page"><a href="admin/users">Utilisateurs</a></li>
                         </ol>
                       </nav>
@@ -24,12 +24,12 @@
                   <!-- Card header -->
                   <div class="card-header border-0">
                       <div class="row">
-                          <div class="col-6 alert alert-secondary">
-                            <h3 class="mb-0"><a type="button" class="btn btn-outline-primary" (click)="loadList()"><i class="fa fa-list"></i>&nbsp; Tout les utilisateur ({{lists.length}})</a></h3>
+                          <div class="col-xl-6 col-md-6">
+                            <h3 class="mb-0"><a type="button" class="btn btn-outline-info" (click)="loadList()"><i class="fa fa-list"></i>&nbsp; Utilisateurs ({{lists.length}})</a></h3>
                           </div>
                           
-                          <div class="col-6 alert alert-secondary">
-                            <a href="#" type="button"  data-toggle="modal" data-target="#addUserModal" class="btn btn-md btn-outline-primary">Ajouter un utilisateur&nbsp;<i class="fa fa-plus"></i></a>
+                          <div class="col-xl-6 col-md-6">
+                            <a href="#" type="button"  data-toggle="modal" data-target="#addUserModal" class="btn btn-outline-primary"> Utilisateur&nbsp;<i class="fa fa-plus"></i></a>
                           </div>
                         </div>
                   </div>

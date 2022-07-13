@@ -6,12 +6,11 @@
             <div class="header-body">
                 <div class="row align-items-center py-4">
                     <div class="col-lg-8 col-8">
-                      <h6 class="h2 text-primary d-inline-block mb-0">Accueil</h6>
                       <nav aria-label="breadcrumb" class="d-none d-md-inline-block ml-md-4">
                         <ol class="breadcrumb breadcrumb-links breadcrumb-dark">
-                          <li class="breadcrumb-item"><a href="admin/locaux"><i class="fas fa-home"></i></a></li>
+                          <li class="breadcrumb-item"><a href="admin/locations"><i class="fas fa-home"></i></a></li>
                           <li class="breadcrumb-item " ><a href="admin/contrats">Contrats</a></li>
-                          <li class="breadcrumb-item active" aria-current="page"><a href="#">Gestion de tous les contrats</a></li>
+                          <li class="breadcrumb-item active" aria-current="page"><a href="#">Gestion des contrats</a></li>
                         </ol>
                       </nav>
                     </div>
@@ -26,18 +25,18 @@
                   <!-- Card header -->
                   <div class="card-header border-0">
                       <div class="row">
-                          <div class="col-3 alert alert-secondary mr-1">
-                            <h3 class="mb-0"><a type="button" class="btn btn-outline-info" (click)="getAll()">Tous les contrats({{lists.length}})</a></h3>
+                          <div class="col-xl-3 col-md-6  mr-1">
+                            <h3 class="mb-0"><a type="button" class="btn btn-outline-info" (click)="getAll()"><i class="fa fa-list"></i>&nbsp; Contrats ({{lists.length}})</a></h3>
                           </div>
-                          <div class="col-3 alert alert-secondary mr-1">
-                            <h3 class="mb-0"><a type="button" class="btn btn-outline-warning" (click)="getContratTermine()">Contrats termines ({{termines.length}})</a> </h3>
+                          <div class="col-xl-3 col-md-6  mr-1">
+                            <h3 class="mb-0"><a type="button" class="btn btn-outline-warning" (click)="getContratTermine()"><i class="fa fa-list"></i>&nbsp;Termines ({{termines.length}})</a> </h3>
                           </div>
-                          <div class="col-3 alert alert-secondary mr-1">
-                            <h3 class="mb-0 "><a type="button" class="btn btn-outline-success" (click)="getContratEncour()">Contrat encour ({{encours.length}})</a></h3>
+                          <div class="col-xl-3 col-md-6  mr-1">
+                            <h3 class="mb-0 "><a type="button" class="btn btn-outline-success" (click)="getContratEncour()"><i class="fa fa-list"></i>&nbsp;Encours ({{encours.length}})</a></h3>
                           </div>
                     
-                          <div class="col-2 alert alert-secondary">
-                            <a href="#" type="button" class="btn btn-outline-primary" data-toggle="modal" data-target="#addContratModal" class="btn btn-sm btn-primary">Ajouter un contrat</a>
+                          <div class="col-xl-2 col-md-6 ">
+                            <a href="#" type="button" class="btn btn-outline-primary" data-toggle="modal" data-target="#addContratModal" > <i class="fa fa-plus"></i> Contrat</a>
                           </div>
                         </div>
                   </div>
@@ -61,12 +60,12 @@
                     <table class="table align-items-center table-flush">
                       <thead class="thead-light">
                         <tr>
-                          <th scope="col" class="sort" data-sort="numContrat">Contrat Numero</th>
+                          <th scope="col" class="sort" data-sort="numContrat">Numero</th>
                           <th scope="col" class="sort" data-sort="numContrat">Status</th>
-                          <th scope="col" class="sort" data-sort="nameClient">Nom du client</th>
-                          <th scope="col" class="sort" data-sort="typeClient">Type de client</th>
-                          <th scope="col" class="sort" data-sort="secteurActivite">Secteur d'activite</th>
-                          <th scope="col" class="sort" data-sort="numLocale">Designation du local</th>
+                          <th scope="col" class="sort" data-sort="nameClient">Client</th>
+                          <th scope="col" class="sort" data-sort="typeClient">Type client</th>
+                          <th scope="col" class="sort" data-sort="secteurActivite">Sctr d'activite</th>
+                          <th scope="col" class="sort" data-sort="numLocale">Nro du local</th>
                           <th scope="col" class="sort" data-sort="representation">Ville</th>
                           <th scope="col" class="sort" data-sort="contact">Contact</th>
                           <th scope="col">Actions</th>
@@ -108,10 +107,10 @@
                                 <i class="fas fa-ellipsis-v"></i>
                               </a>
                               <div class="dropdown-menu dropdown-menu-right dropdown-menu-arrow">
-                                <a class="dropdown-item" type="button"  href="admin/contrats/detail/{{item.id}}">Detail</a>
-                                <a class="dropdown-item" type="button"  (click)="detailMensualite(item)">Voir les mensualites</a>
+                                <a class="dropdown-item" type="button"  href="admin/contrats/detail/{{item.id}}">Details</a>
+                                <a class="dropdown-item" type="button"  (click)="detailMensualite(item)">Voir mensualites</a>
                                 <a class="dropdown-item" type="button" *ngIf="item.status"  (click)="editItem(item)">Edit</a>
-                                <a class="dropdown-item" type="button" *ngIf="item.status"  (click)="cancelItem(item)">Terminer un contrat</a>
+                                <a class="dropdown-item" type="button" *ngIf="item.status"  (click)="cancelItem(item)">Terminer contrat</a>
                                 <a class="dropdown-item" type="button" *ngIf="item.status"  (click)="deleteItem(item.id)">Supprimer</a>
                               </div>
                             </div>
@@ -190,6 +189,14 @@ aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
                         <option *ngFor="let item of types" value="{{item}}">{{item}}</option>
                     </select>
                   </div>
+                  <div class="form-group">
+                    <label class="form-control-label" >ID Number</label>
+                    <input type="text" formControlName="idNumber"  class="form-control" placeholder="Numero d'identite">
+                  </div>
+                  <div class="form-group">
+                    <label class="form-control-label" >RCCM</label>
+                    <input type="text" formControlName="rccm"  class="form-control" placeholder="RCCM">
+                  </div>
 
                   <div class="form-group">
                     <label class="form-control-label" >Secteur d'activite</label>
@@ -198,7 +205,7 @@ aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
                     </select>
                   </div>
                   <div class="form-group">
-                    <label class="form-control-label" >Occupation</label>
+                    <label class="form-control-label" >Local</label>
                     <select formControlName="occupation"  class="form-control" >
                         <option value="">--Espace ouvert--</option>
                         <option *ngFor="let item of occupations" value="{{item.id}}">{{item?.numeroOccupation+', '+item?.locale?.ville+', '+item?.locale?.adresse}}</option>
@@ -264,6 +271,14 @@ aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
                         <option *ngFor="let item of types" value="{{item}}">{{item}}</option>
                     </select>
                   </div>
+                  <div class="form-group">
+                    <label class="form-control-label" >ID Number</label>
+                    <input type="text" formControlName="idNumber"  class="form-control" placeholder="Numero d'identite">
+                  </div>
+                  <div class="form-group">
+                    <label class="form-control-label" >RCCM</label>
+                    <input type="text" formControlName="rccm"  class="form-control" placeholder="RCCM">
+                  </div>
 
                   <div class="form-group">
                     <label class="form-control-label" >Secteur d'activite</label>
@@ -272,7 +287,7 @@ aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
                     </select>
                   </div>
                   <div class="form-group">
-                    <label class="form-control-label" >Occupation</label>
+                    <label class="form-control-label" >Local</label>
                     <select formControlName="occupation"  class="form-control" >
                         <option *ngFor="let item of occupations" value="{{item.id}}">{{item.numeroOccupation+', '+item?.locale?.ville+', '+item?.locale?.adresse}}</option>
                     </select>
@@ -310,8 +325,8 @@ aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
         <table class="table align-items-center table-flush">
           <thead class="thead-light">
             <tr>
-                <th scope="col" class="sort" data-sort="numContrat">Mensualite Numero</th>
-              <th scope="col" class="sort" data-sort="nameClient">Nom du client</th>
+                <th scope="col" class="sort" data-sort="numContrat">Numero</th>
+              <th scope="col" class="sort" data-sort="nameClient">Client</th>
               <th scope="col" class="sort" data-sort="typeClient">Date  paiement</th>
               <th scope="col" class="sort" data-sort="secteurActivite">Montant</th>
             </tr>

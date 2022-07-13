@@ -6,6 +6,7 @@ import { Subscription } from 'rxjs';
 import { LocaleService } from 'src/app/services/locale.service';
 import { MensualiteService } from 'src/app/services/mensualite.service';
 import { OccupationService } from 'src/app/services/occupation.service';
+import Swal from 'sweetalert2';
 
 @Component({
   selector: 'app-occupations',
@@ -107,12 +108,17 @@ export class OccupationsComponent implements OnInit {
       montantOccupation: this.form.get('montantOccupation').value,
     }
   
+   
    this.occupationService.save(formData, this.currentLocale.id).subscribe(
             data => {
               console.log(data);
+              Swal.fire('Thank you...', 'You submitted succesfully!', 'success').then((res)=>{
+              if(res.isConfirmed){
               this.getlocale(this.currentLocale.id);
               this.clickButton('new-occupation-close');
               this.init();
+            }
+          })
             },
             error =>{
               console.log(error);
@@ -164,16 +170,32 @@ export class OccupationsComponent implements OnInit {
       supperficieOccupation: this.form.get('supperficieOccupation').value,
       montantOccupation: this.form.get('montantOccupation').value,
     }
+
+    Swal.fire({
+      title: 'Are you sure you want to save changes?',
+      text: 'The change will take effect after submit button pressed',
+      icon: 'warning',
+      showCancelButton:true,
+      showConfirmButton: true,
+      confirmButtonText: 'Yes',
+      cancelButtonText: 'No'
+    }).then((result)=>{
+      if(result.isConfirmed){
     this.occupationService.update(formData, id).subscribe(
       data => {
         console.log(data);
+        Swal.fire('Thank you...', 'You submitted succesfully!', 'success').then((res)=>{
+          if(res.isConfirmed){
         this.getlocale(this.currentLocale.id);
         this.clickButton('edit-occupation-close');
+          }});
       },
       error =>{
         console.log(error);
       }
     );
+      }
+    });
   }
 
   deleteItem(id:any){
@@ -195,6 +217,7 @@ export class OccupationsComponent implements OnInit {
 
    clickButton(buttonId: string): void {
     document.getElementById(buttonId)?.click();
+    this.init();
   }
 
 }

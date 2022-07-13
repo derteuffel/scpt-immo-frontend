@@ -192,17 +192,37 @@ export class RepresentationsComponent implements OnInit {
     };
 
     console.log(formData);
-    this.localeService.update(formData, id).subscribe(
-      data => {
-        console.log(data);
-        this.loadList();
-        this.init();
-        this.clickButton('edit-representation-close');
-      },
-      error =>{
-        console.log(error);
+
+    Swal.fire({
+      title: 'Are you sure you want to save changes?',
+      text: 'The change will take effect after submit button pressed',
+      icon: 'warning',
+      showCancelButton:true,
+      showConfirmButton: true,
+      confirmButtonText: 'Yes',
+      cancelButtonText: 'No'
+    }).then((result)=>{
+      if(result.isConfirmed){
+        this.localeService.update(formData, id).subscribe(
+          data => {
+            console.log(data);
+            Swal.fire('Thank you...', 'You submitted succesfully!', 'success').then((res)=>{
+              if(res.isConfirmed){
+                this.loadList();
+                this.init();
+                this.clickButton('edit-representation-close');
+              }
+            })
+         
+          },
+          error =>{
+            console.log(error);
+            Swal.fire('Error', 'You submitted with error!', 'error');
+          }
+        );
       }
-    );
+    })
+    
   }
 
   onSubmitSearch(){

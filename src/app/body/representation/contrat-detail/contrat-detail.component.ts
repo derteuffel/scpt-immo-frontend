@@ -29,6 +29,9 @@ export class ContratDetailComponent implements OnInit {
   message?:string;
   existedContrat:any[]=[];
   p:number=1;
+
+  file: any;
+  billFile: any;
   private subscriptions: Subscription[] = [];
 
   constructor(private contratService:ContratService, private activatedRoute: ActivatedRoute,
@@ -121,11 +124,17 @@ export class ContratDetailComponent implements OnInit {
   }
 
   onSubmit(){
-    const formData = {
-      numeroBodereau: this.form.get('numeroBodereau').value,
-      montant: this.form.get('montant').value,
-      date: this.form.get('date').value
-    }
+    const formData = new FormData();
+      formData.append('numeroBordereau', this.form.get('numeroBordereau').value);
+      formData.append('montant', this.form.get('montant').value);
+      formData.append('date', this.form.get('date').value);
+      if(this.file==null || this.file == undefined){
+        console.log('error upload file');
+      }else{
+          console.log('i contain file');
+          formData.append('file',this.billFile);
+      }
+
     this.mensualiteService.update(formData,this.currentContrat.id).subscribe(
       data => {
        console.log(data);
@@ -139,15 +148,52 @@ export class ContratDetailComponent implements OnInit {
     );    
   }
 
+  
+
   onProduce(){
-    this.contratService.produceFacture(this.currentContrat.id,this.produceForm.get('date').value).subscribe(
+    if(confirm('Do you really want to produce bill?')){
+    this.contratService.produceFacture(this.currentContrat.id).subscribe(
       data =>{
-        this.clickButton('new-facture-close');
+        window.location.reload();
+        this.init();
       },
       error =>{
         console.log(error);
       }
     );
+  }
+  }
+
+  produceContract(){
+    
+    const formData = new FormData();
+    if(this.file==null || this.file == undefined){
+      console.log('error upload file');
+    }else{
+        console.log('i contain file');
+        formData.append('file',this.file);
+    }
+      this.contratService.produceContract(formData, this.currentContrat.id).subscribe(
+        data  =>{
+          console.log('save successfuly');
+          window.location.reload();
+        },
+        error =>{
+          console.log(error);
+        }
+      );
+  }
+
+  onChange(event:any){
+    this.file = event.target.files[0];
+  }
+
+  selectFile(event:any){
+    this.billFile = event.target.files[0];
+  }
+
+  uploadQuitance(event:any){
+    this.billFile = event.target.files[0];
   }
 
  
@@ -160,6 +206,27 @@ export class ContratDetailComponent implements OnInit {
       montant: item.montant,
       date: item.date
     });
+  }
+
+  addQuitance(item:any){
+    this.selectedItem = item;
+    this.clickButton('openAddQuitance');
+  }
+
+  onSubmitQuitance(event:any){
+
+    const formData = new FormData();
+    formData.append('file',this.billFile);
+    this.mensualiteService.uploadQuitance(formData, event).subscribe(
+      data =>{
+        this.getAllMensualites();
+        this.clickButton('add-quitance-close');
+      },
+      error =>{
+        console.log(error);
+      }
+    );
+
   }
 
  

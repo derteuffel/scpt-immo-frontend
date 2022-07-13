@@ -13,4 +13,8 @@ export class Contrat{
     contact:any;
     secteurActivite:any;
     locale?:Locale;
+    contratFile:any;
+    billFiles:any;
+    rccm:any;
+    idNumber:any;
 }

@@ -12,10 +12,7 @@ export class Locale{
     designation?:any;
     denomination?:any;
     reference?:any;
-    spoiliateur?:any;
-    occupant?:any;
     observation?:any;
-    affectation?:any;
     miseEnService?:any;
     taux?:any;
     montantFranc?:any;

@@ -40,7 +40,11 @@ export class MensualiteService {
   }
 
   update(form:any, id:any):Observable<any>{
-    return this.http.put(`${host}/${id}`, form,{headers: this.headers});
+    return this.http.put(`${host}/${id}`, form,{headers: this.formHeaders});
+  }
+
+  uploadQuitance(form:any, id:any):Observable<any>{
+    return this.http.post(`${host}/upload/${id}`, form,{headers: this.formHeaders});
   }
 
   findOne(id:any):Observable<any>{

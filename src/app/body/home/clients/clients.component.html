@@ -6,10 +6,9 @@
             <div class="header-body">
                 <div class="row align-items-center py-4">
                     <div class="col-lg-8 col-8">
-                      <h6 class="h2 text-primary d-inline-block mb-0">Accueil</h6>
                       <nav aria-label="breadcrumb" class="d-none d-md-inline-block ml-md-4">
                         <ol class="breadcrumb breadcrumb-links breadcrumb-dark">
-                          <li class="breadcrumb-item"><a href="admin/locaux"><i class="fas fa-home"></i></a></li>
+                          <li class="breadcrumb-item"><a href="admin/locations"><i class="fas fa-home"></i></a></li>
                           <li class="breadcrumb-item " ><a href="admin/clients">Clients</a></li>
                         </ol>
                       </nav>
@@ -25,14 +24,14 @@
                   <!-- Card header -->
                   <div class="card-header border-0">
                       <div class="row">
-                          <div class="col-3 alert alert-secondary mr-1">
-                            <h3 class="mb-0"><a type="button" class="btn btn-outline-info" (click)="getAll()">Tous les clients({{lists.length}})</a></h3>
+                          <div class="col-xl-3 col-md-6  mr-1">
+                            <h3 class="mb-0"><a type="button" class="btn btn-outline-info" (click)="getAll()"> <i class="fa fa-users"></i>&nbsp; Clients ({{lists.length}})</a></h3>
                           </div>
-                          <div class="col-3 alert alert-secondary mr-1">
-                            <h3 class="mb-0"><a type="button" class="btn btn-outline-warning" (click)="getAncienClients()">Anciens clients ({{anciens.length}})</a> </h3>
+                          <div class="col-xl-3 col-md-6 mr-1">
+                            <h3 class="mb-0"><a type="button" class="btn btn-outline-warning" (click)="getAncienClients()"><i class="fa fa-user-lock"></i>&nbsp; Anciens ({{anciens.length}})</a> </h3>
                           </div>
-                          <div class="col-3 alert alert-secondary mr-1">
-                            <h3 class="mb-0 "><a type="button" class="btn btn-outline-success" (click)="getClientActifs()">Client Actif ({{actifs.length}})</a></h3>
+                          <div class="col-xl-3 col-md-6 mr-1">
+                            <h3 class="mb-0 "><a type="button" class="btn btn-outline-success" (click)="getClientActifs()"><i class="fa fa-user-check"></i>&nbsp;Actifs ({{actifs.length}})</a></h3>
                           </div>
                     
                           
@@ -55,11 +54,11 @@
                     <table class="table align-items-center table-flush">
                       <thead class="thead-light">
                         <tr>
-                            <th scope="col" class="sort" data-sort="numContrat">Contrat Numero</th>
-                          <th scope="col" class="sort" data-sort="nameClient">Nom du client</th>
+                            <th scope="col" class="sort" data-sort="numContrat">Numero</th>
+                          <th scope="col" class="sort" data-sort="nameClient">Client</th>
                           <th scope="col" class="sort" data-sort="typeClient">Type de client</th>
                           <th scope="col" class="sort" data-sort="secteurActivite">Secteur d'activite</th>
-                          <th scope="col" class="sort" data-sort="numLocale">Numero local</th>
+                          <th scope="col" class="sort" data-sort="numLocale">Local</th>
                           <th scope="col" class="sort" data-sort="representation">Adresse</th>
                           <th scope="col" class="sort" data-sort="contact">Contact</th>
                         </tr>

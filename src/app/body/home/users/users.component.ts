@@ -171,6 +171,7 @@ export class UsersComponent implements OnInit {
       this.authService.delete(id).subscribe(
         (response) => {
          console.log(response);
+         this.loadList();
         },
         (error: HttpErrorResponse) => {
           console.log(error.error.message);

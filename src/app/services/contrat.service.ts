@@ -49,8 +49,12 @@ export class ContratService {
     return this.http.get(`${host}/${id}`,{headers: this.headers});
   }
 
-  produceFacture(id:any, date:any):Observable<any>{
-    return this.http.get(`${host}/produceFacture/${id}/${date}`,{headers: this.headers});
+  produceFacture(id:any):Observable<any>{
+    return this.http.get(`${host}/produceFacture/${id}`,{headers: this.headers});
+  }
+
+  produceContract(form:any,id:any):Observable<any>{
+    return this.http.post(`${host}/produceContract/${id}`,form,{headers: this.formHeaders});
   }
 
   findAllByOccupation(id:any):Observable<any>{

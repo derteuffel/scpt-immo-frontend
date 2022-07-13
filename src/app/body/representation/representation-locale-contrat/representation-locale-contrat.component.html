@@ -6,13 +6,12 @@
             <div class="header-body">
                 <div class="row align-items-center py-4">
                     <div class="col-lg-8 col-8">
-                      <h6 class="h2 text-primary d-inline-block mb-0">Accueil</h6>
                       <nav aria-label="breadcrumb" class="d-none d-md-inline-block ml-md-4">
                         <ol class="breadcrumb breadcrumb-links breadcrumb-dark">
-                          <li class="breadcrumb-item"><a href="admin/locaux"><i class="fas fa-home"></i></a></li>
-                          <li class="breadcrumb-item " ><a href="admin/locaux">Locaux</a></li>
-                          <li class="breadcrumb-item " ><a href="admin/locaux/detail/{{currentLocale?.id}}">{{currentLocale?.province+' '+currentLocale?.ville}}</a></li>
-                          <li class="breadcrumb-item active" aria-current="page"><a href="#">{{currentOccupation?.numeroOccupation}}</a></li>
+                          <li class="breadcrumb-item"><a href="admin/locations"><i class="fas fa-home"></i></a></li>
+                          <li class="breadcrumb-item " ><a href="admin/locations">Parcelles</a></li>
+                          <li class="breadcrumb-item " ><a href="admin/locations/detail/{{currentLocale?.id}}">Locaux</a></li>
+                          <li class="breadcrumb-item active" aria-current="page"><a href="#">{{'Local '+currentOccupation?.numeroOccupation}}</a></li>
                         </ol>
                       </nav>
                     </div>
@@ -25,13 +24,13 @@
           <div class="col">
             <div class="card">
               <div class="card-header border-0">
-                <h3>Detail d'une occupation</h3>
+                <h2>Detail d'une occupation</h2>
               </div>
               <div class="card-body">
                 <table class="table table-bordered">
 
                       <tr>
-                        <th>Numero de l'occupation</th>
+                        <th>Local numero</th>
                         <td>{{currentOccupation.numeroOccupation}}</td>
                       </tr>
                       <tr>
@@ -62,19 +61,23 @@
                 <div class="card">
                   <!-- Card header -->
                   <div class="card-header border-0">
+                    <div class="mx-5 text-center">
+                      <h3><strong>Situation contractuelle du local </strong> </h3>
+                    </div>
+                    <br>
                       <div class="row">
-                          <div class="col-3 alert alert-secondary">
-                            <h3 class="mb-0"><a type="button" class="btn btn-outline-info" (click)="getContratByOccupation()">Tous les contrats({{alls.length}})</a></h3>
+                          <div class="col-xl-3 col-md-6 ">
+                            <h3 class="mb-0"><a type="button" class="btn btn-outline-info" (click)="getContratByOccupation()"><i class="fa fa-list"></i>&nbsp;Les contrats ({{alls.length}})</a></h3>
                           </div>
-                          <div class="col-3 alert alert-secondary mr-1">
-                            <h3 class="mb-0"><a type="button" class="btn btn-outline-warning" (click)="getContratTermine()">Contrats termines ({{termines.length}})</a> </h3>
+                          <div class="col-xl-3 col-md-6  mr-1">
+                            <h3 class="mb-0"><a type="button" class="btn btn-outline-warning" (click)="getContratTermine()"><i class="fa fa-list"></i>&nbsp;Termines ({{termines.length}})</a> </h3>
                           </div>
-                          <div class="col-3 alert alert-secondary mr-1">
-                            <h3 class="mb-0 "><a type="button" class="btn btn-outline-success" (click)="getContratEncour()">Contrat encour ({{encours.length}})</a></h3>
+                          <div class="col-xl-3 col-md-6  mr-1">
+                            <h3 class="mb-0 "><a type="button" class="btn btn-outline-success" (click)="getContratEncour()"> <i class="fa fa-list"></i>&nbsp; Encours ({{encours.length}})</a></h3>
                           </div>
                     
-                          <div class="col-2">
-                            <a href="#" type="button"  data-toggle="modal" data-target="#addContratModal" class="btn btn-md btn-outline-primary">Ajouter un contrat</a>
+                          <div class="col-xl-2 col-md-6 ">
+                            <a href="#" type="button"  data-toggle="modal" data-target="#addContratModal" class="btn btn-outline-primary"> <i class="fa fa-plus"></i>&nbsp; Contrat</a>
                           </div>
                         </div>
                   </div>
@@ -198,6 +201,14 @@ aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
                     <input type="text" formControlName="contact"  class="form-control" placeholder="Telephone">
                   </div>
                   <div class="form-group">
+                    <label class="form-control-label" >ID Number</label>
+                    <input type="text" formControlName="idNumber"  class="form-control" placeholder="Numero d'identite">
+                  </div>
+                  <div class="form-group">
+                    <label class="form-control-label" >RCCM</label>
+                    <input type="text" formControlName="rccm"  class="form-control" placeholder="RCCM">
+                  </div>
+                  <div class="form-group">
                     <label class="form-control-label" >Date de signature</label>
                     <input type="date" formControlName="dateSignature"  class="form-control" placeholder="Date de signature">
                   </div>
@@ -263,6 +274,14 @@ aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
                   <div class="form-group">
                     <label class="form-control-label" >Contact</label>
                     <input type="text" formControlName="contact"  class="form-control" placeholder="Telephone">
+                  </div>
+                  <div class="form-group">
+                    <label class="form-control-label" >ID Number</label>
+                    <input type="text" formControlName="idNumber"  class="form-control" placeholder="Numero d'identite">
+                  </div>
+                  <div class="form-group">
+                    <label class="form-control-label" >RCCM</label>
+                    <input type="text" formControlName="rccm"  class="form-control" placeholder="RCCM">
                   </div>
                   <div class="form-group">
                     <label class="form-control-label" >Date de signature</label>
