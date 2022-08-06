@@ -27,15 +27,22 @@ import { TokenStorageService } from '../token-storage.service';
 
   ngOnInit(): void {
 
-    if(this.authService.getUserToken != null){
+    console.log(this.authService.getUserToken());
+    if(this.authService.getUserToken() != null){
+      console.log(this.authService.currentUserO.role);
       if(this.authService.currentUserO.role == Role.PAYMENT){
+        console.log(this.authService.currentUserO.role+' 1');
         this.router.navigateByUrl("/admin/payments");
       }else{
+        console.log(this.authService.currentUserO.role+' 2');
         this.router.navigateByUrl("/admin/locations")
       }
     }
 
   }
+
+
+
   onSubmit() {
     console.log(this.form);
     const formData = {
@@ -54,13 +61,11 @@ import { TokenStorageService } from '../token-storage.service';
       this.isLoggedIn = true;
       localStorage.setItem('id', this.authService.currentUserValue.id + '');
       this.role = this.authService.currentUserValue.role;
-      switch(this.role){
-        case Role.PAYMENT:
-          this.router.navigate(["/admin/payments"]);
-          break;
-        
-        default: 
-          this.router.navigate(["/admin/locations"]);
+      console.log('Je veux voir le role : '+this.role);
+      if(this.role === Role.PAYMENT){
+        this.router.navigateByUrl("/admin/payments");
+      }else{
+        this.router.navigateByUrl("/admin/locations");
       }
       console.log(this.role);
       }
