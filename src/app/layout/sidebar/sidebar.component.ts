@@ -15,7 +15,10 @@ export class SidebarComponent implements OnInit {
   isConnected?: boolean;
   user?: User;
   errorMessage = '';
-  isAdminTest?: boolean;
+  isAdminTest: boolean = false;
+  isFinance: boolean = false;
+  isProvincial: boolean = false;
+  isCommercial: boolean = false;
   roles: string[] = [];
 
   constructor(private authService: AuthService,
@@ -26,12 +29,25 @@ export class SidebarComponent implements OnInit {
     if (this.authService.currentUserValue.token) {
       this.isConnected = true;
       this.user = this.authService.currentUserValue;
-      switch(this.user.role){
-        case Role.ROOT:{
+      switch(this.user.role+''){
+        case "ROOT":{
           this.isAdminTest = true;
           break;
         }
-        case Role.DSI:{
+        case 'PAYMENT':{
+          this.isFinance = true;
+          break;
+        }
+        case 'PROVINCIAL':{
+          this.isProvincial = true;
+          break;
+        }
+        case 'COMMERCIAL':{
+          this.isCommercial = true;
+          break;
+        }
+        
+        case 'DSI':{
           this.isAdminTest = true;
           break;
         }

@@ -5,6 +5,7 @@ import { Subscription } from 'rxjs';
 import { AuthService } from 'src/app/auth/auth.service';
 import { constant } from 'src/app/constant';
 import { LocaleService } from 'src/app/services/locale.service';
+import Swal from 'sweetalert2';
 
 @Component({
   selector: 'app-users',
@@ -80,12 +81,19 @@ export class UsersComponent implements OnInit {
     this.authService.save(formData).subscribe(
       data => {
         console.log(data);
-        this.loadList();
-        this.init();
         this.clickButton('new-user-close');
+        Swal.fire('Thank you...', 'You have saved this user succesfully!', 'success')
+                    .then((result)=>{
+                      if(result.isConfirmed){
+                        this.loadList();
+                        this.init();
+                      }
+                    });  
       },
       error =>{
         console.log(error);
+        Swal.fire('Ooops...', 'Internal error occured while saving!', 'error');
+
       }
     );
   }
@@ -143,12 +151,18 @@ export class UsersComponent implements OnInit {
     this.authService.update(id,formData ).subscribe(
       data => {
         console.log(data);
-        this.loadList();
-        this.init();
         this.clickButton('edit-user-close');
+        Swal.fire('Thank you...', 'You have updated this user succesfully!', 'success')
+                    .then((result)=>{
+                      if(result.isConfirmed){
+                        this.loadList();
+                        this.init();
+                      }
+                    }); 
       },
       error =>{
         console.log(error);
+        Swal.fire('Ooops...', 'Internal error occured while saving!', 'error');
       }
     );
   }
@@ -170,11 +184,17 @@ export class UsersComponent implements OnInit {
     this.subscriptions.push(
       this.authService.delete(id).subscribe(
         (response) => {
-         console.log(response);
-         this.loadList();
+         Swal.fire('Thank you...', 'You have deleted this user succesfully!', 'success')
+                    .then((result)=>{
+                      if(result.isConfirmed){
+                        this.loadList();
+                      }
+                    }); 
         },
         (error: HttpErrorResponse) => {
           console.log(error.error.message);
+          Swal.fire('Ooops...', 'Internal error occured while deleting!', 'error');
+
         }
       )
     );

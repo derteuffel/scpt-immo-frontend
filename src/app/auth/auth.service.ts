@@ -127,6 +127,13 @@ export class AuthService {
  save(form:any): Observable<any>{
    return this.http.post(`${host}/signup`, form, {headers: this.headers});
  }
+ updatePassword(form:any, id:any): Observable<any>{
+  return this.http.get(`${host}/update/password/${id+'?password='+form}`, {headers: this.headers});
+}
+
+lockAction(id:any): Observable<any>{
+  return this.http.get(`${host}/lock/${id}`, {headers: this.headers});
+}
 
  update(id:any, form:any): Observable<any>{
    return this.http.put(`${host}/update/${id}`, form,{headers: this.headers});

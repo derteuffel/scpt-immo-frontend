@@ -2,7 +2,6 @@ import { Representation } from "./representation";
 
 export class Locale{
     id:any;
-    montant?:any;
     superficie?:any;
     status?:any;
     province?:any;
@@ -14,7 +13,5 @@ export class Locale{
     reference?:any;
     observation?:any;
     miseEnService?:any;
-    taux?:any;
-    montantFranc?:any;
    
 }

@@ -6,6 +6,7 @@ import { Subscription } from 'rxjs';
 import { ContratService } from 'src/app/services/contrat.service';
 import { LocaleService } from 'src/app/services/locale.service';
 import { MensualiteService } from 'src/app/services/mensualite.service';
+import Swal from 'sweetalert2';
 
 @Component({
   selector: 'app-contrat-detail',
@@ -138,12 +139,18 @@ export class ContratDetailComponent implements OnInit {
     this.mensualiteService.update(formData,this.currentContrat.id).subscribe(
       data => {
        console.log(data);
-       this.getAllMensualites();
-       this.init();
+       
        this.clickButton('new-payment-close');
+       Swal.fire('Thank you...', 'You submitted succesfully!', 'success').then((res)=>{
+        if(res.isConfirmed){
+          this.getAllMensualites();
+          this.init();
+                }});
       },
       error =>{
         console.log(error);
+        Swal.fire('Ooops...', 'Internal error occured while updating this payement ', 'error');
+
       }
     );    
   }
@@ -154,11 +161,17 @@ export class ContratDetailComponent implements OnInit {
     if(confirm('Do you really want to produce bill?')){
     this.contratService.produceFacture(this.currentContrat.id).subscribe(
       data =>{
-        window.location.reload();
-        this.init();
+        
+        Swal.fire('Thank you...', 'Your bill has been produced succesfully!', 'success').then((res)=>{
+          if(res.isConfirmed){
+            window.location.reload();
+             this.init();
+                  }});
       },
       error =>{
         console.log(error);
+        Swal.fire('Ooops...', 'Internal error occured while producing bill ', 'error');
+
       }
     );
   }
@@ -176,10 +189,16 @@ export class ContratDetailComponent implements OnInit {
       this.contratService.produceContract(formData, this.currentContrat.id).subscribe(
         data  =>{
           console.log('save successfuly');
-          window.location.reload();
+          
+          Swal.fire('Thank you...', 'Your contract has been produced succesfully!', 'success').then((res)=>{
+            if(res.isConfirmed){
+              window.location.reload();
+                    }});
         },
         error =>{
           console.log(error);
+          Swal.fire('Ooops...', 'Internal error occured while producing contract ', 'error');
+
         }
       );
   }
@@ -219,11 +238,17 @@ export class ContratDetailComponent implements OnInit {
     formData.append('file',this.billFile);
     this.mensualiteService.uploadQuitance(formData, event).subscribe(
       data =>{
-        this.getAllMensualites();
+        
         this.clickButton('add-quitance-close');
+        Swal.fire('Thank you...', 'You uploaded your quittance succesfully!', 'success').then((res)=>{
+          if(res.isConfirmed){
+            this.getAllMensualites();
+          }});
       },
       error =>{
         console.log(error);
+        Swal.fire('Ooops...', 'Internal error occured while uploading quittance ', 'error');
+
       }
     );
 
@@ -252,11 +277,16 @@ export class ContratDetailComponent implements OnInit {
     this.contratService.update(formData, id).subscribe(
       data => {
         console.log(data);
-        this.getAllMensualites();
         this.clickButton('edit-payment-close');
+        Swal.fire('Thank you...', 'You edited your payment succesfully!', 'success').then((res)=>{
+          if(res.isConfirmed){
+            this.getAllMensualites();
+          }});
       },
       error =>{
         console.log(error);
+        Swal.fire('Ooops...', 'Internal error occured while editing payment ', 'error');
+
       }
     );
   }
@@ -268,10 +298,14 @@ export class ContratDetailComponent implements OnInit {
       this.contratService.delete(id).subscribe(
         (response) => {
          console.log(response);
-         this.getAllMensualites();
+         Swal.fire('Thank you...', 'You deleted your contract succesfully!', 'success').then((res)=>{
+          if(res.isConfirmed){
+            this.getAllMensualites();
+          }});
         },
         (error: HttpErrorResponse) => {
           console.log(error.error.message);
+          Swal.fire('Ooops...', 'Internal error occured while deleting contract ', 'error');
         }
       )
     );

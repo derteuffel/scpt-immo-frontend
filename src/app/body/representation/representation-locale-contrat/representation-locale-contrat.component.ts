@@ -136,28 +136,34 @@ export class RepresentationLocaleContratComponent implements OnInit {
         this.existedContrat = data;
         console.log(data);
         if(this.existedContrat.length !=0){
-          this.lists = this.existedContrat;
-          this.message = 'Vous avez un contrat encours avec '+this.existedContrat[0].nameClient+' bienvouloir regularise avant d\'enregistrer un nouveau contrat'; 
           this.clickButton('new-contrat-close');
+          Swal.fire('Ooops...', 'Vous avez un contrat encours avec '+this.existedContrat[0].nameClient+' bienvouloir regularise avant d\'enregistrer un nouveau contrat', 'warning').then((res)=>{
+            if(res.isConfirmed){
+              this.lists = this.existedContrat;
+            }});          
         }else{
           this.contratService.save(formData).subscribe(
             data => {
               console.log(data);
+              this.clickButton('new-contrat-close');
               Swal.fire('Thank you...', 'You submitted succesfully!', 'success').then((res)=>{
                 if(res.isConfirmed){
-              this.getOccupation(this.currentOccupation.id);
-              this.clickButton('new-contrat-close');
-              this.init();
+                  this.getOccupation(this.currentOccupation.id);
+                  
+                  this.init();
                 }});
             },
             error =>{
               console.log(error);
+              Swal.fire('Ooops...', 'Internal error occured while saving ', 'error');
+                
             }
           );
         }
       },
       error =>{
         console.log(error);
+        Swal.fire('Ooops...', 'You cannot add new contract without ending the other one ', 'error');
       }
     );    
   }
@@ -167,12 +173,17 @@ export class RepresentationLocaleContratComponent implements OnInit {
       this.contratService.cancel(item.id).subscribe(
         data => {
           console.log(data);
-          this.getContratByOccupation();
-          this.getContratEncour();
-          this.getContratTermine();
+          
+          Swal.fire('Thank you...', 'You submitted succesfully!', 'success').then((res)=>{
+            if(res.isConfirmed){
+              this.getContratByOccupation();
+              this.getContratEncour();
+              this.getContratTermine();
+            }});
         },
         error =>{
           console.log(error);
+          Swal.fire('Ooops...', 'Internal error occured while ending this contract ', 'error');
         }
       );
     }
@@ -275,6 +286,8 @@ export class RepresentationLocaleContratComponent implements OnInit {
       },
       error =>{
         console.log(error);
+        Swal.fire('Ooops...', 'Internal error occured while updating this contract ', 'error');
+
       }
     );
       }});
@@ -287,10 +300,16 @@ export class RepresentationLocaleContratComponent implements OnInit {
       this.contratService.delete(id).subscribe(
         (response) => {
          console.log(response);
-         this.getOccupation(this.currentLocale.id);
+         Swal.fire('Thank you...', 'You submitted succesfully!', 'success').then((res)=>{
+          if(res.isConfirmed){
+            this.getOccupation(this.currentLocale.id);
+          }});
+         
         },
         (error: HttpErrorResponse) => {
           console.log(error.error.message);
+          Swal.fire('Ooops...', 'Internal error occured while deleting this contract ', 'error');
+
         }
       )
     );

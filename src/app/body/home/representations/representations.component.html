@@ -6,11 +6,10 @@
             <div class="header-body">
                 <div class="row align-items-center py-4">
                     <div class="col-lg-6 col-7">
-                      <h6 class="h2 text-primary d-inline-block mb-0">Accueil</h6>
                       <nav aria-label="breadcrumb" class="d-none d-md-inline-block ml-md-4">
                         <ol class="breadcrumb breadcrumb-links breadcrumb-dark">
-                          <li class="breadcrumb-item"><a href="admin/locaux"><i class="fas fa-home"></i></a></li>
-                          <li class="breadcrumb-item active" aria-current="page"><a href="admin/locaux">Locaux</a></li>
+                          <li class="breadcrumb-item"><a href="admin/locations"><i class="fas fa-home"></i></a></li>
+                          <li class="breadcrumb-item active" aria-current="page"><a href="admin/locations">Parcelles</a></li>
                         </ol>
                       </nav>
                     </div>
@@ -26,14 +25,14 @@
                   <div class="card-header border-0">
                       <div class="row">
                           <div class="col-4 alert alert-secondary">
-                            <h3 class="mb-0"><a type="button" class="btn btn-outline-primary" (click)="loadList()"><i class="fa fa-list"></i>&nbsp; Liste des Locaux ({{lists.length}})</a></h3>
+                            <h3 class="mb-0"><a type="button" class="btn btn-outline-primary" (click)="loadList()"><i class="fa fa-list"></i>&nbsp; Liste des parcelles ({{lists.length}})</a></h3>
                           </div>
                           
                           <div class="col-4 alert alert-secondary">
                             <a href="#" type="button"  data-toggle="modal" data-target="#addLocalModal" class="btn btn-md btn-outline-info">Ajouter a partir d'un fichier &nbsp;<i class="fa fa-file"></i></a>
                           </div>
                           <div class="col-4 alert alert-secondary">
-                            <a href="#" type="button"  data-toggle="modal" data-target="#addRepresentationModal" class="btn btn-md btn-outline-primary">Ajouter un local&nbsp;<i class="fa fa-plus"></i></a>
+                            <a href="#" type="button"  data-toggle="modal" data-target="#addRepresentationModal" class="btn btn-md btn-outline-primary">Ajouter une parcelle&nbsp;<i class="fa fa-plus"></i></a>
                           </div>
                         </div>
                   </div>
@@ -201,14 +200,7 @@ aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
                     <label class="form-control-label" >Superficie</label>
                     <input type="number" formControlName="superficie"  class="form-control" placeholder="Superficie">
                   </div>
-                  <div class="form-group">
-                    <label class="form-control-label" >Montant en USD</label>
-                    <input type="number" formControlName="montant"  class="form-control" placeholder="Montant">
-                  </div>
-                  <div class="form-group">
-                    <label class="form-control-label" >Taux</label>
-                    <input type="number" formControlName="taux"  class="form-control" placeholder="Taux d'echange">
-                  </div>
+                  
                   <div class="form-group">
                     <label class="form-control-label" >Observation</label>
                     <textarea formControlName="observation"  class="form-control" placeholder="Observation" rows="3"></textarea>
@@ -330,14 +322,7 @@ aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
                 <label class="form-control-label" >Superficie</label>
                 <input type="number" formControlName="superficie"  class="form-control" placeholder="Superficie">
               </div>
-              <div class="form-group">
-                <label class="form-control-label" >Montant en USD</label>
-                <input type="number" formControlName="montant"  class="form-control" placeholder="Montant">
-              </div>
-              <div class="form-group">
-                <label class="form-control-label" >Taux</label>
-                <input type="number" formControlName="taux"  class="form-control" placeholder="Taux d'echange">
-              </div>
+              
               <div class="form-group">
                 <label class="form-control-label" >Observation</label>
                 <textarea formControlName="observation"  class="form-control" placeholder="Observation" rows="3"></textarea>

@@ -6,6 +6,7 @@ import { Contrat } from 'src/app/models/contrat';
 import { ContratService } from 'src/app/services/contrat.service';
 import { LocaleService } from 'src/app/services/locale.service';
 import { MensualiteService } from 'src/app/services/mensualite.service';
+import Swal from 'sweetalert2';
 
 @Component({
   selector: 'app-payments',
@@ -126,11 +127,19 @@ export class PaymentsComponent implements OnInit {
     this.mensualiteService.update(formData,numContrat).subscribe(
       data =>{
         console.log(data);
-        this.getContratActifs();
         this.clickButton('new-mensualite-close');
+        Swal.fire('Thank you....', 'You have made un payment successfuly', 'success')
+            .then((result)=>{
+              if(result.isConfirmed){
+                this.getContratActifs();
+              }
+            })
+        
       },
       error =>{
         console.log(error);
+        Swal.fire('Ooops....', 'Internal errors occured while doing payment', 'error')
+           
       }
     );
   }

@@ -1,4 +1,11 @@
-.navbar-brand-img{
+.navbar-brand img{
     width: 80px;
-    height: 150px;
+    height: 80px!important;
+}
+.sidenav{
+    background-color: yellow;
+}
+
+.nav-link-text{
+    font-size: 22px;
 }

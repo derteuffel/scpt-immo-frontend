@@ -2,6 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { FormGroup, FormControl } from '@angular/forms';
 import { ActivatedRoute, NavigationExtras, Router } from '@angular/router';
 import { MensualiteService } from 'src/app/services/mensualite.service';
+import Swal from 'sweetalert2';
 
 @Component({
   selector: 'app-payments-search',
@@ -101,11 +102,14 @@ this.activatedRoute.queryParams.subscribe(params => {
         console.log('Je suis sortie');
         console.log(this.isRepportProduce);
         this.successMessage = 'Operation reussie';
+        Swal.fire('Thank you....', 'You have generated your repport successfuly', 'success')
+        
           
          
       },
       error =>{
         console.log(error);
+        Swal.fire('Ooops....', 'Internal error occured while generating repport', 'error')
       }
     );
   }
@@ -139,11 +143,18 @@ this.activatedRoute.queryParams.subscribe(params => {
     this.mensualiteService.update(formData,numContrat).subscribe(
       data =>{
         console.log(data);
-        this.loadByDate(this.navigationParams);
+        
         this.clickButton('new-mensualite-close');
+        Swal.fire('Thank you....', 'You have made un payment successfuly', 'success')
+        .then((result)=>{
+          if(result.isConfirmed){
+            this.loadByDate(this.navigationParams);
+          }
+        })
       },
       error =>{
         console.log(error);
+        Swal.fire('Ooops....', 'Internal errors occured while doing payment', 'error');
       }
     );
   }

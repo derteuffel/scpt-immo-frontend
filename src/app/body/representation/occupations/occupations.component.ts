@@ -112,16 +112,19 @@ export class OccupationsComponent implements OnInit {
    this.occupationService.save(formData, this.currentLocale.id).subscribe(
             data => {
               console.log(data);
+              this.clickButton('new-occupation-close');
               Swal.fire('Thank you...', 'You submitted succesfully!', 'success').then((res)=>{
               if(res.isConfirmed){
               this.getlocale(this.currentLocale.id);
-              this.clickButton('new-occupation-close');
+              
               this.init();
             }
           })
             },
             error =>{
               console.log(error);
+              Swal.fire('Ooops...', 'Internal error occured while saving local ', 'error');
+
             }
           );
            
@@ -184,14 +187,16 @@ export class OccupationsComponent implements OnInit {
     this.occupationService.update(formData, id).subscribe(
       data => {
         console.log(data);
+        this.clickButton('edit-occupation-close');
         Swal.fire('Thank you...', 'You submitted succesfully!', 'success').then((res)=>{
           if(res.isConfirmed){
         this.getlocale(this.currentLocale.id);
-        this.clickButton('edit-occupation-close');
           }});
       },
       error =>{
         console.log(error);
+        Swal.fire('Ooops...', 'Internal error occured while editing local ', 'error');
+
       }
     );
       }
@@ -199,16 +204,22 @@ export class OccupationsComponent implements OnInit {
   }
 
   deleteItem(id:any){
-    if(confirm('Etes vous sur de vouloir supprimer cette Occupation?')){
+    if(confirm('Etes vous sur de vouloir supprimer ce local?')){
     this.subscriptions.push(
 
       this.occupationService.delete(id).subscribe(
         (response) => {
          console.log(response);
-         this.getlocale(this.currentLocale.id);
+        
+         Swal.fire('Thank you...', 'You have deleted this local succesfully!', 'success')
+                    .then((result)=>{
+                      if(result.isConfirmed){
+                        this.getlocale(this.currentLocale.id);                      }
+                    });
         },
         (error: HttpErrorResponse) => {
           console.log(error.error.message);
+          Swal.fire('Ooops...', 'Internal error occured while deleting!', 'error');
         }
       )
     );

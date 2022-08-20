@@ -69,8 +69,8 @@
                       
                       <tr>
                         <th>Status</th>
-                        <td *ngIf="currentUser.status" class="alert alert-success">Actif</td>
-                        <td *ngIf="!currentUser.status" class="alert alert-warning">Bloquer</td>
+                        <td *ngIf="currentUser.enabled" class="alert alert-success">Actif</td>
+                        <td *ngIf="!currentUser.enabled" class="alert alert-warning">Bloquer</td>
                       </tr>
                                        
 
@@ -88,8 +88,15 @@
                   <div class="card-header border-0">
                       <div class="row">
                       
-                          <div class="col-4">
+                          <div class="col-xl-4 col-md-6">
                             <a href="#" type="button"  data-toggle="modal" data-target="#editRoleModal" class="btn btn-md btn-outline-primary">Modifier le role</a>
+                          </div>
+                          <div class="col-xl-4 col-md-6">
+                            <a href="#" type="button"  data-toggle="modal" data-target="#editPasswordModal" class="btn btn-md btn-outline-info">Modifier le mot de passe</a>
+                          </div>
+                          <div class="col-xl-4 col-md-6">
+                            <a  type="button"  (click)="lockAction(currentUser.id)" *ngIf="currentUser.enabled" class="btn btn-md btn-outline-danger">Desactiver utilisateur</a>
+                            <a  type="button"  (click)="lockAction(currentUser.id)" *ngIf="!currentUser.enabled" class="btn btn-md btn-outline-success">Activer utilisateur</a>
                           </div>
                         </div>
                   </div>
@@ -109,6 +116,9 @@
 </button>
 
 <button [hidden]="true" type="button" id="openDetail" data-toggle="modal" data-target="#detailContratModal">
+</button>
+
+<button [hidden]="true" type="button" id="openEditPassword" data-toggle="modal" data-target="#editPasswordModal">
 </button>
 
 
@@ -146,6 +156,43 @@ aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
     </div>
     <div class="modal-footer">
       <button type="button" class="btn btn-secondary" data-dismiss="modal" id="edit-role-close">Fermer</button>
+      <button type="submit"  class="btn btn-primary">Enregistrer</button>
+    </div>
+    </form> 
+  </div>
+  
+</div>
+</div>
+
+<!-- model add user -->
+<div  class="modal draggable fade bd-example-modal-lg" id="editPasswordModal" tabindex="-1" role="dialog"
+aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
+<div class="modal-dialog" role="document">
+  <div class="modal-content">
+    <form (submit)="onSubmitPassword(currentUser.id)" [formGroup]="passwordForm">
+    <div class="modal-header">
+      <h5 class="modal-title text-center">Modifier le mot de passe d'un utilisateur</h5>
+      <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+        <span aria-hidden="true">&times;</span>
+      </button>
+    </div>
+    <div class="modal-body">
+      <div>
+        
+            <h6 class="heading-small text-muted mb-4">Formulaire</h6>
+            <div class="pl-lg-4">
+                  
+                  <div class="form-group">
+                    <label class="form-control-label" >Nouveau mot de passe</label>
+                    <input type="password" formControlName="password" class="form-control">
+                  </div>
+            </div>
+              
+         
+      </div>
+    </div>
+    <div class="modal-footer">
+      <button type="button" class="btn btn-secondary" data-dismiss="modal" id="edit-password-close">Fermer</button>
       <button type="submit"  class="btn btn-primary">Enregistrer</button>
     </div>
     </form> 

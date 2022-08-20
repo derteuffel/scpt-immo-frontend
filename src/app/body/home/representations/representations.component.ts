@@ -93,12 +93,13 @@ export class RepresentationsComponent implements OnInit {
     console.log(formData);
     this.localeService.save(formData).subscribe(
       data => {
+        this.clickButton('new-representation-close');
         Swal.fire('Thank you...', 'You submitted succesfully!', 'success')
         .then((result)=>{
           if(result.isConfirmed){
             this.loadList();
             this.init();
-            this.clickButton('new-representation-close');
+            
           }
         })
        
@@ -106,6 +107,8 @@ export class RepresentationsComponent implements OnInit {
       },
       error =>{
         console.log(error);
+        Swal.fire('Ooops...', 'Internal error occured while saving your representation!', 'error')
+        
       }
     );
   }
@@ -155,16 +158,26 @@ export class RepresentationsComponent implements OnInit {
     
     if(this.uploadedFile==null || this.uploadedFile == undefined){
       console.log('error upload file');
+      Swal.fire('Ooops...', 'Upload file please', 'warning')
+        
     }else{
       if(!this.validateFile(this.uploadedFile.name)){
         this.message = 'File should be excel, please load correct file';
+        Swal.fire('Ooops...', 'File should be excel, please load correct file', 'warning')
+        
       }else{
         formData.append('file',this.uploadedFile);
     this.localeService.upload(formData).subscribe(
       data => {
-
-        this.loadList();
         this.clickButton("new-file-close");
+        Swal.fire('Thank you...', 'You submitted succesfully!', 'success')
+        .then((result)=>{
+          if(result.isConfirmed){
+            this.loadList();
+            
+          }
+        })
+        
       },
       error => {
         console.log(error);
