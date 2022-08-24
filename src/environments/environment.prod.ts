@@ -1,5 +1,5 @@
 
-export const HOST = 'https://41.79.235.90:8080/api'
+export const HOST = 'https://41.79.235.90:8082/api'
 
 export const environment = {
   production: true,
