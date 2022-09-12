@@ -103,5 +103,8 @@
       }
     }
   },
-  "defaultProject": "scpt-frontend"
+  "defaultProject": "scpt-frontend",
+  "cli": {
+    "analytics": "bbe7e08c-9629-4da8-856f-4dcc8930aa2d"
+  }
 }
