@@ -1,5 +1,5 @@
 
-export const HOST = 'dgi.scpt.cd:8080/api'
+export const HOST = 'https://dgi-scpt.yesbinspire.com:8080/api'
 
 export const environment = {
   production: true,
