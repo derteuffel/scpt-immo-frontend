@@ -34,6 +34,4 @@ export class  AuthenticationGuard implements CanActivate{
         this.router.navigateByUrl('login');
       return false;
     }
-    
-
 }

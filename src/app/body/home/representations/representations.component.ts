@@ -1,8 +1,11 @@
 import { HttpErrorResponse } from '@angular/common/http';
 import { Component, OnInit } from '@angular/core';
 import { FormControl, FormGroup } from '@angular/forms';
+import { Router } from '@angular/router';
 import { Subscription } from 'rxjs';
+import { AuthService } from 'src/app/auth/auth.service';
 import { constant } from 'src/app/constant';
+import { Role } from 'src/app/enums/role.enum';
 import { LocaleService } from 'src/app/services/locale.service';
 import Swal from 'sweetalert2';
 
@@ -28,15 +31,22 @@ export class RepresentationsComponent implements OnInit {
   searchForm: any;
   private subscriptions: Subscription[] = [];
 
-  constructor(
-    private localeService: LocaleService) { }
+  constructor(private localeService: LocaleService, private authService: AuthService, private route: Router) {
+
+
+     }
 
   ngOnInit(): void {
+
     this.loadList();
     this.provinces = constant.PROVINCES;
-
     this.villes=constant.VILLES;  
     this.init();
+    if(this.authService.currentUserValue.role+'' == 'PAYMENT'){
+      console.log('Je suis dedans pour tester le role');
+      this.route.navigateByUrl('admin/payments');
+    }
+    console.log('Je suis dedans deja ');
   }
 
   init(){

@@ -126,33 +126,38 @@ export class ContratDetailComponent implements OnInit {
 
   onSubmit(){
     const formData = new FormData();
-      formData.append('numeroBordereau', this.form.get('numeroBordereau').value);
+      formData.append('numeroBodereau', this.form.get('numeroBodereau').value);
       formData.append('montant', this.form.get('montant').value);
       formData.append('date', this.form.get('date').value);
-      if(this.file==null || this.file == undefined){
+      if(this.billFile==null || this.billFile == undefined){
         console.log('error upload file');
+        console.log(this.billFile);
+        Swal.fire('Ooops...', 'Error while charging file  ', 'error');
       }else{
           console.log('i contain file');
           formData.append('file',this.billFile);
+          this.mensualiteService.update(formData,this.currentContrat.id).subscribe(
+            data => {
+             console.log(data);
+             
+             this.clickButton('new-payment-close');
+             Swal.fire('Thank you...', 'You submitted succesfully!', 'success').then((res)=>{
+              if(res.isConfirmed){
+                this.getAllMensualites();
+                this.getAllFalseMensualites();
+                this.getAllTrueMensualites();
+                this.init();
+                      }});
+            },
+            error =>{
+              console.log(error);
+              Swal.fire('Ooops...', 'Internal error occured while updating this payement ', 'error');
+      
+            }
+          ); 
       }
 
-    this.mensualiteService.update(formData,this.currentContrat.id).subscribe(
-      data => {
-       console.log(data);
        
-       this.clickButton('new-payment-close');
-       Swal.fire('Thank you...', 'You submitted succesfully!', 'success').then((res)=>{
-        if(res.isConfirmed){
-          this.getAllMensualites();
-          this.init();
-                }});
-      },
-      error =>{
-        console.log(error);
-        Swal.fire('Ooops...', 'Internal error occured while updating this payement ', 'error');
-
-      }
-    );    
   }
 
   
@@ -204,15 +209,15 @@ export class ContratDetailComponent implements OnInit {
   }
 
   onChange(event:any){
-    this.file = event.target.files[0];
+    this.file = event.target.files.item(0);
   }
 
   selectFile(event:any){
-    this.billFile = event.target.files[0];
+    this.billFile = event.target.files.item(0);
   }
 
   uploadQuitance(event:any){
-    this.billFile = event.target.files[0];
+    this.billFile = event.target.files.item(0);
   }
 
  
