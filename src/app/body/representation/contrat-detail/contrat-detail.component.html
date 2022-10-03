@@ -166,6 +166,7 @@ aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
                           <th scope="col" class="sort" data-sort="typeClient">Mois</th>
                           <th scope="col" class="sort" data-sort="typeClient">Date  paiement</th>
                           <th scope="col" class="sort" data-sort="secteurActivite">Montant</th>
+                          <th scope="col" class="sort" data-sort="secteurActivite">Reste</th>
                           <th scope="col" class="sort" data-sort="secteurActivite">Status</th>
                           <th scope="col" class="sort" data-sort="secteurActivite">Quitance</th>
                           <th scope="col" class="sort" data-sort="secteurActivite">Actions</th>
@@ -180,6 +181,7 @@ aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
                           <td>{{item.mois}}</td>
                           <td>{{item.dateVersement}}</td>
                           <td>{{item.montant+' USD'}}</td>
+                          <td class="badge badge-warning">{{item.reste+' USD'}}</td>
                           <td *ngIf="item.status" class="alert alert-success">
                               Effectuer
                             </td>

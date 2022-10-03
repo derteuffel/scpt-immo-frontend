@@ -78,6 +78,7 @@
                             <th scope="col" class="sort" data-sort="typeClient">Mois</th>
                             <th scope="col" class="sort" data-sort="secteurActivite">Date de paiement</th>
                             <th scope="col" class="sort" data-sort="numLocale">Montant</th>
+                            <th scope="col" class="sort" data-sort="numLocale">Reste</th>
                             <th scope="col" class="sort" data-sort="contact">Client</th>
                           </tr>
                         </thead>
@@ -91,6 +92,7 @@
                             <td>{{item.mois}}</td>
                             <td>{{item.dateVersement}}</td>
                             <td>{{item.montant+' USD'}}</td>
+                            <td>{{item.reste+' USD'}}</td>
                             <td>{{item.contrat?.nameClient}}</td>
                             
                           </tr>
