@@ -4,7 +4,7 @@ import { FormControl, FormGroup } from '@angular/forms';
 import { Router } from '@angular/router';
 import { Subscription } from 'rxjs';
 import { AuthService } from 'src/app/auth/auth.service';
-import { constant } from 'src/app/constant';
+import {constant, provinceData} from 'src/app/constant';
 import { Role } from 'src/app/enums/role.enum';
 import { LocaleService } from 'src/app/services/locale.service';
 import Swal from 'sweetalert2';
@@ -18,8 +18,9 @@ export class RepresentationsComponent implements OnInit {
 
   lists: any[]=[];
   p:number = 1;
-  provinces: string[]=[];
-  villes: string[]=[];
+  provinces: Array<any>=[];
+  villes: Array<any>=[];
+  communes: Array<any>=[];
   form: any ={};
   occupes: any[]=[];
   libres: any[]=[];
@@ -39,8 +40,7 @@ export class RepresentationsComponent implements OnInit {
   ngOnInit(): void {
 
     this.loadList();
-    this.provinces = constant.PROVINCES;
-    this.villes=constant.VILLES;  
+    this.provinces = provinceData;
     this.init();
     if(this.authService.currentUserValue.role+'' == 'PAYMENT'){
       console.log('Je suis dedans pour tester le role');
@@ -67,6 +67,7 @@ export class RepresentationsComponent implements OnInit {
     });
 
     this.searchForm = new FormGroup({
+      province: new FormControl(''),
       value: new FormControl('')
     });
   }
@@ -109,16 +110,16 @@ export class RepresentationsComponent implements OnInit {
           if(result.isConfirmed){
             this.loadList();
             this.init();
-            
+
           }
         })
-       
+
 
       },
       error =>{
         console.log(error);
         Swal.fire('Ooops...', 'Internal error occured while saving your representation!', 'error')
-        
+
       }
     );
   }
@@ -127,7 +128,7 @@ export class RepresentationsComponent implements OnInit {
   onFilesSelect(event:any) {
     if (event.target.files.length > 0) {
       const file = event.target.files[0];
-      
+
       this.uploadedFile = file;
       this.imgURL = file.name;
     }
@@ -155,7 +156,7 @@ export class RepresentationsComponent implements OnInit {
       designation: item.designation,
       denomination: item.denomination,
       reference: item.reference,
-      observation: item.observateur,
+      observation: item.observation,
       miseEnService: item.miseEnService,
       montant: item.montant,
       superficie: item.superficie,
@@ -165,16 +166,16 @@ export class RepresentationsComponent implements OnInit {
 
   onSubmitFile(){
     const formData = new FormData();
-    
+
     if(this.uploadedFile==null || this.uploadedFile == undefined){
       console.log('error upload file');
       Swal.fire('Ooops...', 'Upload file please', 'warning')
-        
+
     }else{
       if(!this.validateFile(this.uploadedFile.name)){
         this.message = 'File should be excel, please load correct file';
         Swal.fire('Ooops...', 'File should be excel, please load correct file', 'warning')
-        
+
       }else{
         formData.append('file',this.uploadedFile);
     this.localeService.upload(formData).subscribe(
@@ -184,10 +185,10 @@ export class RepresentationsComponent implements OnInit {
         .then((result)=>{
           if(result.isConfirmed){
             this.loadList();
-            
+
           }
         })
-        
+
       },
       error => {
         console.log(error);
@@ -236,7 +237,7 @@ export class RepresentationsComponent implements OnInit {
                 this.clickButton('edit-representation-close');
               }
             })
-         
+
           },
           error =>{
             console.log(error);
@@ -245,7 +246,7 @@ export class RepresentationsComponent implements OnInit {
         );
       }
     })
-    
+
   }
 
   onSubmitSearch(){
@@ -282,6 +283,11 @@ export class RepresentationsComponent implements OnInit {
 
   alertWithSuccess(){
     Swal.fire('Thank you...', 'You submitted succesfully!', 'success')
+  }
+
+  changeProvince(event: any) { //Angular 11
+    this.villes = this.provinces!.find((stat: any) => stat.name == event).villes; //Angular 11
+    this.communes = this.provinces!.find((stat: any) => stat.name == event).territoires;
   }
 
 }

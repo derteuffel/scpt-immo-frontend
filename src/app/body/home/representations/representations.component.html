@@ -27,7 +27,7 @@
                           <div class="col-4 alert alert-secondary">
                             <h3 class="mb-0"><a type="button" class="btn btn-outline-primary" (click)="loadList()"><i class="fa fa-list"></i>&nbsp; Liste des parcelles ({{lists.length}})</a></h3>
                           </div>
-                          
+
                           <div class="col-4 alert alert-secondary">
                             <a href="#" type="button"  data-toggle="modal" data-target="#addLocalModal" class="btn btn-md btn-outline-info">Ajouter a partir d'un fichier &nbsp;<i class="fa fa-file"></i></a>
                           </div>
@@ -38,29 +38,44 @@
                   </div>
                   <div class="card-header border-0">
                     <div class="navbar-search navbar-search-light form-inline mr-sm-3" id="navbar-search-main">
-                      <div class="row">
-                        <div class="col-md-6 col-lg-4">
-                          <div class="form-group mb-0">
-                            <div class="input-group input-group-alternative input-group-merge">
-                              <div class="input-group-prepend">
-                                <span class="input-group-text"><i class="fas fa-search"></i></span>
-                              </div>
-                              <input class="form-control" placeholder="Rechercher une parcelle" [(ngModel)]="term" type="text">
+                        <div class="form-group mb-0">
+                          <div class="input-group input-group-alternative input-group-merge">
+                            <div class="input-group-prepend">
+                              <span class="input-group-text"><i class="fas fa-search"></i></span>
                             </div>
+                            <input class="form-control" placeholder="Recherche rapide" [(ngModel)]="term" type="text">
                           </div>
                         </div>
-                        <div class="col-md-6 col-lg-7 ml-2" >
+                        <br>
+                        <br>
+                        <div class="ml-2" >
+                          <div class="alert alert-default text-center">
+                            <span>Recherche par rapport a une ville</span>
+                          </div>
                           <form [formGroup]="searchForm" (submit)="onSubmitSearch()">
                           <div class="row">
-                            <div class="form-group mb-0  ">
-                              <div class="input-group input-group-alternative input-group-merge">
-                                <label class="mx-2">Rechercher par ville</label>
-                                <select formControlName="value" class="form-control">
-                                  <option *ngFor="let item of villes" value="{{item}}">{{item}}</option>
-                                </select>
+                            <div class="col-md-6 col-lg-5">
+                              <div class="form-group mb-0  ">
+                                <div class="input-group input-group-alternative input-group-merge">
+                                  <select formControlName="province" #province (change)="changeProvince(province.value)"  class="form-control">
+                                    <option  value="">--Choisir une province--</option>
+                                    <option *ngFor="let item of provinces" value="{{item.name}}">{{item.name}}</option>
+                                  </select>
+                                </div>
                               </div>
                             </div>
-                            <div>
+                            <div class="col-md-6 col-lg-5">
+                              <div class="form-group mb-0  ">
+                                <div class="input-group input-group-alternative input-group-merge">
+                                  <select formControlName="value" class="form-control">
+                                    <option  value="">--Choisir une ville--</option>
+                                    <option *ngFor="let item of villes" value="{{item}}">{{item}}</option>
+                                  </select>
+                                </div>
+                              </div>
+                            </div>
+
+                            <div class="col-md-6 col-lg-2">
                               <button type="submit" class="btn btn-icon-only mb-0" >
                                 <span class="input-group-text"><i class="fas fa-search"></i></span>
                               </button>
@@ -68,13 +83,10 @@
                           </div>
                          </form>
                         </div>
-                        
-                      </div>
-                       
                     </div>
                   </div>
                   <!-- Light table -->
-                  <div class="table-responsive">
+                  <div *ngIf="lists.length > 0" class="table-responsive">
                     <table class="table align-items-center table-flush">
                       <thead class="thead-light">
                         <tr>
@@ -90,24 +102,24 @@
                         <tr *ngFor="let item of lists | paginate: { itemsPerPage: 50, currentPage: p } | filter:term">
                           <td>
                             <span *ngIf="item.province">{{item.province}}</span>
-                            <span *ngIf="!item.province">Inconnue</span> 
+                            <span *ngIf="!item.province">Inconnue</span>
                           </td>
                           <td>
                             <span *ngIf="item.ville">{{item.ville}}</span>
-                            <span *ngIf="!item.ville">Inconnue</span> 
+                            <span *ngIf="!item.ville">Inconnue</span>
                           </td>
                           <td>
                             <span *ngIf="item.adresse">{{item.adresse}}</span>
-                            <span *ngIf="!item.adresse">Non Defini</span> 
+                            <span *ngIf="!item.adresse">Non Defini</span>
                           </td>
-                          
+
                           <td>
                             <span *ngIf="item.miseEnService">{{item.miseEnService}}</span>
-                            <span *ngIf="!item.miseEnService">Inconnu</span> 
+                            <span *ngIf="!item.miseEnService">Inconnu</span>
                           </td>
                           <td>
                             <span *ngIf="item.reference">{{item.reference}}</span>
-                            <span *ngIf="!item.reference">Aucune reference definie</span> 
+                            <span *ngIf="!item.reference">Aucune reference definie</span>
                           </td>
                           <td class="text-right">
                             <div class="dropdown">
@@ -125,8 +137,17 @@
                       </tbody>
                     </table>
                   </div>
+                  <div *ngIf="lists.length <= 0" class="card">
+                    <div class="alert alert-danger">
+                      <div class="text-center">
+                        <i class="fa fa-info-circle fa-3x"></i>
+                        <br>
+                        <span>Oooops, aucune parcelle ne correspond a vote recherche</span>
+                      </div>
+                    </div>
+                  </div>
                   <!-- Card footer -->
-                  <div class="card-footer py-4">
+                  <div *ngIf="lists.length > 0" class="card-footer py-4">
                     <nav aria-label="...">
                       <ul class="pagination justify-content-end mb-0">
                         <pagination-controls (pageChange)="p = $event"></pagination-controls>
@@ -156,28 +177,32 @@ aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
     </div>
     <div class="modal-body">
       <div>
-        
+
             <h6 class="heading-small text-muted mb-4">Formulaire</h6>
             <div class="pl-lg-4">
-              
+
                   <div class="form-group">
                     <label class="form-control-label" for="input-username">Province</label>
-                    <select formControlName="province" class="form-control" >
-                        <option *ngFor="let item of provinces" value="{{item}}">{{item}}</option>
+                    <select formControlName="province" #province1 (change)="changeProvince(province1.value)"  class="form-control" >
+                        <option  value="">--None--</option>
+                        <option *ngFor="let item of provinces" value="{{item.name}}">{{item.name}}</option>
                     </select>
-                    
+
                   </div>
 
                   <div class="form-group">
                     <label class="form-control-label" >Ville</label>
                     <select formControlName="ville" class="form-control" >
+                      <option  value="">--None--</option>
                         <option *ngFor="let item of villes" value="{{item}}">{{item}}</option>
-                    </select>  
+                    </select>
                   </div>
-               
                   <div class="form-group">
-                    <label class="form-control-label" >Commune ou localite</label>
-                    <input type="text" formControlName="commune"  class="form-control" placeholder="Commune">
+                    <label class="form-control-label" >Commune</label>
+                    <select formControlName="commune" class="form-control" >
+                      <option  value="">--None--</option>
+                        <option *ngFor="let item of communes" value="{{item}}">{{item}}</option>
+                    </select>
                   </div>
                   <div class="form-group">
                     <label class="form-control-label" >Adresse physique</label>
@@ -200,7 +225,7 @@ aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
                     <label class="form-control-label" >Superficie</label>
                     <input type="number" formControlName="superficie"  class="form-control" placeholder="Superficie">
                   </div>
-                  
+
                   <div class="form-group">
                     <label class="form-control-label" >Observation</label>
                     <textarea formControlName="observation"  class="form-control" placeholder="Observation" rows="3"></textarea>
@@ -208,19 +233,17 @@ aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
                   <div class="form-group">
                     <label class="form-control-label" >Date de mise en service</label>
                     <input type="date" formControlName="miseEnService"  class="form-control" placeholder="Date de mise en service">
-                  </div>    
+                  </div>
             </div>
-              
-         
       </div>
     </div>
     <div class="modal-footer">
       <button type="button" class="btn btn-secondary" data-dismiss="modal" id="new-representation-close">Fermer</button>
       <button type="submit"  class="btn btn-primary">Enregistrer</button>
     </div>
-    </form> 
+    </form>
   </div>
-  
+
 </div>
 </div>
 
@@ -238,29 +261,24 @@ aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
     </div>
     <div class="modal-body">
       <div>
-        
+
             <h6 class="heading-small text-muted mb-4">Formulaire</h6>
             <div class="pl-lg-4">
-              
-                 
                   <div class="form-group">
                     <label class="form-control-label" >Fichier </label>
                     <input type="file" name="file"  (change)="onFilesSelect($event)" class="form-control" >
                     <span class="fake-input">{{imgURL || "Aucune image ajouter"}}</span>
                   </div>
-                     
             </div>
-              
-         
       </div>
     </div>
     <div class="modal-footer">
       <button type="button" class="btn btn-secondary" data-dismiss="modal" id="new-file-close">Fermer</button>
       <button type="submit"  class="btn btn-primary">Enregistrer</button>
     </div>
-    </form> 
+    </form>
   </div>
-  
+
 </div>
 </div>
 
@@ -278,28 +296,32 @@ aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
     </div>
     <div class="modal-body">
       <div>
-        
+
             <h6 class="heading-small text-muted mb-4">Formulaire</h6>
             <div class="pl-lg-4">
-              
+
               <div class="form-group">
                 <label class="form-control-label" for="input-username">Province</label>
                 <select formControlName="province" class="form-control" >
-                    <option *ngFor="let item of provinces" value="{{item}}">{{item}}</option>
+                  <option  value="">--None--</option>
+                    <option *ngFor="let item of provinces" value="{{item.name}}">{{item.name}}</option>
                 </select>
-                
+
               </div>
 
               <div class="form-group">
                 <label class="form-control-label" >Ville</label>
                 <select formControlName="ville" class="form-control" >
+                  <option  value="">--None--</option>
                     <option *ngFor="let item of villes" value="{{item}}">{{item}}</option>
-                </select>  
+                </select>
               </div>
-           
               <div class="form-group">
-                <label class="form-control-label" >Commune ou localite</label>
-                <input type="text" formControlName="commune"  class="form-control" placeholder="Commune">
+                <label class="form-control-label" >Commune/Territoire</label>
+                <select formControlName="commune" class="form-control" >
+                  <option  value="">--None--</option>
+                    <option *ngFor="let item of communes" value="{{item}}">{{item}}</option>
+                </select>
               </div>
               <div class="form-group">
                 <label class="form-control-label" >Adresse physique</label>
@@ -322,7 +344,7 @@ aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
                 <label class="form-control-label" >Superficie</label>
                 <input type="number" formControlName="superficie"  class="form-control" placeholder="Superficie">
               </div>
-              
+
               <div class="form-group">
                 <label class="form-control-label" >Observation</label>
                 <textarea formControlName="observation"  class="form-control" placeholder="Observation" rows="3"></textarea>
@@ -331,18 +353,18 @@ aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
                 <label class="form-control-label" >Date de mise en service</label>
                 <input type="date" formControlName="miseEnService"  class="form-control" placeholder="Date de mise en service">
               </div>
-                
+
             </div>
-              
-         
+
+
       </div>
     </div>
     <div class="modal-footer">
       <button type="button" class="btn btn-secondary" data-dismiss="modal" id="edit-representation-close">Fermer</button>
       <button type="submit"  class="btn btn-primary">Enregistrer</button>
     </div>
-    </form> 
+    </form>
   </div>
-  
+
 </div>
 </div>
