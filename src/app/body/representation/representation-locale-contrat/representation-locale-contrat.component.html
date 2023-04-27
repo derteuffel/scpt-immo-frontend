@@ -41,13 +41,13 @@
                         <th>Montant Locatif</th>
                         <td>{{currentOccupation.montantOccupation+' USD'}}</td>
                       </tr>
-                      
+
                       <tr>
                         <th>Status</th>
                         <td *ngIf="currentOccupation.status" class="alert alert-warning">Occupe</td>
                         <td *ngIf="!currentOccupation.status" class="alert alert-success">Libre</td>
                       </tr>
-                                       
+
 
                 </table>
               </div>
@@ -75,7 +75,6 @@
                           <div class="col-xl-3 col-md-6  mr-1">
                             <h3 class="mb-0 "><a type="button" class="btn btn-outline-success" (click)="getContratEncour()"> <i class="fa fa-list"></i>&nbsp; Encours ({{encours.length}})</a></h3>
                           </div>
-                    
                           <div class="col-xl-2 col-md-6 ">
                             <a href="#" type="button"  data-toggle="modal" data-target="#addContratModal" class="btn btn-outline-primary"> <i class="fa fa-plus"></i>&nbsp; Contrat</a>
                           </div>
@@ -84,7 +83,7 @@
                   <div *ngIf="message" class="card-header border-0">
                     <div  class="alert alert-warning">
                       <h3><span>{{message}}</span></h3>
-                        
+
                     </div>
                   </div>
                   <!-- Light table -->
@@ -105,20 +104,20 @@
                         <tbody class="list">
                           <tr  *ngFor="let item of lists | paginate: { itemsPerPage: 20, currentPage: p }">
                             <td >
-                              <span *ngIf="item.numContrat">{{item.numContrat}}</span> 
-                              <span *ngIf="!item.numContrat">Non defini</span> 
+                              <span *ngIf="item.numContrat">{{item.numContrat}}</span>
+                              <span *ngIf="!item.numContrat">Non defini</span>
                             </td>
                             <td>
-                              <span *ngIf="item.nameClient">{{item.nameClient}}</span> 
+                              <span *ngIf="item.nameClient">{{item.nameClient}}</span>
                               <span *ngIf="!item.nameClient">Non defini</span>
                             </td>
                             <td>
-                              <span *ngIf="item.typeClient">{{item.typeClient}}</span> 
-                              <span *ngIf="!item.typeClient">Non defini</span> 
+                              <span *ngIf="item.typeClient">{{item.typeClient}}</span>
+                              <span *ngIf="!item.typeClient">Non defini</span>
                             </td>
                             <td>
-                              <span *ngIf="item.secteurActivite">{{item.secteurActivite}}</span> 
-                              <span *ngIf="!item.secteurActivite">Non defini</span> 
+                              <span *ngIf="item.secteurActivite">{{item.secteurActivite}}</span>
+                              <span *ngIf="!item.secteurActivite">Non defini</span>
                             </td>
                             <td *ngIf="item.status" class="alert alert-success">
                               Contrat en cours
@@ -127,10 +126,10 @@
                               Contrat terminer
                             </td>
                             <td>
-                              <span *ngIf="item.contact">{{item.contact}}</span> 
-                              <span *ngIf="!item.contact">Non defini</span> 
+                              <span *ngIf="item.contact">{{item.contact}}</span>
+                              <span *ngIf="!item.contact">Non defini</span>
                             </td>
-                            
+
                             <td class="text-right">
                               <div class="dropdown">
                                 <a class="btn btn-sm btn-icon-only text-light" href="#" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
@@ -158,12 +157,111 @@
                     </nav>
                   </div>
                 </div>
+              <div class="card">
+                <div class="card-header border-0">
+                  <div class="mx-5 text-center">
+                    <h3><strong>Les Dossiers</strong> </h3>
+                  </div>
+                  <br>
+                  <div class="row">
+                    <div class="col-xl-3 col-md-6 ">
+                      <h3 class="mb-0"><a type="button" class="btn btn-outline-info" (click)="getDossierByOccupation()"><i class="fa fa-list"></i>&nbsp;Les Dossiers ({{dossiers?.length}})</a></h3>
+                    </div>
+                    <div class="col-xl-2 col-md-6  mr-1">
+                      <h3 class="mb-0"><a type="button" class="btn btn-outline-success" (click)="getDossierAccorder()"><i class="fa fa-list"></i>&nbsp;Aboutis ({{aboutis?.length}})</a> </h3>
+                    </div>
+                    <div class="col-xl-2 col-md-6  mr-1">
+                      <h3 class="mb-0 "><a type="button" class="btn btn-outline-warning" (click)="getDossierRejetter()"> <i class="fa fa-list"></i>&nbsp; Rejétés ({{rejeters?.length}})</a></h3>
+                    </div>
+                    <div class="col-xl-2 col-md-6  mr-1">
+                      <h3 class="mb-0 "><a type="button" class="btn btn-outline-primary" (click)="getDossierEncour()"> <i class="fa fa-list"></i>&nbsp; Encours ({{dossiersEncours?.length}})</a></h3>
+                    </div>
+                    <div class="col-xl-2 col-md-6  mr-1">
+                      <a href="#" type="button"  data-toggle="modal" data-target="#addDossierModal" class="btn btn-outline-info"> <i class="fa fa-plus"></i>&nbsp; Dossier</a>
+                    </div>
+                  </div>
+                </div>
+                <div *ngIf="message" class="card-header border-0">
+                  <div  class="alert alert-warning">
+                    <h3><span>{{message}}</span></h3>
+
+                  </div>
+                </div>
+                <!-- Light table -->
+                <div class="card-body">
+                  <div class="table-responsive">
+                    <table class="table align-items-center table-flush">
+                      <thead class="thead-light">
+                      <tr>
+                        <th scope="col" class="sort" data-sort="numContrat">Numero du dossier</th>
+                        <th scope="col" class="sort" data-sort="nameClient">Nom du client</th>
+                        <th scope="col" class="sort" data-sort="typeClient">Téléphone client</th>
+                        <th scope="col" class="sort" data-sort="secteurActivite">Activité</th>
+                        <th scope="col" class="sort" data-sort="raisonSociale">Raison sociale</th>
+                        <th scope="col" class="sort" data-sort="status">Status</th>
+                        <th scope="col">Actions</th>
+                      </tr>
+                      </thead>
+                      <tbody class="list">
+                      <tr  *ngFor="let item of dossiers | paginate: { itemsPerPage: 20, currentPage: p }">
+                        <td >
+                          <span *ngIf="item.code">{{item.code}}</span>
+                          <span *ngIf="!item.code">Non defini</span>
+                        </td>
+                        <td>
+                          <span *ngIf="item.nomDemandeur">{{item.nomDemandeur}}</span>
+                          <span *ngIf="!item.nomDemandeur">Non defini</span>
+                        </td>
+                        <td>
+                          <span *ngIf="item.telephone">{{item.telephone}}</span>
+                          <span *ngIf="!item.telephone">Non defini</span>
+                        </td>
+                        <td>
+                          <span *ngIf="item.activite">{{item.activite}}</span>
+                          <span *ngIf="!item.activite">Non defini</span>
+                        </td>
+                        <td>
+                          <span *ngIf="item.raisonSocial">{{item.raisonSocial}}</span>
+                          <span *ngIf="!item.raisonSocial">Non defini</span>
+                        </td>
+                        <td>
+                          <span *ngIf="item.status">{{item.status}}</span>
+                          <span *ngIf="!item.status">Non defini</span>
+                        </td>
+                        <td class="text-right">
+                          <div class="dropdown">
+                            <a class="btn btn-sm btn-icon-only text-light" href="#" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                              <i class="fas fa-ellipsis-v"></i>
+                            </a>
+                            <div class="dropdown-menu dropdown-menu-right dropdown-menu-arrow">
+                              <a class="dropdown-item" href="/admin/dossier/detail/{{item.id}}">Detail&nbsp; <i class="fa fa-eye"></i></a>
+                              <a class="dropdown-item" type="button"   (click)="editDossier(item)">Edit &nbsp; <i class="fa fa-edit"></i></a>
+                              <a class="dropdown-item" type="button"   (click)="deleteDossier(item.id)">Supprimer &nbsp; <i class="fa fa-trash"></i></a>
+                            </div>
+                          </div>
+                        </td>
+                      </tr>
+                      </tbody>
+                    </table>
+                  </div>
+                </div>
+                <!-- Card footer -->
+                <div class="card-footer py-4">
+                  <nav aria-label="...">
+                    <ul class="pagination justify-content-end mb-0">
+                      <pagination-controls (pageChange)="p1 = $event"></pagination-controls>
+                    </ul>
+                  </nav>
+                </div>
+              </div>
               </div>
         </div>
         <app-footer></app-footer>
     </div>
 </div>
 <button [hidden]="true" type="button" id="openEdit" data-toggle="modal" data-target="#editContratModal">
+</button>
+<button [hidden]="true" type="button" id="openEditDossier" data-toggle="modal" data-target="#editDossierModal">
 </button>
 
 <button [hidden]="true" type="button" id="openDetail" data-toggle="modal" data-target="#detailContratModal">
@@ -185,7 +283,7 @@ aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
     </div>
     <div class="modal-body">
       <div>
-        
+
             <h6 class="heading-small text-muted mb-4">Formulaire</h6>
             <div class="pl-lg-4">
                   <div class="form-group">
@@ -229,19 +327,75 @@ aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
                         <option *ngFor="let item of activites" value="{{item}}">{{item}}</option>
                     </select>
                   </div>
-                
+
             </div>
-              
-         
+
+
       </div>
     </div>
     <div class="modal-footer">
       <button type="button" class="btn btn-secondary" data-dismiss="modal" id="new-contrat-close">Fermer</button>
       <button type="submit"  class="btn btn-primary">Enregistrer</button>
     </div>
-    </form> 
+    </form>
   </div>
-  
+
+</div>
+</div>
+<div  class="modal draggable fade bd-example-modal-lg" id="addDossierModal" tabindex="-1" role="dialog"
+aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
+<div class="modal-dialog" role="document">
+  <div class="modal-content">
+    <form (submit)="onSubmitDossier()" [formGroup]="dossierForm">
+    <div class="modal-header">
+      <h5 class="modal-title text-center">Nouveau Dossier</h5>
+      <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+        <span aria-hidden="true">&times;</span>
+      </button>
+    </div>
+    <div class="modal-body">
+      <div>
+
+            <h6 class="heading-small text-muted mb-4">Formulaire</h6>
+            <div class="pl-lg-4">
+                  <div class="form-group">
+                    <label class="form-control-label" >Nom du demandeur</label>
+                    <input type="text" formControlName="nomDemandeur"  class="form-control" placeholder="Nom du client">
+                  </div>
+                  <div class="form-group">
+                    <label class="form-control-label" >Email</label>
+                    <input type="email" formControlName="email"  class="form-control" placeholder="Email">
+                  </div>
+                  <div class="form-group">
+                    <label class="form-control-label" >Telephone</label>
+                    <input type="text" formControlName="telephone"  class="form-control" placeholder="Telephone">
+                  </div>
+                  <div class="form-group">
+                    <label class="form-control-label" >Type de client</label>
+                    <select formControlName="raisonSocial" class="form-control" >
+                        <option *ngFor="let item of types" value="{{item}}">{{item}}</option>
+                    </select>
+                  </div>
+
+                  <div class="form-group">
+                    <label class="form-control-label" >Activite</label>
+                    <select formControlName="activite" class="form-control" >
+                        <option *ngFor="let item of activites" value="{{item}}">{{item}}</option>
+                    </select>
+                  </div>
+
+            </div>
+
+
+      </div>
+    </div>
+    <div class="modal-footer">
+      <button type="button" class="btn btn-secondary" data-dismiss="modal" id="new-dossier-close">Fermer</button>
+      <button type="submit"  class="btn btn-primary">Enregistrer</button>
+    </div>
+    </form>
+  </div>
+
 </div>
 </div>
 
@@ -259,10 +413,10 @@ aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
     </div>
     <div class="modal-body">
       <div>
-        
+
             <h6 class="heading-small text-muted mb-4">Formulaire</h6>
             <div class="pl-lg-4">
-              
+
                 <div class="form-group">
                     <label class="form-control-label" >Nom du client</label>
                     <input type="text" formControlName="nameClient"  class="form-control" placeholder="Nom du client">
@@ -304,18 +458,75 @@ aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
                         <option *ngFor="let item of activites" value="{{item}}">{{item}}</option>
                     </select>
                   </div>
-                
+
             </div>
-              
-         
+
+
       </div>
     </div>
     <div class="modal-footer">
       <button type="button" class="btn btn-secondary" data-dismiss="modal" id="edit-contrat-close">Fermer</button>
       <button type="submit"  class="btn btn-primary">Enregistrer</button>
     </div>
-    </form> 
+    </form>
   </div>
-  
+
+</div>
+</div>
+<div  class="modal draggable fade bd-example-modal-lg" id="editDossierModal" tabindex="-1" role="dialog"
+aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
+<div class="modal-dialog" role="document">
+  <div class="modal-content">
+    <form (submit)="onEditSubmitDossier(selectedItem.id)" [formGroup]="dossierForm">
+    <div class="modal-header">
+      <h5 class="modal-title text-center">Modification dossier</h5>
+      <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+        <span aria-hidden="true">&times;</span>
+      </button>
+    </div>
+    <div class="modal-body">
+      <div>
+
+            <h6 class="heading-small text-muted mb-4">Formulaire</h6>
+            <div class="pl-lg-4">
+
+              <div class="form-group">
+                <label class="form-control-label" >Nom du demandeur</label>
+                <input type="text" formControlName="nomDemandeur"  class="form-control" placeholder="Nom du client">
+              </div>
+              <div class="form-group">
+                <label class="form-control-label" >Email</label>
+                <input type="email" formControlName="email"  class="form-control" placeholder="Email">
+              </div>
+              <div class="form-group">
+                <label class="form-control-label" >Telephone</label>
+                <input type="text" formControlName="telephone"  class="form-control" placeholder="Telephone">
+              </div>
+              <div class="form-group">
+                <label class="form-control-label" >Type de client</label>
+                <select formControlName="raisonSocial" class="form-control" >
+                  <option *ngFor="let item of types" value="{{item}}">{{item}}</option>
+                </select>
+              </div>
+
+              <div class="form-group">
+                <label class="form-control-label" >Activite</label>
+                <select formControlName="activite" class="form-control" >
+                  <option *ngFor="let item of activites" value="{{item}}">{{item}}</option>
+                </select>
+              </div>
+
+            </div>
+
+
+      </div>
+    </div>
+    <div class="modal-footer">
+      <button type="button" class="btn btn-secondary" data-dismiss="modal" id="edit-dossier-close">Fermer</button>
+      <button type="submit"  class="btn btn-primary">Enregistrer</button>
+    </div>
+    </form>
+  </div>
+
 </div>
 </div>

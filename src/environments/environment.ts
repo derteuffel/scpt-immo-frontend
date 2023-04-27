@@ -11,6 +11,9 @@ export const environment = {
   LOCALE: `${HOST}/locale`,
   CONTRAT: `${HOST}/contrat`,
   MENSUALITE: `${HOST}/mensualite`,
+  DOSSIER: `${HOST}/dossier`,
+  ETAPE: `${HOST}/etape`,
+  BORDEREAUX: `${HOST}/facture`,
   OCCUPATION: `${HOST}/occupation`
 };
 

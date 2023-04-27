@@ -30,6 +30,9 @@ import { ContratService } from './services/contrat.service';
 import { MensualiteService } from './services/mensualite.service';
 import { NotificationModule } from './notification.module';
 import { UserDetailComponent } from './body/home/user-detail/user-detail.component';
+import {DatePipe} from "@angular/common";
+import {BordereauxComponent} from "./body/home/bordereaux/bordereaux.component";
+import { DossierDetailsComponent } from './body/representation/dossier-details/dossier-details.component';
 
 @NgModule({
   declarations: [
@@ -48,7 +51,9 @@ import { UserDetailComponent } from './body/home/user-detail/user-detail.compone
     PaymentsSearchComponent,
     ContratDetailComponent,
     OccupationsComponent,
-    UserDetailComponent
+    UserDetailComponent,
+    BordereauxComponent,
+    DossierDetailsComponent
 
   ],
   imports: [
@@ -60,7 +65,7 @@ import { UserDetailComponent } from './body/home/user-detail/user-detail.compone
     NgxPaginationModule,
     Ng2SearchPipeModule,
   ],
-  providers: [],
+  providers: [DatePipe],
   bootstrap: [AppComponent]
 })
 export class AppModule { }

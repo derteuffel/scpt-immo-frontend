@@ -3,7 +3,7 @@ import { Component, OnInit } from '@angular/core';
 import { FormGroup, FormControl } from '@angular/forms';
 import { Subscription } from 'rxjs';
 import { AuthService } from 'src/app/auth/auth.service';
-import { constant } from 'src/app/constant';
+import {constant, provinceData} from 'src/app/constant';
 import { LocaleService } from 'src/app/services/locale.service';
 import Swal from 'sweetalert2';
 
@@ -15,7 +15,7 @@ import Swal from 'sweetalert2';
 export class UsersComponent implements OnInit {
   lists: any[]=[];
   p:number = 1;
-  provinces: string[]=[];
+  provinces: Array<any> = [];
   form: any ={};
   term: string='';
   selectedItem: any ={};
@@ -30,7 +30,7 @@ export class UsersComponent implements OnInit {
 
   ngOnInit(): void {
     this.loadList();
-    this.provinces = constant.PROVINCES;  
+    this.provinces = provinceData;
     this.init();
   }
 
@@ -44,7 +44,7 @@ export class UsersComponent implements OnInit {
       fonction: new FormControl(''),
       email: new FormControl(''),
       telephone: new FormControl(''),
-      
+
     });
 
     this.searchForm = new FormGroup({
@@ -74,7 +74,7 @@ export class UsersComponent implements OnInit {
       fonction: this.form.get('fonction').value,
       matricule: this.form.get('matricule').value,
       telephone: this.form.get('telephone').value,
-      
+
     };
 
     console.log(formData);
@@ -88,7 +88,7 @@ export class UsersComponent implements OnInit {
                         this.loadList();
                         this.init();
                       }
-                    });  
+                    });
       },
       error =>{
         console.log(error);
@@ -102,7 +102,7 @@ export class UsersComponent implements OnInit {
   onFilesSelect(event:any) {
     if (event.target.files.length > 0) {
       const file = event.target.files[0];
-      
+
       this.uploadedFile = file;
       this.imgURL = file.name;
     }
@@ -133,7 +133,7 @@ export class UsersComponent implements OnInit {
     });
   }
 
-  
+
 
   onEditSubmit(id:any){
     const formData = {
@@ -158,7 +158,7 @@ export class UsersComponent implements OnInit {
                         this.loadList();
                         this.init();
                       }
-                    }); 
+                    });
       },
       error =>{
         console.log(error);
@@ -189,7 +189,7 @@ export class UsersComponent implements OnInit {
                       if(result.isConfirmed){
                         this.loadList();
                       }
-                    }); 
+                    });
         },
         (error: HttpErrorResponse) => {
           console.log(error.error.message);

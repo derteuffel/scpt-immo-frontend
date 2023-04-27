@@ -1,0 +1,345 @@
+<app-sidebar></app-sidebar>
+<div class="main-content" id="panel">
+  <app-header></app-header>
+  <div class="header pb-6 ">
+    <div class="container-fluid">
+      <div class="header-body">
+        <div class="row align-items-center py-4">
+          <div class="col-lg-8 col-8">
+            <nav aria-label="breadcrumb" class="d-none d-md-inline-block ml-md-4">
+              <ol class="breadcrumb breadcrumb-links breadcrumb-dark">
+                <li class="breadcrumb-item"><a href="/admin/locations"><i class="fas fa-home"></i></a></li>
+              </ol>
+            </nav>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+  <div class="container-fluid mt--6 mb-4">
+    <div class="row">
+      <div class="col">
+        <div class="card">
+          <div class="card-header border-0">
+            <h2>Detail d'un dossier</h2>
+          </div>
+          <div class="card-body">
+            <table class="table table-bordered">
+
+              <tr>
+                <th>Nom du demandeur</th>
+                <td>{{currentDossier?.nomDemandeur}}</td>
+              </tr>
+              <tr>
+                <th>Téléphone </th>
+                <td>{{currentDossier?.telephone}}</td>
+              </tr>
+              <tr>
+                <th>E-mail</th>
+                <td>{{currentDossier?.email}}</td>
+              </tr>
+              <tr>
+                <th>Activité</th>
+                <td>{{currentDossier?.activite}}</td>
+              </tr>
+              <tr>
+                <th>Raison sociale</th>
+                <td>{{currentDossier?.raisonSocial}}</td>
+              </tr>
+              <tr>
+                <th>Numero du dossier</th>
+                <td>{{currentDossier?.code}}</td>
+              </tr>
+              <tr>
+                <th>Date ouverture du dossier</th>
+                <td>{{currentDossier?.dateCreation}}</td>
+              </tr>
+              <tr>
+                <th>Status</th>
+                <td>{{currentDossier?.status}}</td>
+              </tr>
+              <tr>
+                <th>Documents associers au dossier</th>
+                <td><ul *ngFor="let item of currentDossier?.files">
+                      <li>
+                        <a href="{{item}}">{{item}}</a>
+                      </li>
+                    </ul>
+                </td>
+              </tr>
+            </table>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+  <div class="container-fluid mt--6">
+    <div class="row">
+      <div class="col">
+        <div class="card">
+          <!-- Card header -->
+          <div class="card-header border-0">
+            <div class="mx-5 text-center">
+              <h3><strong>Liste des Etapes de traitement du dossier</strong> </h3>
+            </div>
+            <br>
+            <div class="row">
+              <div class="col-xl-4 col-md-6 ">
+                <div class="card-header border-0">
+                  <div class="navbar-search navbar-search-light form-inline mr-sm-3" id="navbar-search-main">
+                    <div class="form-group mb-0">
+                      <div class="input-group input-group-alternative input-group-merge">
+                        <div class="input-group-prepend">
+                          <span class="input-group-text"><i class="fas fa-search"></i></span>
+                        </div>
+                        <input class="form-control" placeholder="Recherche rapide" [(ngModel)]="term" type="text">
+                      </div>
+                    </div>
+                    <br>
+                  </div>
+                </div>
+              </div>
+              <div *ngIf="currentDossier?.status != 'ACCORDER'" class="col-xl-3 my-3 col-md-6 ">
+                <a href="#" type="button"  data-toggle="modal" data-target="#addEtapeModal" class="btn btn-outline-primary"> <i class="fa fa-plus"></i>&nbsp; Etape</a>
+              </div>
+              <div *ngIf="currentDossier?.status != 'ACCORDER'" class="col-xl-4 my-3 col-md-6 ">
+                <a href="#" type="button"  data-toggle="modal" data-target="#addProduireContratModal" class="btn btn-outline-success"> <i class="fa fa-file"></i>&nbsp; Produire Contrat</a>
+              </div>
+            </div>
+          </div>
+          <!-- Light table -->
+          <div class="card-body">
+            <div class="table-responsive">
+              <table class="table align-items-center table-flush">
+                <thead class="thead-light">
+                <tr>
+                  <th scope="col" class="sort" data-sort="numContrat">Service</th>
+                  <th scope="col" class="sort" data-sort="nameClient">Type</th>
+                  <th scope="col" class="sort" data-sort="typeClient">Action</th>
+                  <th scope="col" class="sort" data-sort="secteurActivite">Observation</th>
+                  <th scope="col" class="sort" data-sort="date">Date</th>
+                  <th scope="col" class="sort" data-sort="status">Status</th>
+                  <th scope="col" class="sort" data-sort="status">Fichier</th>
+                  <th scope="col">Actions</th>
+                </tr>
+                </thead>
+                <tbody class="list">
+                <tr  *ngFor="let item of lists  | paginate: { itemsPerPage: 20, currentPage: p } |filter:term">
+                  <td >
+                    <span *ngIf="item.service">{{item.service}}</span>
+                    <span *ngIf="!item.service">Non defini</span>
+                  </td>
+                  <td>
+                    <span *ngIf="item.type">{{item.type}}</span>
+                    <span *ngIf="!item.type">Non defini</span>
+                  </td>
+                  <td>
+                    <span *ngIf="item.action">{{item.action}}</span>
+                    <span *ngIf="!item.action">Non defini</span>
+                  </td>
+                  <td>
+                    <span *ngIf="item.observation">{{item.observation}}</span>
+                    <span *ngIf="!item.observation">Non defini</span>
+                  </td>
+                  <td>
+                    <span *ngIf="item.createdDate">{{item.createdDate}}</span>
+                    <span *ngIf="!item.createdDate">Non defini</span>
+                  </td>
+                  <td *ngIf="item.status" class="alert alert-success">
+                    Traiter
+                  </td>
+                  <td *ngIf="!item.status" class="alert alert-warning">
+                    En cours
+                  </td>
+                  <td>
+                    <span *ngIf="item.fichier"><a href="{{item.fichier}}">{{item.fichier}}</a></span>
+                    <span *ngIf="!item.fichier">Non defini</span>
+                  </td>
+
+                  <td class="text-right">
+                    <div class="dropdown">
+                      <a class="btn btn-sm btn-icon-only text-light" href="#" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                        <i class="fas fa-ellipsis-v"></i>
+                      </a>
+                      <div class="dropdown-menu dropdown-menu-right dropdown-menu-arrow">
+                        <a class="dropdown-item" type="button" *ngIf="currentDossier?.status != 'ACCORDER'"  (click)="editItem(item)">Edit &nbsp; <i class="fa fa-edit"></i></a>
+                        <a class="dropdown-item" type="button" *ngIf="currentDossier?.status != 'ACCORDER'"  (click)="deleteEtape(item.id)">Supprimer &nbsp; <i class="fa fa-trash"></i></a>
+                      </div>
+                    </div>
+                  </td>
+                </tr>
+                </tbody>
+              </table>
+            </div>
+          </div>
+          <!-- Card footer -->
+          <div class="card-footer py-4">
+            <nav aria-label="...">
+              <ul class="pagination justify-content-end mb-0">
+                <pagination-controls (pageChange)="p = $event"></pagination-controls>
+              </ul>
+            </nav>
+          </div>
+        </div>
+      </div>
+    </div>
+    <app-footer></app-footer>
+  </div>
+</div>
+<button [hidden]="true" type="button" id="openEdit" data-toggle="modal" data-target="#editEtapeModal">
+</button>
+<button [hidden]="true" type="button" id="openEditEtape" data-toggle="modal" data-target="#editEtapeModal">
+</button>
+
+
+
+<!-- model add user -->
+<div  class="modal draggable fade bd-example-modal-lg" id="addEtapeModal" tabindex="-1" role="dialog"
+      aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
+  <div class="modal-dialog" role="document">
+    <div class="modal-content">
+      <form (submit)="onSubmit()" [formGroup]="form">
+        <div class="modal-header">
+          <h5 class="modal-title text-center">Nouvelle etape de traitement</h5>
+          <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+            <span aria-hidden="true">&times;</span>
+          </button>
+        </div>
+        <div class="modal-body">
+          <div>
+
+            <h6 class="heading-small text-muted mb-4">Formulaire</h6>
+            <div class="pl-lg-4">
+              <div class="form-group">
+                <label class="form-control-label" >Service de traitement</label>
+                <select formControlName="service" class="form-control" >
+                  <option  value="">-- Select Services --</option>
+                  <option *ngFor="let item of services" value="{{item}}">{{item}}</option>
+                </select>
+              </div>
+              <div class="form-group">
+                <label class="form-control-label" >Type de traitement</label>
+                <select formControlName="type" class="form-control" >
+                  <option  value="">-- Select type --</option>
+                  <option *ngFor="let item of types" value="{{item}}">{{item}}</option>
+                </select>
+              </div>
+              <div class="form-group">
+                <label class="form-control-label" >Action</label>
+                <select formControlName="action" class="form-control" >
+                  <option  value="">-- Select Action --</option>
+                  <option *ngFor="let item of actions" value="{{item}}">{{item}}</option>
+                </select>
+              </div>
+              <div class="form-group">
+                <label class="form-control-label" >Observations</label>
+                <textarea formControlName="observation" class="form-control" rows="4" placeholder="Observation"></textarea>
+              </div>
+              <div class="form-group">
+                <label class="form-control-label" >Document</label>
+                <input type="file" (change)="selectFile($event)"  class="form-control" placeholder="Telephone">
+                <span class="fake-input">{{imgURL || 'No file selected'}}</span>
+              </div>
+            </div>
+
+
+          </div>
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-secondary" data-dismiss="modal" id="new-etape-close">Fermer</button>
+          <button type="submit"  class="btn btn-primary">Enregistrer</button>
+        </div>
+      </form>
+    </div>
+
+  </div>
+</div>
+<div  class="modal draggable fade bd-example-modal-lg" id="addProduireContratModal" tabindex="-1" role="dialog"
+      aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
+  <div class="modal-dialog" role="document">
+    <div class="modal-content">
+        <div class="modal-header">
+          <h5 class="modal-title text-center">Production d'un contrat</h5>
+          <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+            <span aria-hidden="true">&times;</span>
+          </button>
+        </div>
+        <div class="modal-body">
+          <div>
+            <div class="pl-lg-4">
+              <span>Etes-vous sûre de vouloir produire un contrat pour ce dossier?</span>
+            </div>
+          </div>
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-secondary" data-dismiss="modal" id="produire-contrat-close">Annuler</button>
+          <button type="button" (click)="onProduceContract()"  class="btn btn-primary">Produire</button>
+        </div>
+    </div>
+
+  </div>
+</div>
+
+<!-- model add user -->
+<div  class="modal draggable fade bd-example-modal-lg" id="editEtapeModal" tabindex="-1" role="dialog"
+      aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
+  <div class="modal-dialog" role="document">
+    <div class="modal-content">
+      <form (submit)="onUpdate()" [formGroup]="form">
+        <div class="modal-header">
+          <h5 class="modal-title text-center">Modification d'une etape</h5>
+          <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+            <span aria-hidden="true">&times;</span>
+          </button>
+        </div>
+        <div class="modal-body">
+          <div>
+
+            <h6 class="heading-small text-muted mb-4">Formulaire</h6>
+            <div class="pl-lg-4">
+
+              <div class="form-group">
+                <label class="form-control-label" >Service de traitement</label>
+                <select formControlName="service" class="form-control" >
+                  <option  value="">-- Select Services --</option>
+                  <option *ngFor="let item of services" value="{{item}}">{{item}}</option>
+                </select>
+              </div>
+              <div class="form-group">
+                <label class="form-control-label" >Type de traitement</label>
+                <select formControlName="type" class="form-control" >
+                  <option  value="">-- Select type --</option>
+                  <option *ngFor="let item of types" value="{{item}}">{{item}}</option>
+                </select>
+              </div>
+              <div class="form-group">
+                <label class="form-control-label" >Action</label>
+                <select formControlName="action" class="form-control" >
+                  <option  value="">-- Select action --</option>
+                  <option *ngFor="let item of actions" value="{{item}}">{{item}}</option>
+                </select>
+              </div>
+              <div class="form-group">
+                <label class="form-control-label" >Observations</label>
+                <textarea formControlName="observation" class="form-control" rows="4" placeholder="Observation"></textarea>
+              </div>
+              <div class="form-group">
+                <label class="form-control-label" >Document</label>
+                <input type="file" (change)="selectFile($event)"  class="form-control" placeholder="Telephone">
+                <span class="fake-input">{{imgURL || 'No file selected'}}</span>
+              </div>
+
+            </div>
+
+
+          </div>
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-secondary" data-dismiss="modal" id="edit-etape-close">Fermer</button>
+          <button type="submit"  class="btn btn-primary">Enregistrer</button>
+        </div>
+      </form>
+    </div>
+
+  </div>
+</div>

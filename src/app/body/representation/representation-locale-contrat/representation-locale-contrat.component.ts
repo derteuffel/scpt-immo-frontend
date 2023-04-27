@@ -8,6 +8,10 @@ import { LocaleService } from 'src/app/services/locale.service';
 import { MensualiteService } from 'src/app/services/mensualite.service';
 import { OccupationService } from 'src/app/services/occupation.service';
 import Swal from 'sweetalert2';
+import {constant} from "../../../constant";
+import {Contrat} from "../../../models/contrat";
+import {Dossier} from "../../../models/dossier";
+import {DossierService} from "../../../services/dossier/dossier.service";
 
 @Component({
   selector: 'app-representation-locale-contrat',
@@ -17,31 +21,35 @@ import Swal from 'sweetalert2';
 export class RepresentationLocaleContratComponent implements OnInit {
 
 
-  lists: any[]=[];
-  alls:any[]=[];
-  termines: any[]=[];
-  encours: any[]=[];
+  lists: Contrat[]=[];
+  dossiers: Dossier[]=[];
+  alls:Contrat[]=[];
+  termines: Contrat[]=[];
+  aboutis: Dossier[]=[];
+  dossiersEncours: Dossier[]=[];
+  encours: Contrat[]=[];
+  rejeters: Dossier[]=[];
   currentOccupation: any ={};
   currentLocale: any={};
   types: string[]=[];
   activites: string[]=[];
   mensualites: any[]=[];
   form: any ={};
+  dossierForm: any ={};
   selectedItem: any ={};
   message?:string;
   existedContrat:any[]=[];
   p:number=1;
+  p1:number=1;
   private subscriptions: Subscription[] = [];
 
   constructor(private contratService:ContratService, private activatedRoute: ActivatedRoute,
-    private occupationService: OccupationService, private mensualiteService: MensualiteService) { }
+    private occupationService: OccupationService, private mensualiteService: MensualiteService,
+              private dossierService:DossierService) { }
 
   ngOnInit(): void {
     this.types = ['ONG','FONDATION','SOCIETE PRIVE','EGLISE','SOCIETE PUBLIQUE','INDIVIDU'];
-    this.activites = ['AGRO-ALIMENTAIRE','TECHNOLOGIE','TELEVISION','TELECOMMUNICATIONS','AGRONOMIE',
-  'SERVICES GENERAUX','EDUCATION','MARKETING','MALEWA','DIVERS','CABINET PRIVE','TERRASSE',
-  'PARKING-VEHICULE','CAFE','EAU PURE','BOISSON','QUINCAILLERIE','RESTAURANT','PEINTURE','AJUSTAGE',
-  'SCIERI','BRIQUETTERIE','BOUTIQUE','DEPOTS BOISSON','MECANIQUE','COUTURE','NUMERIQUE',''];
+    this.activites = constant.ACTIVITE;
   this.getOccupation(this.activatedRoute.snapshot.paramMap.get('id'));
   this.init();
   }
@@ -68,6 +76,15 @@ export class RepresentationLocaleContratComponent implements OnInit {
         console.log(error);
       }
     );
+    this.dossierService.findAllByOccupation(id).subscribe(
+      data =>{
+        this.dossiers = data;
+        console.log(data);
+      },
+      error =>{
+        console.log(error);
+      }
+    );
 
     this.contratService.findAllByOccupationAndStatus(id,false).subscribe(
       data =>{
@@ -88,12 +105,51 @@ export class RepresentationLocaleContratComponent implements OnInit {
         console.log(error);
       }
     );
+    this.dossierService.findAllByStatusAndOccupation("ACCORDER",id).subscribe(
+      data =>{
+        this.aboutis = data;
+        console.log(data);
+      },
+      error =>{
+        console.log(error);
+      }
+    );
+
+    this.dossierService.findAllByStatusAndOccupation("REJETTER",id).subscribe(
+      data =>{
+        this.rejeters = data;
+        console.log(data);
+      },
+      error =>{
+        console.log(error);
+      }
+    );
+    this.dossierService.findAllByStatusAndOccupation("ENCOURS",id).subscribe(
+      data =>{
+        this.dossiersEncours = data;
+        console.log(data);
+      },
+      error =>{
+        console.log(error);
+      }
+    );
   }
 
   getContratByOccupation(){
     this.contratService.findAllByOccupation(this.currentOccupation.id).subscribe(
       data => {
         this.lists = data;
+        console.log(data);
+      },
+      error => {
+        console.log(error);
+      }
+    );
+  }
+  getDossierByOccupation(){
+    this.dossierService.findAllByOccupation(this.currentOccupation.id).subscribe(
+      data => {
+        this.dossiers = data;
         console.log(data);
       },
       error => {
@@ -114,6 +170,13 @@ export class RepresentationLocaleContratComponent implements OnInit {
       rccm: new FormControl(''),
       idNumber: new FormControl('')
     });
+    this.dossierForm = new FormGroup({
+      nomDemandeur: new FormControl(""),
+      telephone: new FormControl(""),
+      email: new FormControl(""),
+      activite: new FormControl(""),
+      raisonSocial: new FormControl(""),
+    })
   }
 
   onSubmit(){
@@ -140,7 +203,7 @@ export class RepresentationLocaleContratComponent implements OnInit {
           Swal.fire('Ooops...', 'Vous avez un contrat encours avec '+this.existedContrat[0].nameClient+' bienvouloir regularise avant d\'enregistrer un nouveau contrat', 'warning').then((res)=>{
             if(res.isConfirmed){
               this.lists = this.existedContrat;
-            }});          
+            }});
         }else{
           this.contratService.save(formData).subscribe(
             data => {
@@ -149,14 +212,14 @@ export class RepresentationLocaleContratComponent implements OnInit {
               Swal.fire('Thank you...', 'You submitted succesfully!', 'success').then((res)=>{
                 if(res.isConfirmed){
                   this.getOccupation(this.currentOccupation.id);
-                  
+
                   this.init();
                 }});
             },
             error =>{
               console.log(error);
               Swal.fire('Ooops...', 'Internal error occured while saving ', 'error');
-                
+
             }
           );
         }
@@ -165,7 +228,35 @@ export class RepresentationLocaleContratComponent implements OnInit {
         console.log(error);
         Swal.fire('Ooops...', 'You cannot add new contract without ending the other one ', 'error');
       }
-    );    
+    );
+  }
+  onSubmitDossier(){
+    const formData = {
+      "nomDemandeur": this.dossierForm.get('nomDemandeur').value,
+      "telephone": this.dossierForm.get('telephone').value,
+      "email": this.dossierForm.get('email').value,
+      "activite": this.dossierForm.get('activite').value,
+      "raisonSocial": this.dossierForm.get('raisonSocial').value,
+      "status": "ENCOURS",
+      "occupationId":this.currentOccupation.id
+    }
+    this.dossierService.save(formData).subscribe(
+      data => {
+        console.log(data);
+        this.clickButton('new-dossier-close');
+        Swal.fire('Thank you...', 'You submitted succesfully!', 'success').then((res)=>{
+          if(res.isConfirmed){
+            this.getOccupation(this.currentOccupation.id);
+
+            this.init();
+          }});
+      },
+      error =>{
+        console.log(error);
+        Swal.fire('Ooops...', 'Internal error occured while saving ', 'error');
+
+      }
+    );
   }
 
   cancelItem(item:any){
@@ -173,7 +264,7 @@ export class RepresentationLocaleContratComponent implements OnInit {
       this.contratService.cancel(item.id).subscribe(
         data => {
           console.log(data);
-          
+
           Swal.fire('Thank you...', 'You submitted succesfully!', 'success').then((res)=>{
             if(res.isConfirmed){
               this.getContratByOccupation();
@@ -184,6 +275,27 @@ export class RepresentationLocaleContratComponent implements OnInit {
         error =>{
           console.log(error);
           Swal.fire('Ooops...', 'Internal error occured while ending this contract ', 'error');
+        }
+      );
+    }
+  }
+  cancelDossier(item:any){
+    if(confirm('Voulez vous Interrompre le traitement de ce dossier??')){
+      this.contratService.cancel(item.id).subscribe(
+        data => {
+          console.log(data);
+
+          Swal.fire('Thank you...', 'You submitted succesfully!', 'success').then((res)=>{
+            if(res.isConfirmed){
+              this.getDossierByOccupation();
+              this.getDossierEncour();
+              this.getDossierRejetter();
+              this.getDossierAccorder();
+            }});
+        },
+        error =>{
+          console.log(error);
+          Swal.fire('Ooops...', 'Internal error occured while ending this Dossier ', 'error');
         }
       );
     }
@@ -200,11 +312,44 @@ export class RepresentationLocaleContratComponent implements OnInit {
       }
     );
   }
+  getDossierEncour(){
+    this.dossierService.findAllByStatusAndOccupation("ENCOURS",this.currentOccupation.id).subscribe(
+      data =>{
+        this.dossiers = data;
+        console.log(data);
+      },
+      error =>{
+        console.log(error);
+      }
+    );
+  }
 
   getContratTermine(){
     this.contratService.findAllByOccupationAndStatus(this.currentOccupation.id,false).subscribe(
       data =>{
         this.lists = data;
+        console.log(data);
+      },
+      error =>{
+        console.log(error);
+      }
+    );
+  }
+  getDossierRejetter(){
+    this.dossierService.findAllByStatusAndOccupation("REJETTER",this.currentOccupation.id).subscribe(
+      data =>{
+        this.dossiers = data;
+        console.log(data);
+      },
+      error =>{
+        console.log(error);
+      }
+    );
+  }
+  getDossierAccorder(){
+    this.dossierService.findAllByStatusAndOccupation("ACCORDER",this.currentOccupation.id).subscribe(
+      data =>{
+        this.dossiers = data;
         console.log(data);
       },
       error =>{
@@ -228,6 +373,22 @@ export class RepresentationLocaleContratComponent implements OnInit {
       idNumber: item.idNumber
     });
   }
+  editDossier(item:any){
+    this.selectedItem = item;
+    this.clickButton('openEditDossier');
+    this.dossierForm.patchValue({
+      nomDemandeur: item.nomDemandeur,
+      activite: item.activite,
+      email: item.email,
+      telephone: item.telephone,
+      raisonSocial: item.raisonSocial,
+      status:item.status,
+      files: item.files,
+      dateCreation: item.dateCreation,
+      code: item.code,
+      id:item.id
+    });
+  }
 
   detailItem(item:any){
     this.selectedItem = item;
@@ -241,7 +402,7 @@ export class RepresentationLocaleContratComponent implements OnInit {
   }
 
   getMensualiteByContrat(id:any){
-    this.mensualiteService.findAllByContrat(id).subscribe(
+    this.mensualiteService.findAllByFacture(id).subscribe(
       data =>{
         this.mensualites = data;
         console.log(data);
@@ -292,6 +453,36 @@ export class RepresentationLocaleContratComponent implements OnInit {
     );
       }});
   }
+  onEditSubmitDossier(id:any){
+
+    Swal.fire({
+      title: 'Are you sure you want to save changes?',
+      text: 'The change will take effect after submit button pressed',
+      icon: 'warning',
+      showCancelButton:true,
+      showConfirmButton: true,
+      confirmButtonText: 'Yes',
+      cancelButtonText: 'No'
+    }).then((result)=>{
+      if(result.isConfirmed){
+    this.dossierService.update(this.dossierForm.value).subscribe(
+      data => {
+        console.log(data);
+        Swal.fire('Thank you...', 'You submitted succesfully!', 'success').then((res)=>{
+          if(res.isConfirmed){
+        this.init();
+        this.getOccupation(this.currentOccupation.id);
+        this.clickButton('edit-dossier-close');
+          }});
+      },
+      error =>{
+        console.log(error);
+        Swal.fire('Ooops...', 'Internal error occured while updating this dossier ', 'error');
+
+      }
+    );
+      }});
+  }
 
   deleteItem(id:any){
     if(confirm('Etes vous sur de vouloir supprimer ce contrat?')){
@@ -304,7 +495,29 @@ export class RepresentationLocaleContratComponent implements OnInit {
           if(res.isConfirmed){
             this.getOccupation(this.currentLocale.id);
           }});
-         
+
+        },
+        (error: HttpErrorResponse) => {
+          console.log(error.error.message);
+          Swal.fire('Ooops...', 'Internal error occured while deleting this contract ', 'error');
+
+        }
+      )
+    );
+   }
+  }
+  deleteDossier(id:any){
+    if(confirm('Etes vous sur de vouloir supprimer ce dossier?')){
+    this.subscriptions.push(
+
+      this.dossierService.delete(id).subscribe(
+        (response) => {
+         console.log(response);
+         Swal.fire('Thank you...', 'You submitted succesfully!', 'success').then((res)=>{
+          if(res.isConfirmed){
+            this.getOccupation(this.currentLocale.id);
+          }});
+
         },
         (error: HttpErrorResponse) => {
           console.log(error.error.message);

@@ -1,0 +1,121 @@
+<app-sidebar></app-sidebar>
+<div class="main-content" id="panel">
+    <app-header></app-header>
+    <div class="header pb-6 ">
+        <div class="container-fluid">
+            <div class="header-body">
+                <div class="row align-items-center py-4">
+                    <div class="col-lg-8 col-8">
+                      <nav aria-label="breadcrumb" class="d-none d-md-inline-block ml-md-4">
+                        <ol class="breadcrumb breadcrumb-links breadcrumb-dark">
+                          <li class="breadcrumb-item"><a href="/admin/locations"><i class="fas fa-home"></i></a></li>
+                          <li class="breadcrumb-item " ><a href="/admin/factures">Bordereaux</a></li>
+                          <li class="breadcrumb-item active" aria-current="page"><a href="#">Recherche des bordereaux</a></li>
+                        </ol>
+                      </nav>
+                    </div>
+                  </div>
+            </div>
+        </div>
+    </div>
+    <div class="container-fluid mt--6">
+        <div class="row">
+            <div class="col">
+                <div class="card">
+                  <!-- Card header -->
+                  <div class="card-header border-0">
+                    <div class="navbar-search navbar-search-light form-inline mr-sm-3" id="navbar-search-main">
+                      <div class="form-group mb-0">
+                        <div class="input-group input-group-alternative input-group-merge">
+                          <div class="input-group-prepend">
+                            <span class="input-group-text"><i class="fas fa-search"></i></span>
+                          </div>
+                          <input class="form-control" placeholder="Rechercher un paiement" [(ngModel)]="term" type="text">
+                        </div>
+                      </div>
+                      <hr>
+                      <form [formGroup]="searchForm" (submit)="onSubmitSearch()">
+                        <div class="row">
+                          <div class="form-group mb-0">
+                            <div class="input-group input-group-alternative input-group-merge">
+                              <select formControlName="mois" class="form-control" >
+                                <option  value="">--Choisir un mois--</option>
+                                <option *ngFor="let item of months" value="{{item}}">{{item}}</option>
+                              </select>
+                            </div>
+                          </div>
+                          <div class="form-group mb-0">
+                            <div class="input-group input-group-alternative input-group-merge">
+                              <select formControlName="year" class="form-control" >
+                                <option  value="">--Choisir une année--</option>
+                                <option *ngFor="let item of years" value="{{item}}">{{item}}</option>
+                              </select>
+                            </div>
+                          </div>
+                          <div class="form-group mb-0">
+                            <div class="input-group input-group-alternative input-group-merge">
+                              <select formControlName="value" class="form-control" >
+                                <option  value="">--Choisir un etat--</option>
+                                <option  value="false">IMPAYER</option>
+                                <option  value="true">PAYER</option>
+                              </select>
+                            </div>
+                          </div>
+                          <div>
+                            <button type="submit" class="btn btn-icon-only mb-0" >
+                              <span class="input-group-text"><i class="fas fa-search"></i></span>
+                            </button>
+                          </div>
+                        </div>
+                      </form>
+                    </div>
+                  </div>
+                  <!-- Light table -->
+                  <div class="table-responsive">
+                    <table *ngIf="lists.length > 0"  class="table align-items-center table-flush">
+                        <thead class="thead-light">
+                          <tr>
+                            <th scope="col" class="sort" data-sort="numContrat">Code Contrat</th>
+                            <th scope="col" class="sort" data-sort="action">Mois</th>
+                            <th scope="col" class="sort" data-sort="nameClient">Année</th>
+                            <th scope="col" class="sort" data-sort="typeClient">Motif</th>
+                            <th scope="col" class="sort" data-sort="contact">Actions</th>
+                          </tr>
+                        </thead>
+                        <tbody class="list">
+                          <tr  *ngFor="let item of lists | paginate: { itemsPerPage: 50, currentPage: p }| filter:term">
+
+                            <td>{{item.contrat.numContrat}}</td>
+                            <td>{{item.mois}}</td>
+                            <td>{{item.year}}</td>
+                            <td>{{item.motif}}</td>
+                            <td></td>
+
+                          </tr>
+                        </tbody>
+                      </table>
+                      <div *ngIf="lists.length < 1" class="alert alert-warning">
+                          <span>{{message}}</span>
+                      </div>
+                  </div>
+                  <!-- Card footer -->
+                  <div class="card-footer py-4">
+                    <nav aria-label="...">
+                      <ul class="pagination justify-content-end mb-0">
+                        <pagination-controls (pageChange)="p = $event"></pagination-controls>
+                      </ul>
+                    </nav>
+                  </div>
+
+                </div>
+              </div>
+        </div>
+        <app-footer></app-footer>
+    </div>
+</div>
+
+
+
+
+
+

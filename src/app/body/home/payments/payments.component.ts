@@ -7,6 +7,8 @@ import { ContratService } from 'src/app/services/contrat.service';
 import { LocaleService } from 'src/app/services/locale.service';
 import { MensualiteService } from 'src/app/services/mensualite.service';
 import Swal from 'sweetalert2';
+import {months} from "../../../constant";
+import {TokenService} from "../../../services/token.service";
 
 @Component({
   selector: 'app-payments',
@@ -18,8 +20,6 @@ export class PaymentsComponent implements OnInit {
   anciens: Contrat[]=[];
   actifs: Contrat[]=[];
   selectedItem: any ={};
-  isContrat: Boolean=false;
-  isMensualite: Boolean = false;
   mensualites: any[]=[];
   p:number=1;
   term: string='';
@@ -27,79 +27,45 @@ export class PaymentsComponent implements OnInit {
   searchForm:any ={};
   form: any ={};
   months: string[]=[];
+  years: string[]=[];
   navigationParams: any ={};
   search: any ={};
   private subscriptions: Subscription[] = [];
 
-  constructor(private contratService:ContratService, private route: Router,
-    private localeService: LocaleService, private mensualiteService: MensualiteService) { }
+  constructor(private route: Router, private localeService: LocaleService,
+              private mensualiteService: MensualiteService, private tokenService: TokenService) { }
 
   ngOnInit(): void {
-  this.getContratActifs();
+    this.months = months
+    this.years = this.tokenService.getYearList();
   this.init();
   }
 
-  
-  init(){
-    this.form = new FormGroup({
-      numeroBodereau: new FormControl(''),
-      date: new FormControl(null),
-      montant: new FormControl('')
-    });
 
-    this.searchForm = new FormGroup({
-      date: new FormControl(null),
+  init(){
+        this.searchForm = new FormGroup({
+      mois: new FormControl(""),
+      year: new FormControl(""),
       value: new FormControl('')
     });
-    
-  }
-  
-  getContratActifs(){
-    this.contratService.findAllByStatus(true).subscribe(
-      data =>{
-        this.isContrat = true;
-        this.isMensualite = false;
-        this.lists = data;
-        console.log(data);
-      },
-      error =>{
-        console.log(error);
-      }
-    );
+
   }
 
   onSubmitSearch(){
-    const searchValue = {date:this.searchForm.get('date').value}
+    const searchValue = {mois:this.searchForm.get('mois').value,year: this.searchForm.get('year').value}
     const searchNavigationExtras: NavigationExtras = {
       queryParams:{
         'values':JSON.stringify(searchValue)
       }
     }
     this.route.navigate(['/admin/payments/search'], searchNavigationExtras);
-    
-  }
 
-  onSubmitSearchContract(){
-    this.contratService.searchContract(this.searchForm.get('value').value).subscribe(
-      data =>{
-        this.lists = data;
-        console.log(data);
-        this.init();
-      },
-      error =>{
-        console.log(error);
-      }
-    );
   }
-
 
   getMensualites(){
     this.mensualiteService.findAll().subscribe(
       data =>{
         this.mensualites = data;
-        this.isMensualite = true;
-        this.isContrat = false;
-       
         console.log(data);
       },
       error =>{
@@ -108,40 +74,12 @@ export class PaymentsComponent implements OnInit {
     );
   }
 
-  
+
 
 
   paymentForm(item:any){
     this.selectedItem = item;
     this.clickButton('openMensualiteForm');
-  }
-
-  onSubmit(numContrat:any){
-    const formData = {
-      numeroBodereau: this.form.get('numeroBodereau').value,
-      montant: this.form.get('montant').value,
-      date: this.form.get('date').value
-    }
-
-    console.log(numContrat);
-    this.mensualiteService.update(formData,numContrat).subscribe(
-      data =>{
-        console.log(data);
-        this.clickButton('new-mensualite-close');
-        Swal.fire('Thank you....', 'You have made un payment successfuly', 'success')
-            .then((result)=>{
-              if(result.isConfirmed){
-                this.getContratActifs();
-              }
-            })
-        
-      },
-      error =>{
-        console.log(error);
-        Swal.fire('Ooops....', 'Internal errors occured while doing payment', 'error')
-           
-      }
-    );
   }
 
    clickButton(buttonId: string): void {

@@ -6,7 +6,7 @@
         <a   href="javascript:void(0)">
           <img src="assets/img/brand/logo.png" style="width: 90px;height:90px;" alt="">
           <h1>SCPT DGI</h1>
-         
+
         </a>
       </div>
       <hr>
@@ -27,16 +27,22 @@
                   <span class="nav-link-text">Paiements</span>
                 </a>
               </li>
+            <li class="nav-item" *ngIf="isAdminTest || isFinance">
+              <a class="nav-link btn btn-outline-secondary" href="/admin/factures">
+                <i class="ni ni-money-coins"></i>
+                <span class="nav-link-text">Bordereaux</span>
+              </a>
+            </li>
+            <li class="nav-item" *ngIf="isAdminTest || isCommercial || isProvincial">
+              <a class="nav-link btn btn-outline-secondary" href="/admin/dossiers">
+                <i class="ni ni-circle-08"></i>
+                <span class="nav-link-text">Dossiers</span>
+              </a>
+            </li>
             <li class="nav-item" *ngIf="isAdminTest || isProvincial">
               <a class="nav-link btn btn-outline-secondary" href="/admin/contrats">
                 <i class="ni ni-ruler-pencil"></i>
                 <span class="nav-link-text">Contrats</span>
-              </a>
-            </li>
-            <li class="nav-item" *ngIf="isAdminTest || isCommercial || isProvincial">
-              <a class="nav-link btn btn-outline-secondary" href="/admin/clients">
-                <i class="ni ni-circle-08"></i>
-                <span class="nav-link-text">Clients</span>
               </a>
             </li>
             <li  class="nav-item" *ngIf="isAdminTest || isProvincial">
@@ -45,7 +51,7 @@
                 <span class="nav-link-text">Utilisateurs</span>
               </a>
             </li>
-            
+
           </ul>
         </div>
       </div>

@@ -56,7 +56,7 @@ export class ContratsComponent implements OnInit {
       }
     );
 
-   
+
     this.contratService.findAllByStatus(false).subscribe(
       data =>{
         this.termines = data;
@@ -78,7 +78,7 @@ export class ContratsComponent implements OnInit {
     );
   }
 
-  
+
 
   init(){
     this.form = new FormGroup({
@@ -147,7 +147,7 @@ export class ContratsComponent implements OnInit {
                   this.init();
                 }
               })
-              
+
             },
             error =>{
               Swal.fire('Ooops...', 'There are internal error while saving!', 'error')
@@ -170,11 +170,11 @@ export class ContratsComponent implements OnInit {
             .then((result)=>{
               if(result.isConfirmed){
                 this.getAll();
-          
+
                 this.init();
               }
             })
-          
+
         },
         error =>{
           Swal.fire('Ooops...', 'Internale error while saving data', 'error')
@@ -183,9 +183,9 @@ export class ContratsComponent implements OnInit {
       );
     }
     console.log(this.existedContrat);
-    
-    
-    
+
+
+
   }
 
   cancelItem(item:any){
@@ -203,7 +203,7 @@ export class ContratsComponent implements OnInit {
   }
 
   getContratEncour(){
-   
+
     this.contratService.findAllByStatus(true).subscribe(
       data =>{
         this.lists = data;
@@ -256,7 +256,7 @@ export class ContratsComponent implements OnInit {
   }
 
   getMensualiteByContrat(id:any){
-    this.mensualiteService.findAllByContrat(id).subscribe(
+    this.mensualiteService.findAllByFacture(id).subscribe(
       data =>{
         this.mensualites = data;
         console.log(data);
@@ -290,7 +290,7 @@ export class ContratsComponent implements OnInit {
                 this.getAll();
                         }
             })
-        
+
       },
       error =>{
         Swal.fire('Ooops....', 'Internal error occured while saving the contract', 'error')
@@ -315,7 +315,7 @@ export class ContratsComponent implements OnInit {
         },
         (error: HttpErrorResponse) => {
           Swal.fire('Oops....', 'Internal error occured while deleting', 'error')
-            
+
           console.log(error.error.message);
         }
       )

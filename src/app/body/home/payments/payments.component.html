@@ -26,10 +26,9 @@
                   <div class="card-header border-0">
                     <div class="row">
                         <div class="col-xl-5 col-md-6  mr-1">
-                          <h3 class="mb-0"><a type="button" class="btn btn-outline-primary" (click)="getContratActifs()"> <i class="fa fa-list"></i>&nbsp; Contrats actifs({{lists.length}})</a></h3>
+                          <h3 class="mb-0"><a type="button" class="btn btn-outline-info" (click)="getMensualites()"> <i class="fa fa-list"></i>&nbsp; Paiements effectuer</a> </h3>
                         </div>
                         <div class="col-xl-5 col-md-6  mr-1">
-                          <h3 class="mb-0"><a type="button" class="btn btn-outline-info" (click)="getMensualites()"> <i class="fa fa-list"></i>&nbsp; Paiements effectuer</a> </h3>
                         </div>
                       </div>
                 </div>
@@ -42,35 +41,27 @@
                               <div class="input-group-prepend">
                                 <span class="input-group-text"><i class="fas fa-search"></i></span>
                               </div>
-                              <input class="form-control" placeholder="Rechercher un contrat" [(ngModel)]="term" type="text">
+                              <input class="form-control" placeholder="Rechercher un paiement" [(ngModel)]="term" type="text">
                             </div>
                           </div>
                         </div>
-                        <div class="col-md-6 col-lg-8" *ngIf="isMensualite">
+                        <div class="col-md-6 col-lg-8" >
                           <form [formGroup]="searchForm" (submit)="onSubmitSearch()">
                           <div class="row">
-                            <div class="form-group mb-0  ">
+                            <div class="form-group mb-0">
                               <div class="input-group input-group-alternative input-group-merge">
-                                <label class="mx-2">Rechercher par rapport a un mois</label>
-                                <input class="form-control" placeholder="Rechercher par date" formControlName="date" type="date">
+                                <select formControlName="mois" class="form-control" >
+                                  <option  value="">--Choisir un mois--</option>
+                                  <option *ngFor="let item of months" value="{{item}}">{{item}}</option>
+                                </select>
                               </div>
                             </div>
-                            <div>
-                              <button type="submit" class="btn btn-icon-only mb-0" >
-                                <span class="input-group-text"><i class="fas fa-search"></i></span>
-                              </button>
-                            </div>
-                          </div>
-                         </form>
-                        </div>
-                        
-                        <div class="col-md-6 col-lg-8" *ngIf="isContrat">
-                          <form [formGroup]="searchForm" (submit)="onSubmitSearchContract()">
-                          <div class="row">
-                            <div class="form-group mb-0  ">
+                            <div class="form-group mb-0">
                               <div class="input-group input-group-alternative input-group-merge">
-                                <label class="mx-2">Recherche Contact/Num contrat</label>
-                                <input class="form-control"  formControlName="value" type="text">
+                                <select formControlName="year" class="form-control" >
+                                  <option  value="">--Choisir une année--</option>
+                                  <option *ngFor="let item of years" value="{{item}}">{{item}}</option>
+                                </select>
                               </div>
                             </div>
                             <div>
@@ -82,58 +73,12 @@
                          </form>
                         </div>
                       </div>
-                       
+
                     </div>
                   </div>
                   <!-- Light table -->
                   <div class="table-responsive">
-                    <table *ngIf="isContrat" class="table align-items-center table-flush">
-                      <thead class="thead-light">
-                        <tr>
-                            <th scope="col" class="sort" data-sort="numContrat">Numero</th>
-                          <th scope="col" class="sort" data-sort="nameClient">Client</th>
-                          <th scope="col" class="sort" data-sort="typeClient">Type</th>
-                          <th scope="col" class="sort" data-sort="secteurActivite">Secteur d'activite</th>
-                          <th scope="col" class="sort" data-sort="contact">Contact</th>
-                          <th scope="col" class="sort" data-sort="numLocale">Numero local</th>
-                          <th scope="col" class="sort" data-sort="representation">Adresse</th>
-                          <th scope="col" class="sort" data-sort="action">Action</th>
-                        </tr>
-                      </thead>
-                      <tbody class="list">
-                        <tr  *ngFor="let item of lists | paginate: { itemsPerPage: 50, currentPage: p }| filter:term">
-                          <td>{{item.numContrat}}</td>
-                          <td>
-                            <span *ngIf="item.nameClient">{{item.nameClient}}</span>
-                            <span *ngIf="!item.nameClient">Non Defini</span> 
-                          <td>
-                            <span *ngIf="item.typeClient">{{item.typeClient}}</span>
-                            <span *ngIf="!item.typeClient">Non Defini</span>                            
-                          </td>
-                          <td>
-                            <span *ngIf="item.secteurActivite">{{item.secteurActivite}}</span>
-                            <span *ngIf="!item.secteurActivite">Non definie</span>
-                          </td>
-                          <td>
-                            <span *ngIf="item.contact">{{item.contact}}</span>
-                            <span *ngIf="!item.contact">Non Defini</span> 
-                          </td>
-                          <td>
-                            <span *ngIf="item.occupation?.numeroOccupation">{{item.occupation?.numeroOccupation}}</span>
-                            <span *ngIf="!item.occupation?.numeroOccupation">Non Identifier</span>
-                          </td>
-                          <td>
-                            <span *ngIf="item.occupation?.locale">{{item.occupation.locale.ville+' '+item.occupation.locale?.adresse}}</span>
-                            <span *ngIf="!item.occupation?.locale">Aucun local associer</span>
-                            </td>
-                          
-                          <td class="text-right">
-                             <a class="btn btn-outline-primary" type="button"  (click)="paymentForm(item)">Effectuer un paiement</a>
-                          </td>
-                        </tr>
-                      </tbody>
-                    </table>
-                    <table *ngIf="isMensualite" class="table align-items-center table-flush">
+                    <table  class="table align-items-center table-flush">
                         <thead class="thead-light">
                           <tr>
                             <th scope="col" class="sort" data-sort="numContrat">Code</th>
@@ -142,13 +87,12 @@
                             <th scope="col" class="sort" data-sort="typeClient">Mois</th>
                             <th scope="col" class="sort" data-sort="secteurActivite">Date de paiement</th>
                             <th scope="col" class="sort" data-sort="numLocale">Montant</th>
-                            <th scope="col" class="sort" data-sort="numLocale">Reste</th>
                             <th scope="col" class="sort" data-sort="contact">Client</th>
                           </tr>
                         </thead>
                         <tbody class="list">
                           <tr  *ngFor="let item of mensualites | paginate: { itemsPerPage: 50, currentPage: p }| filter:term">
-                            
+
                             <td>{{item.codeMensualite}}</td>
                             <td *ngIf="item.status" class="alert alert-success">Payer</td>
                             <td *ngIf="!item.status" class="alert alert-warning">Impayer</td>
@@ -156,9 +100,8 @@
                             <td>{{item.mois}}</td>
                             <td>{{item.dateVersement}}</td>
                             <td>{{item.montant+' USD'}}</td>
-                            <td class="badge badge-warning">{{item.reste+' USD'}}</td>
                             <td>{{item.contrat?.nameClient}}</td>
-                            
+
                           </tr>
                         </tbody>
                       </table>
@@ -179,54 +122,6 @@
 </div>
 
 
-<button [hidden]="true" type="button" id="openMensualiteForm" data-toggle="modal" data-target="#mensualiteFormModal">
-</button>
-
-<!-- model add user -->
-<div  class="modal draggable fade bd-example-modal-lg" id="mensualiteFormModal" tabindex="-1" role="dialog"
-aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
-<div class="modal-dialog" role="document">
-  <div class="modal-content">
-    <form (submit)="onSubmit(selectedItem.id)" [formGroup]="form">
-    <div class="modal-header">
-      <h5 class="modal-title text-center">Paiement mensualite</h5>
-      <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-        <span aria-hidden="true">&times;</span>
-      </button>
-    </div>
-    <div class="modal-body">
-      <div>
-        
-            <h6 class="heading-small text-muted mb-4">Formulaire</h6>
-            <div class="pl-lg-4">
-              
-                <div class="form-group">
-                    <label class="form-control-label" >Numero de bordereau du paiement</label>
-                    <input type="text" formControlName="numeroBodereau"  class="form-control" placeholder="Numero de bordereau du paiement">
-                  </div>
-                  <div class="form-group">
-                    <label class="form-control-label" >Montant en USD</label>
-                    <input type="number" formControlName="montant"  class="form-control" placeholder="Montant">
-                  </div>
-                  
-                  <div class="form-group">
-                    <label class="form-control-label" >Mois et Annee</label>
-                    <input type="date" formControlName="date" class="form-control" placeholder="Choisir un moi et une date">
-                  </div>   
-            </div>
-              
-         
-      </div>
-    </div>
-    <div class="modal-footer">
-      <button type="button" class="btn btn-secondary" data-dismiss="modal" id="new-mensualite-close">Fermer</button>
-      <button type="submit"  class="btn btn-primary">Enregistrer</button>
-    </div>
-    </form> 
-  </div>
-  
-</div>
-</div>
 
 
 

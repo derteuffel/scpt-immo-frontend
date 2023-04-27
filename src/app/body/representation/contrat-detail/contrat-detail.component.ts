@@ -7,6 +7,9 @@ import { ContratService } from 'src/app/services/contrat.service';
 import { LocaleService } from 'src/app/services/locale.service';
 import { MensualiteService } from 'src/app/services/mensualite.service';
 import Swal from 'sweetalert2';
+import {BordereausService} from "../../../services/bordereaus.service";
+import {TokenService} from "../../../services/token.service";
+import {months} from "../../../constant";
 
 @Component({
   selector: 'app-contrat-detail',
@@ -16,8 +19,8 @@ import Swal from 'sweetalert2';
 export class ContratDetailComponent implements OnInit {
   lists: any[]=[];
   alls:any[]=[];
-  termines: any[]=[];
-  encours: any[]=[];
+  mois: string[]=[];
+  annees: string[]=[];
   currentOccupation: any ={};
   currentContrat: any ={};
   types: string[]=[];
@@ -36,10 +39,13 @@ export class ContratDetailComponent implements OnInit {
   private subscriptions: Subscription[] = [];
 
   constructor(private contratService:ContratService, private activatedRoute: ActivatedRoute,
-    private localeService: LocaleService, private mensualiteService: MensualiteService) { }
+    private localeService: LocaleService, private mensualiteService: MensualiteService, private bordereauxService: BordereausService,
+              private tokenService: TokenService) { }
 
   ngOnInit(): void {
   this.getContrat(this.activatedRoute.snapshot.paramMap.get('id'));
+  this.mois = months;
+  this.annees = this.tokenService.getYearList()
   this.init();
   }
 
@@ -56,7 +62,7 @@ export class ContratDetailComponent implements OnInit {
       }
     );
 
-    this.mensualiteService.findAllByContrat(id).subscribe(
+    this.bordereauxService.findAllByContrat(id).subscribe(
       data =>{
         this.alls = data;
         console.log(data);
@@ -66,7 +72,7 @@ export class ContratDetailComponent implements OnInit {
       }
     );
 
-    this.mensualiteService.findAllByStatusAndContrat(id,false).subscribe(
+    this.bordereauxService.findAllByContratAndStatus(id,false).subscribe(
       data =>{
         this.nonEffectues = data;
         console.log(data);
@@ -76,7 +82,7 @@ export class ContratDetailComponent implements OnInit {
       }
     );
 
-    this.mensualiteService.findAllByStatusAndContrat(id,true).subscribe(
+    this.bordereauxService.findAllByContratAndStatus(id,true).subscribe(
       data =>{
         this.effectues = data;
         console.log(data);
@@ -88,7 +94,7 @@ export class ContratDetailComponent implements OnInit {
   }
 
   getAllTrueMensualites(){
-    this.mensualiteService.findAllByStatusAndContrat(this.currentContrat.id,true).subscribe(
+    this.bordereauxService.findAllByContratAndStatus(this.currentContrat.id,true).subscribe(
       data => {
         this.lists = data;
         console.log(data);
@@ -101,7 +107,7 @@ export class ContratDetailComponent implements OnInit {
 
 
   getAllFalseMensualites(){
-    this.mensualiteService.findAllByStatusAndContrat(this.currentContrat.id,false).subscribe(
+    this.bordereauxService.findAllByContratAndStatus(this.currentContrat.id,false).subscribe(
       data => {
         this.lists = data;
         console.log(data);
@@ -114,9 +120,10 @@ export class ContratDetailComponent implements OnInit {
 
   init(){
     this.form = new FormGroup({
-      numeroBodereau: new FormControl(''),
+      mois: new FormControl(''),
       montant: new FormControl(null),
-      date: new FormControl(null)
+      motif: new FormControl(''),
+      annee: new FormControl('')
     });
 
     this.produceForm = new FormGroup({
@@ -125,48 +132,41 @@ export class ContratDetailComponent implements OnInit {
   }
 
   onSubmit(){
-    const formData = new FormData();
-      formData.append('numeroBodereau', this.form.get('numeroBodereau').value);
-      formData.append('montant', this.form.get('montant').value);
-      formData.append('date', this.form.get('date').value);
-      if(this.billFile==null || this.billFile == undefined){
-        console.log('error upload file');
-        console.log(this.billFile);
-        Swal.fire('Ooops...', 'Error while charging file  ', 'error');
-      }else{
-          console.log('i contain file');
-          formData.append('file',this.billFile);
-          this.mensualiteService.update(formData,this.currentContrat.id).subscribe(
-            data => {
-             console.log(data);
-             
-             this.clickButton('new-payment-close');
-             Swal.fire('Thank you...', 'You submitted succesfully!', 'success').then((res)=>{
-              if(res.isConfirmed){
-                this.getAllMensualites();
-                this.getAllFalseMensualites();
-                this.getAllTrueMensualites();
-                this.init();
-                      }});
-            },
-            error =>{
-              console.log(error);
-              Swal.fire('Ooops...', 'Internal error occured while updating this payement ', 'error');
-      
-            }
-          ); 
-      }
+    const form = {
+      montant: this.form.get("montant").value,
+      mois: this.form.get("mois").value,
+      annee: this.form.get("annee").value,
+      motif: this.form.get("motif").value
+    }
+    this.bordereauxService.save(form,this.currentContrat.id).subscribe(
+      data => {
+        console.log(data);
 
-       
+        this.clickButton('new-facture-close');
+        Swal.fire('Thank you...', 'You submitted succesfully!', 'success').then((res)=>{
+          if(res.isConfirmed){
+            this.getAllMensualites();
+            this.getAllFalseMensualites();
+            this.getAllTrueMensualites();
+            this.init();
+          }});
+      },
+      error =>{
+        console.log(error);
+        Swal.fire('Ooops...', 'Internal error occured while producing this bill ', 'error');
+
+      }
+    );
+
   }
 
-  
+
 
   onProduce(){
     if(confirm('Do you really want to produce bill?')){
     this.contratService.produceFacture(this.currentContrat.id).subscribe(
       data =>{
-        
+
         Swal.fire('Thank you...', 'Your bill has been produced succesfully!', 'success').then((res)=>{
           if(res.isConfirmed){
             window.location.reload();
@@ -183,7 +183,7 @@ export class ContratDetailComponent implements OnInit {
   }
 
   produceContract(){
-    
+
     const formData = new FormData();
     if(this.file==null || this.file == undefined){
       console.log('error upload file');
@@ -194,7 +194,7 @@ export class ContratDetailComponent implements OnInit {
       this.contratService.produceContract(formData, this.currentContrat.id).subscribe(
         data  =>{
           console.log('save successfuly');
-          
+
           Swal.fire('Thank you...', 'Your contract has been produced succesfully!', 'success').then((res)=>{
             if(res.isConfirmed){
               window.location.reload();
@@ -220,15 +220,19 @@ export class ContratDetailComponent implements OnInit {
     this.billFile = event.target.files.item(0);
   }
 
- 
+
 
   editItem(item:any){
     this.selectedItem = item;
     this.clickButton('openEdit');
     this.form.patchValue({
-      numeroBodereau: item.numeroBodereau,
+      mois: item.mois,
       montant: item.montant,
-      date: item.date
+      annee: item.annee,
+      motif: item.motif,
+      id:item.id,
+      status: item.status,
+      numFacture: item.numFacture
     });
   }
 
@@ -243,7 +247,7 @@ export class ContratDetailComponent implements OnInit {
     formData.append('file',this.billFile);
     this.mensualiteService.uploadQuitance(formData, event).subscribe(
       data =>{
-        
+
         this.clickButton('add-quitance-close');
         Swal.fire('Thank you...', 'You uploaded your quittance succesfully!', 'success').then((res)=>{
           if(res.isConfirmed){
@@ -259,10 +263,10 @@ export class ContratDetailComponent implements OnInit {
 
   }
 
- 
+
 
   getAllMensualites(){
-    this.mensualiteService.findAllByContrat(this.currentContrat.id).subscribe(
+    this.bordereauxService.findAllByContrat(this.currentContrat.id).subscribe(
       data =>{
         this.lists = data;
         console.log(data);
@@ -274,16 +278,12 @@ export class ContratDetailComponent implements OnInit {
   }
 
   onEditSubmit(id:any){
-    const formData = {
-      numeroBodereau: this.form.get('numeroBodereau').value,
-      montant: this.form.get('montant').value,
-      date: this.form.get('date').value
-    }
-    this.contratService.update(formData, id).subscribe(
+
+    this.bordereauxService.update(this.form.value, id).subscribe(
       data => {
         console.log(data);
         this.clickButton('edit-payment-close');
-        Swal.fire('Thank you...', 'You edited your payment succesfully!', 'success').then((res)=>{
+        Swal.fire('Thank you...', 'You edited your bill succesfully!', 'success').then((res)=>{
           if(res.isConfirmed){
             this.getAllMensualites();
           }});

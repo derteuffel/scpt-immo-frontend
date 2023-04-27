@@ -3,6 +3,8 @@ import { FormGroup, FormControl } from '@angular/forms';
 import { ActivatedRoute, NavigationExtras, Router } from '@angular/router';
 import { MensualiteService } from 'src/app/services/mensualite.service';
 import Swal from 'sweetalert2';
+import {months} from "../../../constant";
+import {TokenService} from "../../../services/token.service";
 
 @Component({
   selector: 'app-payments-search',
@@ -21,15 +23,18 @@ export class PaymentsSearchComponent implements OnInit {
   isRepportProduce: boolean = false;
   navigationParams: any={};
   form: any ={};
+  months: string[]=[];
+  years: string[]=[];
   selectedItem: any ={};
   p:number=1;
   term: string='';
 
 
-  constructor(private mensualiteService: MensualiteService, private route: Router, private activatedRoute: ActivatedRoute) { }
+  constructor(private mensualiteService: MensualiteService, private route: Router,
+              private activatedRoute: ActivatedRoute, private tokenService: TokenService) { }
 
   ngOnInit(): void {
-this.activatedRoute.queryParams.subscribe(params => {
+  this.activatedRoute.queryParams.subscribe(params => {
       console.log(params['values']);
       if(params['values']){
         console.log('im not free');
@@ -39,41 +44,39 @@ this.activatedRoute.queryParams.subscribe(params => {
       console.log(this.navigationParams);
       this.loadByDate(this.navigationParams );
     });
+  this.months = months;
+  this.years = this.tokenService.getYearList();
+
     this.init();
 
   }
 
 
   init(){
-    this.form = new FormGroup({
-      numeroBodereau: new FormControl(''),
-      date: new FormControl(null),
-      montant: new FormControl('')
-    });
-
     this.searchForm = new FormGroup({
-      date: new FormControl(null),
+      mois: new FormControl(""),
+      year: new FormControl(""),
       value: new FormControl('')
     });
-    
+
   }
-  
+
 
   onSubmitSearch(){
-    const searchValue = {date:this.searchForm.get('date').value}
+    const searchValue = {mois:this.searchForm.get('mois').value,year:this.searchForm.get('year').value}
     const searchNavigationExtras: NavigationExtras = {
       queryParams:{
         'values':JSON.stringify(searchValue)
       }
     }
     this.route.navigate(['/admin/payments/search'], searchNavigationExtras);
-    
+
   }
 
   loadByDate(form:any){
     console.log(form);
-    
-    this.mensualiteService.findAllByDate(form.date).subscribe(
+
+    this.mensualiteService.findAllByDate(form.mois, form.year).subscribe(
       data =>{
         this.mensualites = data.lists;
         this.montantImpayer = data.montantImpayer;
@@ -103,9 +106,9 @@ this.activatedRoute.queryParams.subscribe(params => {
         console.log(this.isRepportProduce);
         this.successMessage = 'Operation reussie';
         Swal.fire('Thank you....', 'You have generated your repport successfuly', 'success')
-        
-          
-         
+
+
+
       },
       error =>{
         console.log(error);
@@ -127,37 +130,6 @@ this.activatedRoute.queryParams.subscribe(params => {
   }
 
 
-  paymentForm(item:any){
-    this.selectedItem = item;
-    this.clickButton('openMensualiteForm');
-  }
-
-  onSubmit(numContrat:any){
-    const formData = {
-      numeroBodereau: this.form.get('numeroBodereau').value,
-      montant: this.form.get('montant').value,
-      date: this.form.get('date').value
-    }
-
-    console.log(numContrat);
-    this.mensualiteService.update(formData,numContrat).subscribe(
-      data =>{
-        console.log(data);
-        
-        this.clickButton('new-mensualite-close');
-        Swal.fire('Thank you....', 'You have made un payment successfuly', 'success')
-        .then((result)=>{
-          if(result.isConfirmed){
-            this.loadByDate(this.navigationParams);
-          }
-        })
-      },
-      error =>{
-        console.log(error);
-        Swal.fire('Ooops....', 'Internal errors occured while doing payment', 'error');
-      }
-    );
-  }
 
    clickButton(buttonId: string): void {
     document.getElementById(buttonId)?.click();

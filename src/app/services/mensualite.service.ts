@@ -15,7 +15,7 @@ export class MensualiteService {
   headers: HttpHeaders;
   formHeaders: HttpHeaders;
 
-  constructor(private http: HttpClient) { 
+  constructor(private http: HttpClient) {
 
     this.currentUser = JSON.parse(localStorage.getItem('currentUser') || '{}');
     this.headers = (this.currentUser==null || this.currentUser == undefined) ? new HttpHeaders({
@@ -27,7 +27,7 @@ export class MensualiteService {
 
     this.formHeaders = (this.currentUser==null || this.currentUser == undefined) ? new HttpHeaders({}):new HttpHeaders({
       authorization: 'Bearer ' + this.currentUser.token,
-      
+
     });
   }
 
@@ -51,20 +51,20 @@ export class MensualiteService {
     return this.http.get(`${host}/${id}`,{headers: this.headers});
   }
 
-  findAllByContrat(id:any):Observable<any>{
-    return this.http.get(`${host}/contrat/${id}`,{headers: this.headers});
+  findAllByFacture(id:any):Observable<any>{
+    return this.http.get(`${host}/facture/${id}`,{headers: this.headers});
   }
 
-  findAllByStatusAndContrat(id:any, status:any):Observable<any>{
-    return this.http.get(`${host}/contrat/status/${id}/${status}`,{headers: this.headers});
+  findAllByStatusAndFacture(id:any, status:any):Observable<any>{
+    return this.http.get(`${host}/facture/status/${id}/${status}`,{headers: this.headers});
   }
 
   findAllByNumero(numero:any):Observable<any>{
     return this.http.get(`${host}/numero/${numero}`,{headers: this.headers});
   }
 
-  findAllByDate(date:any):Observable<any>{
-    return this.http.get(`${host}/date/${date}`,{headers: this.headers});
+  findAllByDate(mois:any, year:any):Observable<any>{
+    return this.http.get(`${host}/date/year/${year}/mois/${mois}`,{headers: this.headers});
   }
 
 
@@ -78,7 +78,7 @@ export class MensualiteService {
 
 
 
-  
+
 
   delete(id:any):Observable<any>{
     return this.http.delete(`${host}/${id}`,{headers: this.headers});

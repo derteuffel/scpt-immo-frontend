@@ -12,6 +12,8 @@ import { UsersComponent } from './body/home/users/users.component';
 import { ContratDetailComponent } from './body/representation/contrat-detail/contrat-detail.component';
 import { OccupationsComponent } from './body/representation/occupations/occupations.component';
 import { RepresentationLocaleContratComponent } from './body/representation/representation-locale-contrat/representation-locale-contrat.component';
+import {BordereauxComponent} from "./body/home/bordereaux/bordereaux.component";
+import {DossierDetailsComponent} from "./body/representation/dossier-details/dossier-details.component";
 
 const routes: Routes = [
   { path: '', redirectTo: '/login', pathMatch: 'full' },
@@ -21,7 +23,8 @@ const routes: Routes = [
   { path: 'admin/occupation/contrats/:id', component: RepresentationLocaleContratComponent, canActivate:[AuthenticationGuard]},
   { path: 'admin/contrats', component: ContratsComponent, canActivate:[AuthenticationGuard]},
   { path: 'admin/contrats/detail/:id', component: ContratDetailComponent, canActivate:[AuthenticationGuard]},
-  { path: 'admin/clients', component: ClientsComponent, canActivate:[AuthenticationGuard]},
+  { path: 'admin/dossier/detail/:id', component: DossierDetailsComponent, canActivate:[AuthenticationGuard]},
+  { path: 'admin/factures', component: BordereauxComponent, canActivate:[AuthenticationGuard]},
   { path: 'admin/payments', component: PaymentsComponent, canActivate:[AuthenticationGuard]},
   { path: 'admin/payments/search', component: PaymentsSearchComponent, canActivate:[AuthenticationGuard]},
   { path: 'admin/users', component: UsersComponent, canActivate:[AuthenticationGuard]},

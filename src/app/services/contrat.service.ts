@@ -29,7 +29,7 @@ export class ContratService {
 
     this.formHeaders = (this.currentUser==null || this.currentUser == undefined) ? new HttpHeaders({}):new HttpHeaders({
       authorization: 'Bearer ' + this.currentUser.token,
-      
+
     });
    }
 
@@ -63,6 +63,10 @@ export class ContratService {
 
   searchContract(value:any):Observable<any>{
     return this.http.get(`${host}/search/${value}`,{headers: this.headers});
+  }
+
+  generateContract(value:any):Observable<any>{
+    return this.http.get(`${host}/generate/contrat/${value}`,{headers: this.headers});
   }
 
   findAllByOccupationAndStatus(id:any, status:any):Observable<any>{

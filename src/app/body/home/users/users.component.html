@@ -27,7 +27,7 @@
                           <div class="col-xl-6 col-md-6">
                             <h3 class="mb-0"><a type="button" class="btn btn-outline-info" (click)="loadList()"><i class="fa fa-list"></i>&nbsp; Utilisateurs ({{lists.length}})</a></h3>
                           </div>
-                          
+
                           <div class="col-xl-6 col-md-6">
                             <a href="#" type="button"  data-toggle="modal" data-target="#addUserModal" class="btn btn-outline-primary"> Utilisateur&nbsp;<i class="fa fa-plus"></i></a>
                           </div>
@@ -53,7 +53,7 @@
                               <div class="input-group input-group-alternative input-group-merge">
                                 <label class="mx-2">Rechercher par province</label>
                                 <select formControlName="province" class="form-control">
-                                  <option *ngFor="let item of provinces" value="{{item}}">{{item}}</option>
+                                  <option *ngFor="let item of provinces" value="{{item.name}}">{{item.name}}</option>
                                 </select>
                               </div>
                             </div>
@@ -65,9 +65,9 @@
                           </div>
                          </form>
                         </div>
-                        
+
                       </div>
-                       
+
                     </div>
                   </div>
                   <!-- Light table -->
@@ -87,24 +87,24 @@
                         <tr *ngFor="let item of lists | paginate: { itemsPerPage: 50, currentPage: p } | filter:term">
                           <td>
                             <span *ngIf="item.firstname || item.lastname">{{item.firstname+' '+item.lastname}}</span>
-                            <span *ngIf="!item.firstname || !item.lastname">Inconnue</span> 
+                            <span *ngIf="!item.firstname || !item.lastname">Inconnue</span>
                           </td>
                           <td>
                             <span *ngIf="item.province">{{item.province}}</span>
-                            <span *ngIf="!item.province">Inconnue</span> 
+                            <span *ngIf="!item.province">Inconnue</span>
                           </td>
                           <td>
                             <span *ngIf="item.email">{{item.email}}</span>
-                            <span *ngIf="!item.email">Non Defini</span> 
+                            <span *ngIf="!item.email">Non Defini</span>
                           </td>
-                          
+
                           <td>
                             <span *ngIf="item.fonction">{{item.fonction}}</span>
-                            <span *ngIf="!item.fonction">Inconnu</span> 
+                            <span *ngIf="!item.fonction">Inconnu</span>
                           </td>
                           <td>
                             <span *ngIf="item.matricule">{{item.matricule}}</span>
-                            <span *ngIf="!item.matricule">non definie</span> 
+                            <span *ngIf="!item.matricule">non definie</span>
                           </td>
                           <td class="text-right">
                             <div class="dropdown">
@@ -153,10 +153,10 @@ aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
     </div>
     <div class="modal-body">
       <div>
-        
+
             <h6 class="heading-small text-muted mb-4">Formulaire</h6>
             <div class="pl-lg-4">
-              
+
                   <div class="form-group">
                     <label class="form-control-label" for="input-username">Province</label>
                     <select formControlName="province" class="form-control" >
@@ -194,7 +194,7 @@ aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
                     <label class="form-control-label" >Matricule</label>
                     <input type="text" formControlName="matricule"  class="form-control" placeholder="Matricule">
                   </div>
-                     
+
             </div>
       </div>
     </div>
@@ -202,9 +202,9 @@ aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
       <button type="button" class="btn btn-secondary" data-dismiss="modal" id="new-user-close">Fermer</button>
       <button type="submit"  class="btn btn-primary">Enregistrer</button>
     </div>
-    </form> 
+    </form>
   </div>
-  
+
 </div>
 </div>
 
@@ -222,10 +222,10 @@ aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
     </div>
     <div class="modal-body">
       <div>
-        
+
             <h6 class="heading-small text-muted mb-4">Formulaire</h6>
             <div class="pl-lg-4">
-              
+
                 <div class="form-group">
                   <label class="form-control-label" for="input-username">Province</label>
                   <select formControlName="province" class="form-control" >
@@ -263,7 +263,7 @@ aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
                   <label class="form-control-label" >Matricule</label>
                   <input type="text" formControlName="matricule"  class="form-control" placeholder="Matricule">
                 </div>
-                   
+
           </div>
       </div>
     </div>
@@ -271,8 +271,8 @@ aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
       <button type="button" class="btn btn-secondary" data-dismiss="modal" id="edit-user-close">Fermer</button>
       <button type="submit"  class="btn btn-primary">Enregistrer</button>
     </div>
-    </form> 
+    </form>
   </div>
-  
+
 </div>
 </div>
