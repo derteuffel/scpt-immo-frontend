@@ -17,10 +17,10 @@ import Swal from 'sweetalert2';
   styleUrls: ['./user-detail.component.css']
 })
 export class UserDetailComponent implements OnInit {
-  
+
   currentUser: User = new User();
   roles: string[]=[];
-  
+
   form: any ={};
   passwordForm: any = {};
   selectedItem: any ={};
@@ -32,7 +32,7 @@ export class UserDetailComponent implements OnInit {
 
   ngOnInit(): void {
     this.roles = constant.ROLES;
-    
+
   this.getUser(this.activatedRoute.snapshot.paramMap.get('id'));
   this.init();
   }
@@ -41,8 +41,12 @@ export class UserDetailComponent implements OnInit {
     this.authService.findOne(id).subscribe(
       data =>{
         this.currentUser = data;
-       
+
         console.log(data);
+
+        this.form.patchValue({
+          role: data.role
+        })
       },
       error =>{
         console.log(error);
@@ -50,12 +54,12 @@ export class UserDetailComponent implements OnInit {
     );
   }
 
- 
+
 
   init(){
     this.form = new FormGroup({
       role: new FormControl(''),
-      
+
     });
     this.passwordForm = new FormGroup({
       password: new FormControl('')
@@ -63,7 +67,7 @@ export class UserDetailComponent implements OnInit {
   }
 
   onSubmit(){
-    
+
     this.authService.updateRole(this.currentUser.id, this.form.get('role').value).subscribe(
       (data : any) => {
         this.clickButton('edit-role-close');
@@ -74,12 +78,12 @@ export class UserDetailComponent implements OnInit {
             this.currentUser = data;
           }
         })
-        
+
       },
       (error:any) =>{
         console.log(error);
       }
-    );  
+    );
   }
 
   onSubmitPassword(id:any){
@@ -94,12 +98,12 @@ export class UserDetailComponent implements OnInit {
           if(result.isConfirmed){
             this.currentUser = data;
           }
-        });  
+        });
       },
       (error:any) =>{
         console.log(error);
       }
-    );  
+    );
   }
 
   lockAction(id:any){
@@ -114,15 +118,15 @@ export class UserDetailComponent implements OnInit {
                       if(result.isConfirmed){
                         this.currentUser = data;
                       }
-                    });  
+                    });
                   },
                   (error:any) =>{
                     console.log(error);
                   }
-                );  
+                );
               }
-            }); 
-        
+            });
+
     }else{
       Swal.fire({title:'Activation', html:'Voulez-vous vraiment activer cet utilisateur ?', icon:'question', showCancelButton:true})
             .then((result)=>{
@@ -134,20 +138,20 @@ export class UserDetailComponent implements OnInit {
                       if(result.isConfirmed){
                         this.currentUser = data;
                       }
-                    });  
+                    });
                   },
                   (error:any) =>{
                     console.log(error);
                   }
-                );  
+                );
               }
-            }); 
+            });
     }
-    
-    
+
+
   }
 
-  
+
 
   detailItem(item:any){
     this.selectedItem = item;

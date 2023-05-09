@@ -14,6 +14,7 @@ import { OccupationsComponent } from './body/representation/occupations/occupati
 import { RepresentationLocaleContratComponent } from './body/representation/representation-locale-contrat/representation-locale-contrat.component';
 import {BordereauxComponent} from "./body/home/bordereaux/bordereaux.component";
 import {DossierDetailsComponent} from "./body/representation/dossier-details/dossier-details.component";
+import {DossiersComponent} from "./body/home/dossiers/dossiers.component";
 
 const routes: Routes = [
   { path: '', redirectTo: '/login', pathMatch: 'full' },
@@ -22,6 +23,7 @@ const routes: Routes = [
   { path: 'admin/locations/detail/:id', component: OccupationsComponent, canActivate:[AuthenticationGuard]},
   { path: 'admin/occupation/contrats/:id', component: RepresentationLocaleContratComponent, canActivate:[AuthenticationGuard]},
   { path: 'admin/contrats', component: ContratsComponent, canActivate:[AuthenticationGuard]},
+  { path: 'admin/dossiers', component: DossiersComponent, canActivate:[AuthenticationGuard]},
   { path: 'admin/contrats/detail/:id', component: ContratDetailComponent, canActivate:[AuthenticationGuard]},
   { path: 'admin/dossier/detail/:id', component: DossierDetailsComponent, canActivate:[AuthenticationGuard]},
   { path: 'admin/factures', component: BordereauxComponent, canActivate:[AuthenticationGuard]},

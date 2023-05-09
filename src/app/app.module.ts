@@ -33,6 +33,8 @@ import { UserDetailComponent } from './body/home/user-detail/user-detail.compone
 import {DatePipe} from "@angular/common";
 import {BordereauxComponent} from "./body/home/bordereaux/bordereaux.component";
 import { DossierDetailsComponent } from './body/representation/dossier-details/dossier-details.component';
+import { DossiersComponent } from './body/home/dossiers/dossiers.component';
+import {NgChartsModule} from "ng2-charts";
 
 @NgModule({
   declarations: [
@@ -53,7 +55,8 @@ import { DossierDetailsComponent } from './body/representation/dossier-details/d
     OccupationsComponent,
     UserDetailComponent,
     BordereauxComponent,
-    DossierDetailsComponent
+    DossierDetailsComponent,
+    DossiersComponent
 
   ],
   imports: [
@@ -64,6 +67,7 @@ import { DossierDetailsComponent } from './body/representation/dossier-details/d
     HttpClientModule,
     NgxPaginationModule,
     Ng2SearchPipeModule,
+    NgChartsModule
   ],
   providers: [DatePipe],
   bootstrap: [AppComponent]

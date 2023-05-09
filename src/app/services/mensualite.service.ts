@@ -63,8 +63,17 @@ export class MensualiteService {
     return this.http.get(`${host}/numero/${numero}`,{headers: this.headers});
   }
 
-  findAllByDate(mois:any, year:any):Observable<any>{
-    return this.http.get(`${host}/date/year/${year}/mois/${mois}`,{headers: this.headers});
+  findAllByDate(mois:any, year:any, province:any):Observable<any>{
+    return this.http.get(`${host}/date/year/${year}/mois/${mois}/province/${province}`,{headers: this.headers});
+  }
+
+  findAllForRepport(mois:any, year:any, provinces:any):Observable<any>{
+    const form ={
+      "provinces":provinces,
+      "mois": mois,
+      "year": year
+    }
+    return this.http.post(`${host}/report`,form,{headers: this.headers});
   }
 
 

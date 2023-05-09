@@ -36,19 +36,18 @@
                   <div class="card-header border-0">
                     <div class="navbar-search navbar-search-light form-inline mr-sm-3" id="navbar-search-main">
                       <div class="row">
-                        <div class="col-md-6 col-lg-4">
-                          <div class="form-group mb-0">
-                            <div class="input-group input-group-alternative input-group-merge">
-                              <div class="input-group-prepend">
-                                <span class="input-group-text"><i class="fas fa-search"></i></span>
-                              </div>
-                              <input class="form-control" placeholder="Rechercher un paiement" [(ngModel)]="term" type="text">
-                            </div>
-                          </div>
-                        </div>
-                        <div class="col-md-6 col-lg-8" >
+
+                        <div class="col-md-6 col-lg-12" >
                           <form [formGroup]="searchForm" (submit)="onSubmitSearch()">
                           <div class="row">
+                            <div class="form-group mb-0">
+                              <div class="input-group input-group-alternative input-group-merge">
+                                <select formControlName="province" class="form-control" >
+                                  <option  value="">--Choisir une province--</option>
+                                  <option *ngFor="let item of provinces" value="{{item.name}}">{{item.name}}</option>
+                                </select>
+                              </div>
+                            </div>
                             <div class="form-group mb-0">
                               <div class="input-group input-group-alternative input-group-merge">
                                 <select formControlName="mois" class="form-control" >
@@ -106,7 +105,7 @@
                           </tr>
                         </tbody>
                       </table>
-                      <div *ngIf="mensualites.length < 1" class="alert alert-warning">
+                      <div *ngIf="mensualites.length <= 1" class="alert alert-warning">
                           <span>{{message}}</span>
                       </div>
                   </div>

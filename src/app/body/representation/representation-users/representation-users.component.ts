@@ -7,6 +7,7 @@ import { Component, OnInit } from '@angular/core';
 })
 export class RepresentationUsersComponent implements OnInit {
 
+  lists:any;
   constructor() { }
 
   ngOnInit(): void {

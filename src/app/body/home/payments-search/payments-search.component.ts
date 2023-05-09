@@ -3,7 +3,7 @@ import { FormGroup, FormControl } from '@angular/forms';
 import { ActivatedRoute, NavigationExtras, Router } from '@angular/router';
 import { MensualiteService } from 'src/app/services/mensualite.service';
 import Swal from 'sweetalert2';
-import {months} from "../../../constant";
+import {months, provinceData} from "../../../constant";
 import {TokenService} from "../../../services/token.service";
 
 @Component({
@@ -25,6 +25,7 @@ export class PaymentsSearchComponent implements OnInit {
   form: any ={};
   months: string[]=[];
   years: string[]=[];
+  provinces: Array<any>=[];
   selectedItem: any ={};
   p:number=1;
   term: string='';
@@ -46,6 +47,7 @@ export class PaymentsSearchComponent implements OnInit {
     });
   this.months = months;
   this.years = this.tokenService.getYearList();
+  this.provinces = provinceData
 
     this.init();
 
@@ -56,14 +58,15 @@ export class PaymentsSearchComponent implements OnInit {
     this.searchForm = new FormGroup({
       mois: new FormControl(""),
       year: new FormControl(""),
-      value: new FormControl('')
+      value: new FormControl(''),
+      province: new FormControl('')
     });
 
   }
 
 
   onSubmitSearch(){
-    const searchValue = {mois:this.searchForm.get('mois').value,year:this.searchForm.get('year').value}
+    const searchValue = {mois:this.searchForm.get('mois').value,year:this.searchForm.get('year').value,province:this.searchForm.get('province').value}
     const searchNavigationExtras: NavigationExtras = {
       queryParams:{
         'values':JSON.stringify(searchValue)
@@ -76,7 +79,7 @@ export class PaymentsSearchComponent implements OnInit {
   loadByDate(form:any){
     console.log(form);
 
-    this.mensualiteService.findAllByDate(form.mois, form.year).subscribe(
+    this.mensualiteService.findAllByDate(form.mois, form.year, form.province).subscribe(
       data =>{
         this.mensualites = data.lists;
         this.montantImpayer = data.montantImpayer;

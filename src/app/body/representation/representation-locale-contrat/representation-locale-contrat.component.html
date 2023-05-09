@@ -47,8 +47,6 @@
                         <td *ngIf="currentOccupation.status" class="alert alert-warning">Occupe</td>
                         <td *ngIf="!currentOccupation.status" class="alert alert-success">Libre</td>
                       </tr>
-
-
                 </table>
               </div>
             </div>
@@ -320,6 +318,12 @@ aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
                         <option *ngFor="let item of types" value="{{item}}">{{item}}</option>
                     </select>
                   </div>
+                <div class="form-group">
+                    <label class="form-control-label" >Type de contrat</label>
+                    <select formControlName="typeContrat" class="form-control" >
+                        <option *ngFor="let item of typesContrat" value="{{item}}">{{item}}</option>
+                    </select>
+                  </div>
 
                   <div class="form-group">
                     <label class="form-control-label" >Secteur d'activite</label>
@@ -374,6 +378,12 @@ aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
                     <label class="form-control-label" >Type de client</label>
                     <select formControlName="raisonSocial" class="form-control" >
                         <option *ngFor="let item of types" value="{{item}}">{{item}}</option>
+                    </select>
+                  </div>
+                <div class="form-group">
+                    <label class="form-control-label" >Type de dossier</label>
+                    <select formControlName="typeDossier" class="form-control" >
+                        <option *ngFor="let item of typesContrat" value="{{item}}">{{item}}</option>
                     </select>
                   </div>
 

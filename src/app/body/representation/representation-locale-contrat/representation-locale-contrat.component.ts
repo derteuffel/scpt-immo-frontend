@@ -32,6 +32,7 @@ export class RepresentationLocaleContratComponent implements OnInit {
   currentOccupation: any ={};
   currentLocale: any={};
   types: string[]=[];
+  typesContrat: string[]=[];
   activites: string[]=[];
   mensualites: any[]=[];
   form: any ={};
@@ -51,6 +52,7 @@ export class RepresentationLocaleContratComponent implements OnInit {
     this.types = ['ONG','FONDATION','SOCIETE PRIVE','EGLISE','SOCIETE PUBLIQUE','INDIVIDU'];
     this.activites = constant.ACTIVITE;
   this.getOccupation(this.activatedRoute.snapshot.paramMap.get('id'));
+  this.typesContrat = ['LOCATION',"EXPLOITATION"];
   this.init();
   }
 
@@ -162,6 +164,7 @@ export class RepresentationLocaleContratComponent implements OnInit {
     this.form = new FormGroup({
       nameClient: new FormControl(''),
       typeClient: new FormControl(''),
+      typeContrat: new FormControl(''),
       email: new FormControl(''),
       contact: new FormControl(''),
       secteurActivite: new FormControl(''),
@@ -173,6 +176,7 @@ export class RepresentationLocaleContratComponent implements OnInit {
     this.dossierForm = new FormGroup({
       nomDemandeur: new FormControl(""),
       telephone: new FormControl(""),
+      typeDossier: new FormControl(""),
       email: new FormControl(""),
       activite: new FormControl(""),
       raisonSocial: new FormControl(""),
@@ -183,6 +187,7 @@ export class RepresentationLocaleContratComponent implements OnInit {
     const formData = {
       nameClient: this.form.get('nameClient').value,
       typeClient: this.form.get('typeClient').value,
+      typeContrat: this.form.get('typeContrat').value,
       email: this.form.get('email').value,
       contact: this.form.get('contact').value,
       secteurActivite: this.form.get('secteurActivite').value,
@@ -236,6 +241,7 @@ export class RepresentationLocaleContratComponent implements OnInit {
       "telephone": this.dossierForm.get('telephone').value,
       "email": this.dossierForm.get('email').value,
       "activite": this.dossierForm.get('activite').value,
+      "typeDossier": this.dossierForm.get('typeDossier').value,
       "raisonSocial": this.dossierForm.get('raisonSocial').value,
       "status": "ENCOURS",
       "occupationId":this.currentOccupation.id
