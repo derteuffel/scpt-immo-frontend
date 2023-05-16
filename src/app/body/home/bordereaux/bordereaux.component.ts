@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { FormGroup, FormControl } from '@angular/forms';
+import { UntypedFormGroup, UntypedFormControl } from '@angular/forms';
 import { ActivatedRoute, NavigationExtras, Router } from '@angular/router';
 import { MensualiteService } from 'src/app/services/mensualite.service';
 import Swal from 'sweetalert2';
@@ -46,10 +46,10 @@ export class BordereauxComponent implements OnInit {
 
 
   init(){
-    this.searchForm = new FormGroup({
-      mois: new FormControl(""),
-      year: new FormControl(""),
-      value: new FormControl(false)
+    this.searchForm = new UntypedFormGroup({
+      mois: new UntypedFormControl(""),
+      year: new UntypedFormControl(""),
+      value: new UntypedFormControl(false)
     });
 
   }

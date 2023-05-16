@@ -1,6 +1,6 @@
 import { HttpErrorResponse } from '@angular/common/http';
 import { Component, OnInit } from '@angular/core';
-import { FormGroup, FormControl } from '@angular/forms';
+import { UntypedFormGroup, UntypedFormControl } from '@angular/forms';
 import { ActivatedRoute } from '@angular/router';
 import { Subscription } from 'rxjs';
 import { AuthService } from 'src/app/auth/auth.service';
@@ -57,12 +57,12 @@ export class UserDetailComponent implements OnInit {
 
 
   init(){
-    this.form = new FormGroup({
-      role: new FormControl(''),
+    this.form = new UntypedFormGroup({
+      role: new UntypedFormControl(''),
 
     });
-    this.passwordForm = new FormGroup({
-      password: new FormControl('')
+    this.passwordForm = new UntypedFormGroup({
+      password: new UntypedFormControl('')
     })
   }
 

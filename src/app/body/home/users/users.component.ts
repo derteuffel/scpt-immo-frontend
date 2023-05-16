@@ -1,6 +1,6 @@
 import { HttpErrorResponse } from '@angular/common/http';
 import { Component, OnInit } from '@angular/core';
-import { FormGroup, FormControl } from '@angular/forms';
+import { UntypedFormGroup, UntypedFormControl } from '@angular/forms';
 import { Subscription } from 'rxjs';
 import { AuthService } from 'src/app/auth/auth.service';
 import {constant, provinceData} from 'src/app/constant';
@@ -35,20 +35,20 @@ export class UsersComponent implements OnInit {
   }
 
   init(){
-    this.form = new FormGroup({
-      province: new FormControl(''),
-      firstname: new FormControl(''),
-      lastname: new FormControl(''),
-      idNumber: new FormControl(''),
-      matricule: new FormControl(''),
-      fonction: new FormControl(''),
-      email: new FormControl(''),
-      telephone: new FormControl(''),
+    this.form = new UntypedFormGroup({
+      province: new UntypedFormControl(''),
+      firstname: new UntypedFormControl(''),
+      lastname: new UntypedFormControl(''),
+      idNumber: new UntypedFormControl(''),
+      matricule: new UntypedFormControl(''),
+      fonction: new UntypedFormControl(''),
+      email: new UntypedFormControl(''),
+      telephone: new UntypedFormControl(''),
 
     });
 
-    this.searchForm = new FormGroup({
-      province: new FormControl('')
+    this.searchForm = new UntypedFormGroup({
+      province: new UntypedFormControl('')
     });
   }
 

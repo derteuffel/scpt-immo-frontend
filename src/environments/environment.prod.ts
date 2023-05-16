@@ -1,5 +1,5 @@
 
-export const HOST = 'https://dgi-scpt.yesbinspire.com:7005/api'
+export const HOST = 'http://41.79.235.88:8080/api'
 
 export const environment = {
   production: true,
@@ -8,5 +8,8 @@ export const environment = {
   LOCALE: `${HOST}/locale`,
   CONTRAT: `${HOST}/contrat`,
   MENSUALITE: `${HOST}/mensualite`,
+  DOSSIER: `${HOST}/dossier`,
+  ETAPE: `${HOST}/etape`,
+  BORDEREAUX: `${HOST}/facture`,
   OCCUPATION: `${HOST}/occupation`
 };

@@ -1,6 +1,6 @@
 import { HttpErrorResponse } from '@angular/common/http';
 import { Component, OnInit } from '@angular/core';
-import { FormGroup, FormControl } from '@angular/forms';
+import { UntypedFormGroup, UntypedFormControl } from '@angular/forms';
 import { ActivatedRoute } from '@angular/router';
 import { Subscription } from 'rxjs';
 import { LocaleService } from 'src/app/services/locale.service';
@@ -94,10 +94,10 @@ export class OccupationsComponent implements OnInit {
   }
 
   init(){
-    this.form = new FormGroup({
-      numeroOccupation: new FormControl(''),
-      supperficieOccupation: new FormControl(''),
-      montantOccupation: new FormControl('')
+    this.form = new UntypedFormGroup({
+      numeroOccupation: new UntypedFormControl(''),
+      supperficieOccupation: new UntypedFormControl(''),
+      montantOccupation: new UntypedFormControl('')
     });
   }
 

@@ -79,7 +79,7 @@
                             <th scope="col" class="sort" data-sort="action">Mois</th>
                             <th scope="col" class="sort" data-sort="nameClient">Année</th>
                             <th scope="col" class="sort" data-sort="typeClient">Motif</th>
-                            <th scope="col" class="sort" data-sort="contact">Actions</th>
+                            <th scope="col" class="sort" data-sort="contact">Montant</th>
                           </tr>
                         </thead>
                         <tbody class="list">
@@ -87,9 +87,9 @@
 
                             <td>{{item.contrat.numContrat}}</td>
                             <td>{{item.mois}}</td>
-                            <td>{{item.year}}</td>
+                            <td>{{item.annee}}</td>
                             <td>{{item.motif}}</td>
-                            <td></td>
+                            <td>{{item.montant+' USD'}}</td>
 
                           </tr>
                         </tbody>

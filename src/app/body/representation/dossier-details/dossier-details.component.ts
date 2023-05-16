@@ -3,7 +3,7 @@ import {Dossier} from "../../../models/dossier";
 import {DossierService} from "../../../services/dossier/dossier.service";
 import {EtapeService} from "../../../services/etape/etape.service";
 import {Etape} from "../../../models/etape";
-import {FormControl, FormGroup} from "@angular/forms";
+import {UntypedFormControl, UntypedFormGroup} from "@angular/forms";
 import Swal from "sweetalert2";
 import {HttpErrorResponse} from "@angular/common/http";
 import {Subscription} from "rxjs";
@@ -71,12 +71,12 @@ export class DossierDetailsComponent implements OnInit {
   }
 
   init(){
-    this.form = new FormGroup({
-      observation: new FormControl(''),
-      action: new FormControl(''),
-      service: new FormControl(''),
-      type: new FormControl(''),
-      id: new FormControl(null)
+    this.form = new UntypedFormGroup({
+      observation: new UntypedFormControl(''),
+      action: new UntypedFormControl(''),
+      service: new UntypedFormControl(''),
+      type: new UntypedFormControl(''),
+      id: new UntypedFormControl(null)
     })
     this.imgURL = "";
     this.uploadedFile = null;

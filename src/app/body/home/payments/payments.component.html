@@ -159,22 +159,21 @@
                       </ul>
                     </nav>
                   </div>
-                  <div class="card-footer py-4">
-                    <ul>
-                      <li class="alert alert-secondary">
-                        Montant total : <span>{{montantTotal+' USD'}}</span>
-                      </li>
-                      <li class="alert alert-success">
-                        Montant Payer : <span>{{montantPayer+' USD'}}</span>
-                      </li>
-                      <li class="alert alert-warning">
-                        Montant Impayer : <span>{{montantImpayer+' USD'}}</span>
-                      </li>
-                    </ul>
-                  </div>
                 </div>
               </div>
         </div>
+      <br>
+      <div  class="card-body">
+        <div class="m-3">
+          <canvas id="st1Chart"></canvas>
+        </div>
+      </div>
+      <br>
+      <div  class="card-body">
+        <div class="m-3">
+          <canvas id="st2Chart"></canvas>
+        </div>
+      </div>
         <app-footer></app-footer>
     </div>
 </div>

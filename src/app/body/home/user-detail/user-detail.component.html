@@ -10,8 +10,8 @@
                         <ol class="breadcrumb breadcrumb-links breadcrumb-dark">
                           <li class="breadcrumb-item"><a href="/admin/locations"><i class="fas fa-home"></i></a></li>
                           <li class="breadcrumb-item " ><a href="/admin/users">Utilisateurs</a></li>
-                          <li class="breadcrumb-item " ><a href="/admin/user/detail/{{currentUser?.id}}">Detail utilisateur</a></li>
-                          <li class="breadcrumb-item active" aria-current="page"><a href="#">{{currentUser?.firstname+' '+currentUser?.lastname}}</a></li>
+                          <li class="breadcrumb-item " ><a href="/admin/user/detail/{{currentUser.id}}">Detail utilisateur</a></li>
+                          <li class="breadcrumb-item active" aria-current="page"><a href="#">{{currentUser.firstname+' '+currentUser.lastname}}</a></li>
                         </ol>
                       </nav>
                     </div>
@@ -66,13 +66,13 @@
                         <th>Province</th>
                         <td>{{currentUser.province}}</td>
                       </tr>
-                      
+
                       <tr>
                         <th>Status</th>
                         <td *ngIf="currentUser.enabled" class="alert alert-success">Actif</td>
                         <td *ngIf="!currentUser.enabled" class="alert alert-warning">Bloquer</td>
                       </tr>
-                                       
+
 
                 </table>
               </div>
@@ -87,7 +87,7 @@
                   <!-- Card header -->
                   <div class="card-header border-0">
                       <div class="row">
-                      
+
                           <div class="col-xl-4 col-md-6">
                             <a href="#" type="button"  data-toggle="modal" data-target="#editRoleModal" class="btn btn-md btn-outline-primary">Modifier le role</a>
                           </div>
@@ -103,7 +103,7 @@
                   <div *ngIf="message" class="card-header border-0">
                     <div  class="alert alert-warning">
                       <h3><span>{{message}}</span></h3>
-                        
+
                     </div>
                   </div>
                 </div>
@@ -137,10 +137,10 @@ aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
     </div>
     <div class="modal-body">
       <div>
-        
+
             <h6 class="heading-small text-muted mb-4">Formulaire</h6>
             <div class="pl-lg-4">
-                  
+
                   <div class="form-group">
                     <label class="form-control-label" >Role</label>
                     <select formControlName="role" class="form-control" >
@@ -148,19 +148,19 @@ aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
                     </select>
                   </div>
 
-                
+
             </div>
-              
-         
+
+
       </div>
     </div>
     <div class="modal-footer">
       <button type="button" class="btn btn-secondary" data-dismiss="modal" id="edit-role-close">Fermer</button>
       <button type="submit"  class="btn btn-primary">Enregistrer</button>
     </div>
-    </form> 
+    </form>
   </div>
-  
+
 </div>
 </div>
 
@@ -178,26 +178,26 @@ aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
     </div>
     <div class="modal-body">
       <div>
-        
+
             <h6 class="heading-small text-muted mb-4">Formulaire</h6>
             <div class="pl-lg-4">
-                  
+
                   <div class="form-group">
                     <label class="form-control-label" >Nouveau mot de passe</label>
                     <input type="password" formControlName="password" class="form-control">
                   </div>
             </div>
-              
-         
+
+
       </div>
     </div>
     <div class="modal-footer">
       <button type="button" class="btn btn-secondary" data-dismiss="modal" id="edit-password-close">Fermer</button>
       <button type="submit"  class="btn btn-primary">Enregistrer</button>
     </div>
-    </form> 
+    </form>
   </div>
-  
+
 </div>
 </div>
 

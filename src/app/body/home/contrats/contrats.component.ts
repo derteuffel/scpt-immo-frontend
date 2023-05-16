@@ -1,6 +1,6 @@
 import { HttpErrorResponse } from '@angular/common/http';
 import { Component, OnInit } from '@angular/core';
-import { FormGroup, FormControl } from '@angular/forms';
+import { UntypedFormGroup, UntypedFormControl } from '@angular/forms';
 import { ActivatedRoute } from '@angular/router';
 import { Subscription } from 'rxjs';
 import { constant } from 'src/app/constant';
@@ -81,18 +81,18 @@ export class ContratsComponent implements OnInit {
 
 
   init(){
-    this.form = new FormGroup({
-      nameClient: new FormControl(''),
-      typeClient: new FormControl(''),
-      email: new FormControl(''),
-      contact: new FormControl(''),
-      secteurActivite: new FormControl(''),
-      dateSignature: new FormControl(null),
-      dureeGaranti: new FormControl(null),
-      occupation: new FormControl(null),
-      montant: new FormControl(null),
-      rccm: new FormControl(''),
-      idNumber: new FormControl('')
+    this.form = new UntypedFormGroup({
+      nameClient: new UntypedFormControl(''),
+      typeClient: new UntypedFormControl(''),
+      email: new UntypedFormControl(''),
+      contact: new UntypedFormControl(''),
+      secteurActivite: new UntypedFormControl(''),
+      dateSignature: new UntypedFormControl(null),
+      dureeGaranti: new UntypedFormControl(null),
+      occupation: new UntypedFormControl(null),
+      montant: new UntypedFormControl(null),
+      rccm: new UntypedFormControl(''),
+      idNumber: new UntypedFormControl('')
     });
   }
 

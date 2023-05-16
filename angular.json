@@ -37,8 +37,8 @@
               "budgets": [
                 {
                   "type": "initial",
-                  "maximumWarning": "500kb",
-                  "maximumError": "1mb"
+                  "maximumWarning": "5mb",
+                  "maximumError": "6mb"
                 },
                 {
                   "type": "anyComponentStyle",
@@ -103,7 +103,6 @@
       }
     }
   },
-  "defaultProject": "scpt-frontend",
   "cli": {
     "analytics": "bbe7e08c-9629-4da8-856f-4dcc8930aa2d"
   }

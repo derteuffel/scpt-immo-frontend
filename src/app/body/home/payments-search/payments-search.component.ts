@@ -1,10 +1,11 @@
 import { Component, OnInit } from '@angular/core';
-import { FormGroup, FormControl } from '@angular/forms';
+import {UntypedFormGroup, UntypedFormControl, FormGroup, FormControl} from '@angular/forms';
 import { ActivatedRoute, NavigationExtras, Router } from '@angular/router';
 import { MensualiteService } from 'src/app/services/mensualite.service';
 import Swal from 'sweetalert2';
 import {months, provinceData} from "../../../constant";
 import {TokenService} from "../../../services/token.service";
+import {Chart, ChartConfiguration} from "chart.js";
 
 @Component({
   selector: 'app-payments-search',
@@ -81,7 +82,7 @@ export class PaymentsSearchComponent implements OnInit {
 
     this.mensualiteService.findAllByDate(form.mois, form.year, form.province).subscribe(
       data =>{
-        this.mensualites = data.lists;
+        this.mensualites = data.mensualites;
         this.montantImpayer = data.montantImpayer;
         this.montantPayer = data.montantPayer;
         this.montantTotal = data.montantTotal;
@@ -89,6 +90,7 @@ export class PaymentsSearchComponent implements OnInit {
         if(this.mensualites.length < 1){
          this.message = 'Aucun resultat trouve pour votre recherche';
         }
+        this.initChart(this.montantPayer,this.montantImpayer,this.montantTotal,form.province,true);
       },
       error =>{
         console.log(error);
@@ -134,6 +136,53 @@ export class PaymentsSearchComponent implements OnInit {
 
 
 
+  initChart(totalActive:any, totalInactive:any,total:any,province:any,status:any) {
+
+    console.log('total active : '+totalActive);
+    console.log('total inactive : '+totalInactive);
+    console.log('total  : '+total);
+    const chartConfig: ChartConfiguration = {
+      type: 'bar',
+      data: {
+        labels: ['Montant Payé de '+province, 'Montant Impayé de '+province, 'Montant Total de '+province],
+        datasets: [{
+          label: 'Etat en USD de '+province,
+          data: [totalActive, totalInactive, total],
+          backgroundColor: [
+            'rgba(90, 239, 203,1)',
+            'rgba(255, 99, 132, 1)',
+            'rgba(54, 162, 235, 1)',
+          ],
+          borderColor: [
+            'rgba(54, 162, 235, 1)',
+            'rgba(255, 206, 86, 1)',
+            'rgba(255, 99, 132, 1)',
+          ],
+          borderWidth: 1
+        }]
+      },
+      options: {
+        scales: {
+          y: {
+            beginAtZero: true
+          }
+        }
+      }
+    };
+
+    const st1Chart = document.getElementById('st1Chart');
+    if (st1Chart instanceof HTMLCanvasElement) {
+
+      if (status){
+        var existChart = Chart.getChart("st1Chart");
+        existChart?.destroy();
+        existChart = new Chart(st1Chart, chartConfig);
+      }else {
+        var chart = new Chart(st1Chart, chartConfig);
+      }
+    }
+
+  }
    clickButton(buttonId: string): void {
     document.getElementById(buttonId)?.click();
   }

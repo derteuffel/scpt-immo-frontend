@@ -28,39 +28,39 @@
 
               <tr>
                 <th>Nom du demandeur</th>
-                <td>{{currentDossier?.nomDemandeur}}</td>
+                <td>{{currentDossier.nomDemandeur}}</td>
               </tr>
               <tr>
                 <th>Téléphone </th>
-                <td>{{currentDossier?.telephone}}</td>
+                <td>{{currentDossier.telephone}}</td>
               </tr>
               <tr>
                 <th>E-mail</th>
-                <td>{{currentDossier?.email}}</td>
+                <td>{{currentDossier.email}}</td>
               </tr>
               <tr>
                 <th>Activité</th>
-                <td>{{currentDossier?.activite}}</td>
+                <td>{{currentDossier.activite}}</td>
               </tr>
               <tr>
                 <th>Raison sociale</th>
-                <td>{{currentDossier?.raisonSocial}}</td>
+                <td>{{currentDossier.raisonSocial}}</td>
               </tr>
               <tr>
                 <th>Numero du dossier</th>
-                <td>{{currentDossier?.code}}</td>
+                <td>{{currentDossier.code}}</td>
               </tr>
               <tr>
                 <th>Date ouverture du dossier</th>
-                <td>{{currentDossier?.dateCreation}}</td>
+                <td>{{currentDossier.dateCreation}}</td>
               </tr>
               <tr>
                 <th>Status</th>
-                <td>{{currentDossier?.status}}</td>
+                <td>{{currentDossier.status}}</td>
               </tr>
               <tr>
                 <th>Documents associers au dossier</th>
-                <td><ul *ngFor="let item of currentDossier?.files">
+                <td><ul *ngFor="let item of currentDossier.files">
                       <li>
                         <a href="{{item}}">{{item}}</a>
                       </li>
@@ -99,10 +99,10 @@
                   </div>
                 </div>
               </div>
-              <div *ngIf="currentDossier?.status != 'ACCORDER'" class="col-xl-3 my-3 col-md-6 ">
+              <div *ngIf="currentDossier.status != 'ACCORDER'" class="col-xl-3 my-3 col-md-6 ">
                 <a href="#" type="button"  data-toggle="modal" data-target="#addEtapeModal" class="btn btn-outline-primary"> <i class="fa fa-plus"></i>&nbsp; Etape</a>
               </div>
-              <div *ngIf="currentDossier?.status != 'ACCORDER'" class="col-xl-4 my-3 col-md-6 ">
+              <div *ngIf="currentDossier.status != 'ACCORDER'" class="col-xl-4 my-3 col-md-6 ">
                 <a href="#" type="button"  data-toggle="modal" data-target="#addProduireContratModal" class="btn btn-outline-success"> <i class="fa fa-file"></i>&nbsp; Produire Contrat</a>
               </div>
             </div>
@@ -162,8 +162,8 @@
                         <i class="fas fa-ellipsis-v"></i>
                       </a>
                       <div class="dropdown-menu dropdown-menu-right dropdown-menu-arrow">
-                        <a class="dropdown-item" type="button" *ngIf="currentDossier?.status != 'ACCORDER'"  (click)="editItem(item)">Edit &nbsp; <i class="fa fa-edit"></i></a>
-                        <a class="dropdown-item" type="button" *ngIf="currentDossier?.status != 'ACCORDER'"  (click)="deleteEtape(item.id)">Supprimer &nbsp; <i class="fa fa-trash"></i></a>
+                        <a class="dropdown-item" type="button" *ngIf="currentDossier.status != 'ACCORDER'"  (click)="editItem(item)">Edit &nbsp; <i class="fa fa-edit"></i></a>
+                        <a class="dropdown-item" type="button" *ngIf="currentDossier.status != 'ACCORDER'"  (click)="deleteEtape(item.id)">Supprimer &nbsp; <i class="fa fa-trash"></i></a>
                       </div>
                     </div>
                   </td>

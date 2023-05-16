@@ -1,6 +1,6 @@
 import { HttpErrorResponse } from '@angular/common/http';
 import { Component, OnInit } from '@angular/core';
-import { FormGroup, FormControl } from '@angular/forms';
+import { UntypedFormGroup, UntypedFormControl } from '@angular/forms';
 import { ActivatedRoute } from '@angular/router';
 import { Subscription } from 'rxjs';
 import { ContratService } from 'src/app/services/contrat.service';
@@ -161,25 +161,25 @@ export class RepresentationLocaleContratComponent implements OnInit {
   }
 
   init(){
-    this.form = new FormGroup({
-      nameClient: new FormControl(''),
-      typeClient: new FormControl(''),
-      typeContrat: new FormControl(''),
-      email: new FormControl(''),
-      contact: new FormControl(''),
-      secteurActivite: new FormControl(''),
-      dateSignature: new FormControl(null),
-      dureeGaranti: new FormControl(null),
-      rccm: new FormControl(''),
-      idNumber: new FormControl('')
+    this.form = new UntypedFormGroup({
+      nameClient: new UntypedFormControl(''),
+      typeClient: new UntypedFormControl(''),
+      typeContrat: new UntypedFormControl(''),
+      email: new UntypedFormControl(''),
+      contact: new UntypedFormControl(''),
+      secteurActivite: new UntypedFormControl(''),
+      dateSignature: new UntypedFormControl(null),
+      dureeGaranti: new UntypedFormControl(null),
+      rccm: new UntypedFormControl(''),
+      idNumber: new UntypedFormControl('')
     });
-    this.dossierForm = new FormGroup({
-      nomDemandeur: new FormControl(""),
-      telephone: new FormControl(""),
-      typeDossier: new FormControl(""),
-      email: new FormControl(""),
-      activite: new FormControl(""),
-      raisonSocial: new FormControl(""),
+    this.dossierForm = new UntypedFormGroup({
+      nomDemandeur: new UntypedFormControl(""),
+      telephone: new UntypedFormControl(""),
+      typeDossier: new UntypedFormControl(""),
+      email: new UntypedFormControl(""),
+      activite: new UntypedFormControl(""),
+      raisonSocial: new UntypedFormControl(""),
     })
   }
 
