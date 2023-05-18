@@ -9,9 +9,10 @@ import {DossierService} from "../../../services/dossier/dossier.service";
 export class DossiersComponent implements OnInit {
 
   lists: any[]=[];
-  listsCompletes: any[]=[];
-  listsUnCompletes: any[]=[];
-  listsLoading: any[]=[];
+  listsCompletes: number=0;
+  listsUnCompletes: number=0;
+  listsLoading: number=0;
+  alls: number=0;
   p: number = 1
   constructor(private dossierService: DossierService) { }
 
@@ -23,6 +24,9 @@ export class DossiersComponent implements OnInit {
     this.dossierService.findAll().subscribe(
       data =>{
         this.lists = data;
+        if(data != null){
+          this.alls = data.length;
+        }
         console.log(data);
       },
       error => {
@@ -32,7 +36,9 @@ export class DossiersComponent implements OnInit {
 
     this.dossierService.findAllByStatus("ACCORDER").subscribe(
       data =>{
-        this.listsCompletes = data;
+        if(data != null){
+          this.listsCompletes = data.length;
+        }
         console.log(data);
       },
       error => {
@@ -42,7 +48,9 @@ export class DossiersComponent implements OnInit {
 
     this.dossierService.findAllByStatus("REJETER").subscribe(
       data =>{
-        this.listsUnCompletes = data;
+        if(data != null){
+          this.listsUnCompletes = data.length;
+        }
         console.log(data);
       },
       error => {
@@ -52,7 +60,9 @@ export class DossiersComponent implements OnInit {
 
     this.dossierService.findAllByStatus("ENCOURS").subscribe(
       data =>{
-        this.listsLoading = data;
+        if(data != null){
+          this.listsLoading = data.length;
+        }
         console.log(data);
       },
       error => {
