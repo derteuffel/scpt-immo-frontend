@@ -81,8 +81,9 @@ export class BordereauxComponent implements OnInit {
   }
 
   getBordereaux(){
+    let date = this.datePipe.transform(new Date(),"yyyy");
 
-    this.bordereauxService.findAllByStatusAndAnnee(false,"Janvier").subscribe(
+    this.bordereauxService.findAllByStatusAndAnnee(false,date).subscribe(
       data =>{
         this.lists = data;
         console.log(data);
