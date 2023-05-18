@@ -5,7 +5,6 @@
     "ng": "ng",
     "start": "ng serve",
     "build": "ng build",
-    "postbuild": "npm run deploy",
     "predeploy": "rimraf ../resources/static/ && mkdirp ../resources/static",
     "deploy": "copyfiles -f dist/** ../resources/static",
     "watch": "ng build --watch --configuration development",

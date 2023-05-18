@@ -11,7 +11,7 @@ WORKDIR /app
 # will be cached unless changes to one of those two files
 # are made.
 COPY package*.json ./
-RUN npm install
+RUN yarn install
 
 # Copy the main application
 COPY . ./
@@ -20,7 +20,7 @@ COPY . ./
 ARG configuration=production
 
 # Build the application
-RUN npm run build -- --outputPath=./dist/out --configuration $configuration
+RUN yarn run build --output-path=./dist/out --configuration $configuration
 
 #### Stage 2, use the compiled app, ready for production with Nginx
 FROM nginx
