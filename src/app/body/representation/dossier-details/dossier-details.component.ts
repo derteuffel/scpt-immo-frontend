@@ -18,7 +18,7 @@ import {ContratService} from "../../../services/contrat.service";
 })
 export class DossierDetailsComponent implements OnInit {
 
-  currentDossier!: Dossier;
+  currentDossier: any ={};
   lists:Etape[]=[];
   p:number = 1;
   form:any={};

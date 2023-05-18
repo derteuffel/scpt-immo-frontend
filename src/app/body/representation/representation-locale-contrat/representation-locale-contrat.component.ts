@@ -25,10 +25,10 @@ export class RepresentationLocaleContratComponent implements OnInit {
   dossiers: Dossier[]=[];
   alls:Contrat[]=[];
   termines: Contrat[]=[];
-  aboutis: Dossier[]=[];
-  dossiersEncours: Dossier[]=[];
+  aboutis: number=0;
+  dossiersEncours: number=0;
   encours: Contrat[]=[];
-  rejeters: Dossier[]=[];
+  rejeters: number=0;
   currentOccupation: any ={};
   currentLocale: any={};
   types: string[]=[];
@@ -109,7 +109,10 @@ export class RepresentationLocaleContratComponent implements OnInit {
     );
     this.dossierService.findAllByStatusAndOccupation("ACCORDER",id).subscribe(
       data =>{
-        this.aboutis = data;
+        if(data != null){
+          this.aboutis = data.length;
+        }
+        
         console.log(data);
       },
       error =>{
@@ -119,7 +122,10 @@ export class RepresentationLocaleContratComponent implements OnInit {
 
     this.dossierService.findAllByStatusAndOccupation("REJETTER",id).subscribe(
       data =>{
-        this.rejeters = data;
+        if(data != null){
+          this.rejeters = data.length;
+        }
+        
         console.log(data);
       },
       error =>{
@@ -128,7 +134,10 @@ export class RepresentationLocaleContratComponent implements OnInit {
     );
     this.dossierService.findAllByStatusAndOccupation("ENCOURS",id).subscribe(
       data =>{
-        this.dossiersEncours = data;
+        if(data != null){
+          this.dossiersEncours = data.length;
+        }
+        
         console.log(data);
       },
       error =>{

@@ -145,6 +145,7 @@ export class ContratDetailComponent implements OnInit {
         this.clickButton('new-facture-close');
         Swal.fire('Thank you...', 'You submitted succesfully!', 'success').then((res)=>{
           if(res.isConfirmed){
+            this.getContrat(this.currentContrat.id);
             this.getAllMensualites();
             this.getAllFalseMensualites();
             this.getAllTrueMensualites();
