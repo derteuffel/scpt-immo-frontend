@@ -146,7 +146,7 @@ aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
   <div class="modal-content">
     <form (submit)="onSubmit()" [formGroup]="form">
     <div class="modal-header">
-      <h5 class="modal-title text-center">Nouvel</h5>
+      <h5 class="modal-title text-center">Nouvel utilisateur</h5>
       <button type="button" class="close" data-dismiss="modal" aria-label="Close">
         <span aria-hidden="true">&times;</span>
       </button>
@@ -160,7 +160,7 @@ aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
                   <div class="form-group">
                     <label class="form-control-label" for="input-username">Province</label>
                     <select formControlName="province" class="form-control" >
-                        <option *ngFor="let item of provinces" value="{{item}}">{{item}}</option>
+                        <option *ngFor="let item of provinces" value="{{item.name}}">{{item.name}}</option>
                     </select>
                   </div>
 
@@ -215,7 +215,7 @@ aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
   <div class="modal-content">
     <form (submit)="onEditSubmit(selectedItem.id)" [formGroup]="form">
     <div class="modal-header">
-      <h5 class="modal-title text-center">Modification d'un local</h5>
+      <h5 class="modal-title text-center">Modification d'un utilisateur</h5>
       <button type="button" class="close" data-dismiss="modal" aria-label="Close">
         <span aria-hidden="true">&times;</span>
       </button>
@@ -229,7 +229,7 @@ aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
                 <div class="form-group">
                   <label class="form-control-label" for="input-username">Province</label>
                   <select formControlName="province" class="form-control" >
-                      <option *ngFor="let item of provinces" value="{{item}}">{{item}}</option>
+                      <option *ngFor="let item of provinces" value="{{item.name}}">{{item.name}}</option>
                   </select>
                 </div>
 

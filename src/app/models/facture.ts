@@ -1,15 +1,15 @@
 import {Contrat} from "./contrat";
 
-export class Facture{
-    id!:number;
+export interface Facture{
+    id:number;
 
-    montant!:number;
-    mois!:string;
-    annee!:string;
-    motif!:string;
-    contrat!:Contrat;
+    montant:number;
+    mois:string;
+    annee:string;
+    motif:string;
+    contrat:Contrat;
 
-    status!:boolean;
+    status:boolean;
 
-    numFacture!: string;
+    numFacture: string;
 }

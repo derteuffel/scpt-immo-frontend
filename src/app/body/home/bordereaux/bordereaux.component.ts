@@ -7,6 +7,7 @@ import {months} from "../../../constant";
 import {TokenService} from "../../../services/token.service";
 import {BordereausService} from "../../../services/bordereaus.service";
 import {DatePipe} from "@angular/common";
+import { Facture } from 'src/app/models/facture';
 
 @Component({
   selector: 'app-bordereaux',
@@ -16,7 +17,7 @@ import {DatePipe} from "@angular/common";
 })
 export class BordereauxComponent implements OnInit {
 
-  lists: any[]=[];
+  lists: Facture[]=[];
   mois:any;
   montantPayer:any;
   montantImpayer:any;
@@ -85,7 +86,22 @@ export class BordereauxComponent implements OnInit {
 
     this.bordereauxService.findAllByStatusAndAnnee(false,date).subscribe(
       data =>{
-        this.lists = data;
+        this.lists.push(data);
+        this.getBordereauxTrue();
+        console.log(data);
+      },
+      error =>{
+        console.log(error);
+      }
+    );
+  }
+
+  getBordereauxTrue(){
+    let date = this.datePipe.transform(new Date(),"yyyy");
+
+    this.bordereauxService.findAllByStatusAndAnnee(true,date).subscribe(
+      data =>{
+        this.lists.push(data);
         console.log(data);
       },
       error =>{
