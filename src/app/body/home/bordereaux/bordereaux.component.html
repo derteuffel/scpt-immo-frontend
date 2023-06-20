@@ -30,7 +30,7 @@
                           <div class="input-group-prepend">
                             <span class="input-group-text"><i class="fas fa-search"></i></span>
                           </div>
-                          <input class="form-control" placeholder="Rechercher un paiement" [(ngModel)]="term" type="text">
+                          <input class="form-control" placeholder="Recherche rapide" [(ngModel)]="term" type="text">
                         </div>
                       </div>
                       <hr>
@@ -72,7 +72,7 @@
                   </div>
                   <!-- Light table -->
                   <div class="table-responsive">
-                    <table *ngIf="lists.length > 0"  class="table align-items-center table-flush">
+                    <table *ngIf="lists != null && lists.length > 0"  class="table align-items-center table-flush">
                         <thead class="thead-light">
                           <tr>
                             <th scope="col" class="sort" data-sort="numContrat">Code Contrat</th>
@@ -80,21 +80,28 @@
                             <th scope="col" class="sort" data-sort="nameClient">Année</th>
                             <th scope="col" class="sort" data-sort="typeClient">Motif</th>
                             <th scope="col" class="sort" data-sort="contact">Montant</th>
+                            <th scope="col" class="sort" data-sort="action">Actions</th>
                           </tr>
                         </thead>
                         <tbody class="list">
                           <tr  *ngFor="let item of lists | paginate: { itemsPerPage: 50, currentPage: p }| filter:term">
 
-                            <td>{{item.contrat.numContrat}}</td>
+                            <td>{{item.contrat?.numContrat}}</td>
                             <td>{{item.mois}}</td>
                             <td>{{item.annee}}</td>
                             <td>{{item.motif}}</td>
                             <td>{{item.montant+' USD'}}</td>
+                            <td *ngIf="!item.status">
+                              <a  type="button"   (click)="payment(item)">Effectuer paiement</a>
+                            </td>
+                            <td *ngIf="item.status">
+                              Paiement effectué
+                            </td>
 
                           </tr>
                         </tbody>
                       </table>
-                      <div *ngIf="lists.length < 1" class="alert alert-warning">
+                      <div *ngIf="lists != null && lists.length < 1" class="alert alert-warning">
                           <span>{{message}}</span>
                       </div>
                   </div>
@@ -112,6 +119,57 @@
         </div>
         <app-footer></app-footer>
     </div>
+</div>
+
+<button [hidden]="true" type="button" id="openPayment" data-toggle="modal" data-target="#paymentModal">
+</button>
+<div  class="modal draggable fade bd-example-modal-lg" id="paymentModal" tabindex="-1" role="dialog"
+      aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
+  <div class="modal-dialog" role="document">
+    <div class="modal-content">
+      <form [formGroup]="form" (ngSubmit)="onMakePayment()">
+        <div class="modal-header">
+          <h5 class="modal-title text-center">Effectuer le paiement d'une facture</h5>
+          <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+            <span aria-hidden="true">&times;</span>
+          </button>
+        </div>
+        <div class="modal-body">
+          <div>
+
+            <div class="pl-lg-4">
+              
+              <div class="form-group">
+                <label class="form-control-label" >Nom du client</label>
+                <input type="text" formControlName="clientName"  class="form-control" placeholder="Nom du client">
+              </div>
+              <div class="form-group">
+                <label class="form-control-label" >Numero d'identite</label>
+                <input type="text" formControlName="idNumber"   class="form-control" placeholder="Numero d'identite">
+              </div>
+              <div class="form-group">
+                <label class="form-control-label" >Montant</label>
+                <input type="number" formControlName="amount"   class="form-control" placeholder="Montant a payé">
+              </div>
+              <div class="form-group">
+                <label class="form-control-label" >Numero de transaction</label>
+                <input type="text" formControlName="transactionNumber"   class="form-control" placeholder="Numero de la transaction">
+              </div>
+              <div class="form-group">
+                <label class="form-control-label" >Matricule de l'agent</label>
+                <input type="text" formControlName="agentCode"   class="form-control" placeholder="Matricule de l'agent">
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-secondary" data-dismiss="modal" id="closePayment">Fermer</button>
+          <button type="submit"  class="btn btn-primary">Confirmer</button>
+        </div>
+      </form>
+    </div>
+
+  </div>
 </div>
 
 

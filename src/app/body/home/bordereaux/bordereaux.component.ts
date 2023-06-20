@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { UntypedFormGroup, UntypedFormControl } from '@angular/forms';
+import { FormGroup, FormControl } from '@angular/forms';
 import { ActivatedRoute, NavigationExtras, Router } from '@angular/router';
 import { MensualiteService } from 'src/app/services/mensualite.service';
 import Swal from 'sweetalert2';
@@ -17,10 +17,11 @@ import { Facture } from 'src/app/models/facture';
 })
 export class BordereauxComponent implements OnInit {
 
-  lists: Facture[]=[];
+  lists: any;
   mois:any;
   montantPayer:any;
   montantImpayer:any;
+  currentFacture!: Facture;
   message:any;
   successMessage:any;
   searchForm: any ={};
@@ -35,7 +36,8 @@ export class BordereauxComponent implements OnInit {
 
 
   constructor(private bordereauxService: BordereausService,private datePipe:DatePipe,
-              private activatedRoute: ActivatedRoute, private tokenService: TokenService) { }
+              private activatedRoute: ActivatedRoute, private tokenService: TokenService,
+              private mensualiteService: MensualiteService) { }
 
   ngOnInit(): void {
   this.months = months;
@@ -47,11 +49,25 @@ export class BordereauxComponent implements OnInit {
 
 
   init(){
-    this.searchForm = new UntypedFormGroup({
-      mois: new UntypedFormControl(""),
-      year: new UntypedFormControl(""),
-      value: new UntypedFormControl(false)
+    this.searchForm = new FormGroup({
+      mois: new FormControl(""),
+      year: new FormControl(""),
+      value: new FormControl(false)
     });
+    this.form = new FormGroup({
+      clientName: new FormControl(''),
+      idNumber: new FormControl(''),
+      amount: new FormControl(0.0),
+      contractNumber: new FormControl(''),
+      month: new FormControl(''),
+      years: new FormControl(''),
+      transactionNumber: new FormControl(''),
+      status: new FormControl(false),
+      paymentDate: new FormControl(null),
+      agentCode: new FormControl(''),
+      numFacture: new FormControl('')
+
+    })
 
   }
 
@@ -86,7 +102,7 @@ export class BordereauxComponent implements OnInit {
 
     this.bordereauxService.findAllByStatusAndAnnee(false,date).subscribe(
       data =>{
-        this.lists.push(data);
+        this.lists = data;
         this.getBordereauxTrue();
         console.log(data);
       },
@@ -110,8 +126,46 @@ export class BordereauxComponent implements OnInit {
     );
   }
 
+  
+  payment(item:any){
 
+    this.currentFacture = item;
+    console.log(this.currentFacture.mois);
+    console.log(this.currentFacture.annee);
+    this.form.patchValue({
+        numFacture: this.currentFacture.numFacture,
+        agentCode: "",
+        idNumber: "",
+        clientName:"",
+        amount: this.currentFacture.montant,
+        contractNumber: this.currentFacture.contrat.numContrat,
+        month: this.currentFacture.mois,
+        years: this.currentFacture.annee,
+        transactionNumber: "",
+        status: true,
+        paymentDate: this.datePipe.transform(new Date(),"dd-MM-yyyy")
 
+    })
+    this.clickButton('openPayment');
+  }
+
+  onMakePayment(){
+    console.log(this.form.value);
+    this.mensualiteService.makePayment(this.form.value).subscribe(
+      data => {
+        console.log(data);
+        this.clickButton("closePayment")
+        Swal.fire('Merci...', 'Le paiement a été éffectué avec succes', 'success').then((res)=>{
+          if(res.isConfirmed){
+            this.getBordereaux();
+          }});
+      },
+      error =>{
+        console.log(error);
+        Swal.fire('Ooops...', 'Une erreur est survenue lors de votre operation '+error, 'error');
+      }
+    );
+  }
 
   clickButton(buttonId: string): void {
     document.getElementById(buttonId)?.click();

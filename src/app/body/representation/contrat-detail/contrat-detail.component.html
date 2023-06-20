@@ -27,43 +27,11 @@
                 <h3>Detail du contrat {{currentContrat.numContrat}}</h3>
                 <input type="file" *ngIf="!currentContrat.contratFile" class="form-control" (change)="onChange($event)">
                 <button type="button" *ngIf="!currentContrat.contratFile" class="btn btn-outline-info" (click)="produceContract()" >Charger le contrat &nbsp; <i class="fa fa-file-export"></i></button>
-                <a href="#" type="button"  data-toggle="modal" data-target="#addFactureModal" class="btn btn-outline-default">Produire bordereau   <i class="fa fa-file"></i></a>
+                <a href="#" type="button"  data-toggle="modal" data-target="#addFactureModal" class="btn btn-outline-default">Produire bordereau   <i class="fa fa-book"></i></a>
+                <a href="#" type="button"  data-toggle="modal" data-target="#produceBordereauModal" class="btn btn-outline-primary">Générer le bordereau PDF   <i class="fa fa-file"></i></a>
               </div>
               <!-- model add user -->
-<!-- <div  class="modal draggable fade bd-example-modal-lg" id="produceFactureModal" tabindex="-1" role="dialog"
-aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
-<div class="modal-dialog" role="document">
-  <div class="modal-content">
-    <form (submit)="onProduce()" [formGroup]="produceForm">
-    <div class="modal-header">
-      <h5 class="modal-title text-center">Produire la facture d'un mois</h5>
-      <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-        <span aria-hidden="true">&times;</span>
-      </button>
-    </div>
-    <div class="modal-body">
-      <div>
-
-            <h6 class="heading-small text-muted mb-4">Formulaire</h6>
-            <div class="pl-lg-4"> <div class="form-group">
-                    <label class="form-control-label" >Choisir le mois concerner</label>
-                    <input type="date" formControlName="date"  class="form-control" placeholder="Date concerner">
-                  </div>
-            </div>
-
-
-      </div>
-    </div>
-    <div class="modal-footer">
-      <button type="button" class="btn btn-secondary" data-dismiss="modal" id="new-facture-close">Fermer</button>
-      <button type="submit"  class="btn btn-primary">Enregistrer</button>
-    </div>
-    </form>
-  </div>
-
-</div>
-</div>
-          -->     <div class="card-body">
+               <div class="card-body">
                 <table class="table table-bordered">
 
                       <tr>
@@ -302,6 +270,43 @@ aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
         <div class="modal-footer">
           <button type="button" class="btn btn-secondary" data-dismiss="modal" id="new-facture-close">Fermer</button>
           <button type="submit"  class="btn btn-primary">Enregistrer</button>
+        </div>
+      </form>
+    </div>
+
+  </div>
+</div>
+
+<div  class="modal draggable fade bd-example-modal-lg" id="produceBordereauModal" tabindex="-1" role="dialog"
+      aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
+  <div class="modal-dialog" role="document">
+    <div class="modal-content">
+      <form [formGroup]="formulaire" (ngSubmit)="onProduce()">
+        <div class="modal-header">
+          <h5 class="modal-title text-center">Production d'un bordeau</h5>
+          <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+            <span aria-hidden="true">&times;</span>
+          </button>
+        </div>
+        <div class="modal-body">
+          <div>
+
+            <div class="pl-lg-4">
+              
+              <div class="form-group">
+                <label class="form-control-label" >Nom du Directeur</label>
+                <input type="text" formControlName="nomDirecteur"  class="form-control" placeholder="Nom du Directeur">
+              </div>
+              <div class="form-group">
+                <label class="form-control-label" >Nom du chef de service commerciale</label>
+                <input type="text" formControlName="nomChefService"   class="form-control" placeholder="Nom du chef de service">
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-secondary" data-dismiss="modal" id="generate-bordereau-close">Fermer</button>
+          <button type="submit"  class="btn btn-primary">Générer</button>
         </div>
       </form>
     </div>

@@ -47,6 +47,10 @@ export class MensualiteService {
     return this.http.post(`${host}/upload/${id}`, form,{headers: this.formHeaders});
   }
 
+  makePayment(form:any):Observable<any>{
+    return this.http.post(`${host}/makePayment/mobile`, form,{headers: this.formHeaders});
+  }
+
   findOne(id:any):Observable<any>{
     return this.http.get(`${host}/${id}`,{headers: this.headers});
   }

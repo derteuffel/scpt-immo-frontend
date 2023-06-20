@@ -1,6 +1,6 @@
 import { HttpErrorResponse } from '@angular/common/http';
 import { Component, OnInit } from '@angular/core';
-import { UntypedFormControl, UntypedFormGroup } from '@angular/forms';
+import { FormControl, FormGroup } from '@angular/forms';
 import { Router } from '@angular/router';
 import { Subscription } from 'rxjs';
 import { AuthService } from 'src/app/auth/auth.service';
@@ -50,25 +50,25 @@ export class RepresentationsComponent implements OnInit {
   }
 
   init(){
-    this.form = new UntypedFormGroup({
-      province: new UntypedFormControl(''),
-      ville: new UntypedFormControl(''),
-      commune: new UntypedFormControl(''),
-      avenue: new UntypedFormControl(''),
-      adresse: new UntypedFormControl(''),
-      designation: new UntypedFormControl(''),
-      denomination: new UntypedFormControl(''),
-      reference: new UntypedFormControl(''),
-      observation: new UntypedFormControl(''),
-      miseEnService: new UntypedFormControl(''),
-      montant: new UntypedFormControl(null),
-      superficie: new UntypedFormControl(null),
-      taux: new UntypedFormControl(null)
+    this.form = new FormGroup({
+      province: new FormControl(''),
+      ville: new FormControl(''),
+      commune: new FormControl(''),
+      avenue: new FormControl(''),
+      adresse: new FormControl(''),
+      designation: new FormControl(''),
+      denomination: new FormControl(''),
+      reference: new FormControl(''),
+      observation: new FormControl(''),
+      miseEnService: new FormControl(''),
+      montant: new FormControl(null),
+      superficie: new FormControl(null),
+      taux: new FormControl(null)
     });
 
-    this.searchForm = new UntypedFormGroup({
-      province: new UntypedFormControl(''),
-      value: new UntypedFormControl('')
+    this.searchForm = new FormGroup({
+      province: new FormControl(''),
+      value: new FormControl('')
     });
   }
 
@@ -250,15 +250,29 @@ export class RepresentationsComponent implements OnInit {
   }
 
   onSubmitSearch(){
-    this.localeService.findAllByVille(this.searchForm.get('value').value).subscribe(
-      data =>{
-        this.lists = data;
-        console.log(data);
-      },
-      error =>{
-        console.log(error);
-      }
-    );
+
+    if(this.searchForm.get('province').value != "" && this.searchForm.get('value').value === ""){
+      this.localeService.findAllByProvince(this.searchForm.get('province').value).subscribe(
+        data =>{
+          this.lists = data;
+          console.log(data);
+        },
+        error =>{
+          console.log(error);
+        }
+      );
+    }else if(this.searchForm.get('province').value != "" && this.searchForm.get('value').value != ""){
+      this.localeService.findAllByVille(this.searchForm.get('value').value).subscribe(
+        data =>{
+          this.lists = data;
+          console.log(data);
+        },
+        error =>{
+          console.log(error);
+        }
+      );
+    }
+    
   }
 
   deleteItem(id:any){

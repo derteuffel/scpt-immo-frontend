@@ -35,6 +35,8 @@ import {BordereauxComponent} from "./body/home/bordereaux/bordereaux.component";
 import { DossierDetailsComponent } from './body/representation/dossier-details/dossier-details.component';
 import { DossiersComponent } from './body/home/dossiers/dossiers.component';
 import {NgChartsModule} from "ng2-charts";
+import { StatistiquesComponent } from './body/home/statistiques/statistiques.component';
+
 
 @NgModule({
   declarations: [
@@ -56,7 +58,8 @@ import {NgChartsModule} from "ng2-charts";
     UserDetailComponent,
     BordereauxComponent,
     DossierDetailsComponent,
-    DossiersComponent
+    DossiersComponent,
+    StatistiquesComponent
 
   ],
   imports: [
@@ -68,7 +71,7 @@ import {NgChartsModule} from "ng2-charts";
     NgxPaginationModule,
     Ng2SearchPipeModule,
     NgChartsModule
-  ],
+    ],
   providers: [DatePipe],
   bootstrap: [AppComponent]
 })

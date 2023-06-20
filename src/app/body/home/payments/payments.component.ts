@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { UntypedFormGroup, UntypedFormControl, MaxLengthValidator } from '@angular/forms';
+import { FormGroup, FormControl, MaxLengthValidator } from '@angular/forms';
 import { ActivatedRoute, NavigationExtras, Router } from '@angular/router';
 import { max, Subscription } from 'rxjs';
 import { Contrat } from 'src/app/models/contrat';
@@ -51,11 +51,11 @@ export class PaymentsComponent implements OnInit {
 
 
   init(){
-        this.searchForm = new UntypedFormGroup({
-      mois: new UntypedFormControl(this.datePipe.transform(new Date(),"MM")),
-      year: new UntypedFormControl(this.datePipe.transform(new Date(),"yyyy")),
-      province: new UntypedFormControl("KINSHASA"),
-      value: new UntypedFormControl('')
+        this.searchForm = new FormGroup({
+      mois: new FormControl(this.datePipe.transform(new Date(),"MM")),
+      year: new FormControl(this.datePipe.transform(new Date(),"yyyy")),
+      province: new FormControl("KINSHASA"),
+      value: new FormControl('')
     });
 
   }

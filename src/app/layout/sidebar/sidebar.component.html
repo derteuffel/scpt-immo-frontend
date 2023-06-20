@@ -17,7 +17,7 @@
           <ul class="navbar-nav">
             <li class="nav-item" *ngIf="isAdminTest || isCommercial || isProvincial">
               <a class="nav-link btn btn-outline-secondary" href="/admin/locations">
-                <i class="ni ni-map-big"></i>
+                <i class="ni ni-building"></i>
                 <span class="nav-link-text">Parcelles</span>
               </a>
             </li>
@@ -35,14 +35,20 @@
             </li>
             <li class="nav-item" *ngIf="isAdminTest || isCommercial || isProvincial">
               <a class="nav-link btn btn-outline-secondary" href="/admin/dossiers">
-                <i class="ni ni-circle-08"></i>
+                <i class="ni ni-folder-17"></i>
                 <span class="nav-link-text">Dossiers</span>
               </a>
             </li>
             <li class="nav-item" *ngIf="isAdminTest || isProvincial">
               <a class="nav-link btn btn-outline-secondary" href="/admin/contrats">
-                <i class="ni ni-ruler-pencil"></i>
+                <i class="ni ni-books"></i>
                 <span class="nav-link-text">Contrats</span>
+              </a>
+            </li>
+            <li class="nav-item" *ngIf="isAdminTest || isProvincial">
+              <a class="nav-link btn btn-outline-secondary" href="/admin/statistiques">
+                <i class="ni ni-chart-bar-32"></i>
+                <span class="nav-link-text">Statistiques</span>
               </a>
             </li>
             <li  class="nav-item" *ngIf="isAdminTest || isProvincial">

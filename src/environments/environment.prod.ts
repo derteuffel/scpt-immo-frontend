@@ -11,5 +11,6 @@ export const environment = {
   DOSSIER: `${HOST}/dossier`,
   ETAPE: `${HOST}/etape`,
   BORDEREAUX: `${HOST}/facture`,
+  STATISTIQUE: `${HOST}/reporting`,
   OCCUPATION: `${HOST}/occupation`
 };

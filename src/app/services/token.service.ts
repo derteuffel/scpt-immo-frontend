@@ -31,6 +31,18 @@ export class TokenService{
       return this.years
   }
 
+  public getCurrentDate(): string{
+    return this.datePipe.transform(this.newDate,"dd/MM/yyyy")!
+  }
+
+  public getCurrentYear(): string{
+    return this.datePipe.transform(this.newDate,"yyyy")!
+  }
+
+  public getCurrentDateForExport(): string{
+    return this.datePipe.transform(this.newDate,"yyyyMM")!
+  }
+
   public setToken(token: string): void {
     sessionStorage.removeItem(TOKEN_KEY);
     sessionStorage.setItem(TOKEN_KEY, token);
