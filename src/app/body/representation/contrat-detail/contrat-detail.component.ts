@@ -169,10 +169,11 @@ export class ContratDetailComponent implements OnInit {
   onSubmit(){
     const form = {
       montant: this.form.get("montant").value,
-      mois: this.form.get("mois").value,
-      annee: this.form.get("annee").value,
+      mois: this.tokenService.getCurrentMois(),
+      annee: this.tokenService.getCurrentYear(),
       motif: this.form.get("motif").value
     }
+    console.log(this.tokenService.getCurrentMois())
     this.bordereauxService.save(form,this.currentContrat.id).subscribe(
       data => {
         console.log(data);
@@ -268,8 +269,8 @@ export class ContratDetailComponent implements OnInit {
                 widths: ['*', 'auto', 'auto', 'auto','auto','auto'],  
                 body: [  
                     ['LIBELLE', 'ANNEE', 'MOIS', 'MONTANT/MOIS(USD)','IRL(USD)','TOTAL(USD)'],  
-                    ...this.alls.map(p => ([p.motif, p.annee, p.mois,p.montant,((p.montant * 20)/100),(p.montant - (p.montant * 20)/100) ])),  
-                    [{ text: 'TOTAL', colSpan: 3 },{},{}, this.alls.reduce((sum, p) => sum + (p.montant), 0), this.alls.reduce((sum, p) => sum + ((p.montant * 20)/100), 0), this.alls.reduce((sum, p) => sum + (p.montant - (p.montant * 20)/100), 0)]  
+                    ...this.nonEffectues.map(p => ([p.motif, p.annee, p.mois,p.montant,((p.montant * 20)/100),(p.montant - (p.montant * 20)/100) ])),  
+                    [{ text: 'TOTAL', colSpan: 3 },{},{}, this.nonEffectues.reduce((sum, p) => sum + (p.montant), 0), this.nonEffectues.reduce((sum, p) => sum + ((p.montant * 20)/100), 0), this.nonEffectues.reduce((sum, p) => sum + (p.montant - (p.montant * 20)/100), 0)]  
                 ],
                 tableAlignment:"center"
             }  

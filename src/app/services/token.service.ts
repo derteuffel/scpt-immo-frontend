@@ -39,6 +39,51 @@ export class TokenService{
     return this.datePipe.transform(this.newDate,"yyyy")!
   }
 
+  public getCurrentMois(): string{
+    let month = this.datePipe.transform(this.newDate,"MM")!
+    switch(month){
+      case "01":
+        return "Janvier"
+        break
+      case "02":
+        return "Fevrier"
+        break
+      case "03":
+        return "Mars"
+        break
+      case "04":
+        return "Avril"
+        break
+      case "05":
+        return "Mai"
+        break
+      case "06":
+        return "Juin"
+        break
+      case "07":
+        return "Juillet"
+        break
+      case "08":
+        return "Aout"
+        break
+      case "09":
+        return "Septembre"
+        break
+      case "10":
+        return "Octobre"
+        break
+      case "11":
+        return "Novembre"
+        break
+      case "12":
+        return "Decembre"
+        break
+      default:
+        return "Aucun mois trouver"
+        break
+    }
+  }
+
   public getCurrentDateForExport(): string{
     return this.datePipe.transform(this.newDate,"yyyyMM")!
   }

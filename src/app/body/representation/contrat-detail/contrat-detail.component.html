@@ -243,18 +243,6 @@ aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
             <h6 class="heading-small text-muted mb-4">Formulaire</h6>
             <div class="pl-lg-4">
               <div class="form-group">
-                <label class="form-control-label" >Mois</label>
-                <select formControlName="mois" class="form-control" >
-                  <option *ngFor="let item of mois" value="{{item}}">{{item}}</option>
-                </select>
-              </div>
-              <div class="form-group">
-                <label class="form-control-label" >Année</label>
-                <select formControlName="annee" class="form-control" >
-                  <option *ngFor="let item of annees" value="{{item}}">{{item}}</option>
-                </select>
-              </div>
-              <div class="form-group">
                 <label class="form-control-label" >Montant</label>
                 <input type="text" formControlName="montant"  class="form-control" placeholder="Montant facture">
               </div>
@@ -263,8 +251,6 @@ aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
                 <textarea formControlName="motif"  class="form-control" rows="4" placeholder="Motif du bordereau"></textarea>
               </div>
             </div>
-
-
           </div>
         </div>
         <div class="modal-footer">

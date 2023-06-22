@@ -25,14 +25,21 @@
                   <!-- Card header -->
                   <div class="card-header border-0">
                     <div class="navbar-search navbar-search-light form-inline mr-sm-3" id="navbar-search-main">
-                      <div class="form-group mb-0">
-                        <div class="input-group input-group-alternative input-group-merge">
-                          <div class="input-group-prepend">
-                            <span class="input-group-text"><i class="fas fa-search"></i></span>
+                      <div class="row">
+                        <div class="form-group mb-0">
+                          <div class="input-group input-group-alternative input-group-merge">
+                            <div class="input-group-prepend">
+                              <span class="input-group-text"><i class="fas fa-search"></i></span>
+                            </div>
+                            <input class="form-control" placeholder="Recherche rapide" [(ngModel)]="term" type="text">
                           </div>
-                          <input class="form-control" placeholder="Recherche rapide" [(ngModel)]="term" type="text">
+                        </div>
+                        
+                        <div>
+                          <a type="button" class="btn btn-outline-info" data-toggle="modal" data-target="#produceBordereauModal"> <i class="fa fa-address-card"></i>&nbsp; Produire des bordereaux</a>
                         </div>
                       </div>
+                      
                       <hr>
                       <form [formGroup]="searchForm" (submit)="onSubmitSearch()">
                         <div class="row">
@@ -49,15 +56,6 @@
                               <select formControlName="year" class="form-control" >
                                 <option  value="">--Choisir une année--</option>
                                 <option *ngFor="let item of years" value="{{item}}">{{item}}</option>
-                              </select>
-                            </div>
-                          </div>
-                          <div class="form-group mb-0">
-                            <div class="input-group input-group-alternative input-group-merge">
-                              <select formControlName="value" class="form-control" >
-                                <option  value="">--Choisir un etat--</option>
-                                <option  value="false">IMPAYER</option>
-                                <option  value="true">PAYER</option>
                               </select>
                             </div>
                           </div>
@@ -170,6 +168,51 @@
     </div>
 
   </div>
+</div>
+
+
+<div  class="modal draggable fade bd-example-modal-lg" id="produceBordereauModal" tabindex="-1" role="dialog"
+aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
+<div class="modal-dialog" role="document">
+  <div class="modal-content">
+    <form (submit)="onGenerate()" [formGroup]="generateForm">
+    <div class="modal-header">
+      <h5 class="modal-title text-center">Geneger bordereau</h5>
+      <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+        <span aria-hidden="true">&times;</span>
+      </button>
+    </div>
+    <div class="modal-body">
+      <div>
+
+            <div class="pl-lg-4">
+                  
+                  <div class="form-group">
+                    <label class="form-control-label" >Niveau de generation</label>
+                    <select formControlName="niveau" class="form-control" >
+                        <option value="">-- Choisir --</option>
+                        <option value="NATIONAL">NATIONAL</option>
+                        <option value="PROVINCIAL">PROVINCIAL</option>
+                    </select>
+                  </div>
+                <div class="form-group">
+                    <label class="form-control-label" >Province</label>
+                    <select formControlName="province" class="form-control" >
+                      <option value="">-- Choisir une province --</option>
+                        <option *ngFor="let item of provinces" value="{{item.name}}">{{item.name}}</option>
+                    </select>
+                  </div>
+            </div>
+      </div>
+    </div>
+    <div class="modal-footer">
+      <button type="button" class="btn btn-secondary" data-dismiss="modal" id="closeGenerate">Fermer</button>
+      <button type="submit"  class="btn btn-primary">Produire</button>
+    </div>
+    </form>
+  </div>
+
+</div>
 </div>
 
 

@@ -8,6 +8,7 @@ import {TokenService} from "../../../services/token.service";
 import {BordereausService} from "../../../services/bordereaus.service";
 import {DatePipe} from "@angular/common";
 import { Facture } from 'src/app/models/facture';
+import { XlxsService } from 'src/app/services/xlxs/xlxs.service';
 
 @Component({
   selector: 'app-bordereaux',
@@ -28,16 +29,20 @@ export class BordereauxComponent implements OnInit {
   isRepportProduce: boolean = false;
   navigationParams: any={};
   form: any ={};
+  generateForm: any={};
   months: string[]=[];
   years: string[]=[];
   selectedItem: any ={};
   p:number=1;
   term: string='';
+  provinces: Array<any> =[];
+  json:any;
+  title ='';
 
 
   constructor(private bordereauxService: BordereausService,private datePipe:DatePipe,
               private activatedRoute: ActivatedRoute, private tokenService: TokenService,
-              private mensualiteService: MensualiteService) { }
+              private mensualiteService: MensualiteService, private xlxsService: XlxsService) { }
 
   ngOnInit(): void {
   this.months = months;
@@ -52,7 +57,6 @@ export class BordereauxComponent implements OnInit {
     this.searchForm = new FormGroup({
       mois: new FormControl(""),
       year: new FormControl(""),
-      value: new FormControl(false)
     });
     this.form = new FormGroup({
       clientName: new FormControl(''),
@@ -69,15 +73,26 @@ export class BordereauxComponent implements OnInit {
 
     })
 
+    this.generateForm = new FormGroup({
+      niveau: new FormControl(''),
+      province: new FormControl('')
+    })
+
   }
 
 
+  exportToExcel(){
+    this.xlxsService.exportAsExcelFile(this.json, this.title);
+  }
+
   onSubmitSearch(){
-    const searchValue = {mois:this.searchForm.get('mois').value,year:this.searchForm.get('year').value,status:this.searchForm.get('value').value}
+    const searchValue = {mois:this.searchForm.get('mois').value,year:this.searchForm.get('year').value}
     if (searchValue.mois != null && searchValue.mois != ""){
-      this.bordereauxService.findAllByStatusAndMoisAndYear(searchValue.status,searchValue.mois,searchValue.year).subscribe(
+      this.bordereauxService.findAllByStatusAndMoisAndYear(false,searchValue.mois,searchValue.year).subscribe(
         data =>{
           this.lists = data;
+          this.json = data;
+          this.title = 'RAPPORT '+searchValue.mois+''+searchValue.year;
           console.log(data);
         },
         error => {
@@ -85,9 +100,11 @@ export class BordereauxComponent implements OnInit {
         }
       );
     }else {
-      this.bordereauxService.findAllByStatusAndAnnee(searchValue.status, searchValue.year).subscribe(
+      this.bordereauxService.findAllByStatusAndAnnee(false, searchValue.year).subscribe(
         data =>{
           this.lists = data;
+          this.json = data;
+          this.title = 'RAPPORT '+searchValue.year;
           console.log(data);
         },
         error => {
@@ -98,12 +115,12 @@ export class BordereauxComponent implements OnInit {
   }
 
   getBordereaux(){
-    let date = this.datePipe.transform(new Date(),"yyyy");
 
-    this.bordereauxService.findAllByStatusAndAnnee(false,date).subscribe(
+    this.bordereauxService.findAllByStatusAndAnnee(false,this.tokenService.getCurrentYear()).subscribe(
       data =>{
         this.lists = data;
-        this.getBordereauxTrue();
+        this.json = data;
+        this.title = 'RAPPORT '+this.tokenService.getCurrentYear();
         console.log(data);
       },
       error =>{
@@ -113,9 +130,8 @@ export class BordereauxComponent implements OnInit {
   }
 
   getBordereauxTrue(){
-    let date = this.datePipe.transform(new Date(),"yyyy");
 
-    this.bordereauxService.findAllByStatusAndAnnee(true,date).subscribe(
+    this.bordereauxService.findAllByStatusAndAnnee(true,this.tokenService.getCurrentYear()).subscribe(
       data =>{
         this.lists.push(data);
         console.log(data);
@@ -147,6 +163,11 @@ export class BordereauxComponent implements OnInit {
 
     })
     this.clickButton('openPayment');
+  }
+
+  onGenerate(){
+    let level = this.generateForm.get('niveau')
+    this.clickButton('closeGenerate');
   }
 
   onMakePayment(){
