@@ -77,7 +77,7 @@ export class UsersComponent implements OnInit {
       fonction: this.form.get('fonction').value,
       matricule: this.form.get('matricule').value,
       telephone: this.form.get('telephone').value,
-      role: this.form.get('role'),value
+      role: this.form.get('role').value
 
     };
 
