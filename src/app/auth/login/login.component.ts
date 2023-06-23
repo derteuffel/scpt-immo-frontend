@@ -30,7 +30,7 @@ import { TokenStorageService } from '../token-storage.service';
     console.log(this.authService.getUserToken());
     if(this.authService.getUserToken() != null){
       console.log(this.authService.currentUserO.role);
-      if(this.authService.currentUserO.role == Role.PAYMENT){
+      if(this.authService.currentUserO.role == Role.POSTE_FINANCE || this.authService.currentUserO.role == Role.COMPTABILITE){
         console.log(this.authService.currentUserO.role+' 1');
         this.router.navigateByUrl("/admin/payments");
       }else{
@@ -62,7 +62,7 @@ import { TokenStorageService } from '../token-storage.service';
       localStorage.setItem('id', this.authService.currentUserValue.id + '');
       this.role = this.authService.currentUserValue.role;
       console.log('Je veux voir le role : '+this.role);
-      if(this.role === Role.PAYMENT){
+      if(this.role === Role.POSTE_FINANCE || this.role === Role.COMPTABILITE){
         this.router.navigateByUrl("/admin/payments");
       }else{
         this.router.navigateByUrl("/admin/locations");
