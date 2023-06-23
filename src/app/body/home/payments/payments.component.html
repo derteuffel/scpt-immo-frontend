@@ -29,6 +29,7 @@
                           <h3 class="mb-0"><a type="button" class="btn btn-outline-info" (click)="getMensualites()"> <i class="fa fa-list"></i>&nbsp; Paiements effectuer</a> </h3>
                         </div>
                         <div class="col-xl-5 col-md-6  mr-1">
+                          <h3 class="mb-0"><a type="button" class="btn btn-outline-primary" (click)="exportToExcel()"> <i class="fa fa-file-export"></i>&nbsp; Exporter sur Excel</a> </h3>
                         </div>
                       </div>
                 </div>
@@ -113,25 +114,24 @@
                         <thead class="thead-light">
                           <tr>
                             <th scope="col" class="sort" data-sort="numContrat">Code</th>
-                            <th scope="col" class="sort" data-sort="action">Status</th>
+                            <th scope="col" class="sort" data-sort="contact">Client</th>
                             <th scope="col" class="sort" data-sort="nameClient">Bordereau banque</th>
                             <th scope="col" class="sort" data-sort="typeClient">Mois</th>
                             <th scope="col" class="sort" data-sort="secteurActivite">Date de paiement</th>
                             <th scope="col" class="sort" data-sort="numLocale">Montant</th>
-                            <th scope="col" class="sort" data-sort="contact">Client</th>
+                            
                           </tr>
                         </thead>
                         <tbody class="list">
                           <tr  *ngFor="let item of mensualites | paginate: { itemsPerPage: 50, currentPage: p }| filter:term">
 
                             <td>{{item.codeMensualite}}</td>
-                            <td *ngIf="item.status" class="alert alert-success">Payer</td>
-                            <td *ngIf="!item.status" class="alert alert-warning">Impayer</td>
+                            <td>{{item.nomClient}}</td>
                             <td>{{item.numeroBodereau}}</td>
                             <td>{{item.mois}}</td>
                             <td>{{item.dateVersement}}</td>
                             <td>{{item.montant+' USD'}}</td>
-                            <td>{{item.contrat?.nameClient}}</td>
+                            
 
                           </tr>
                         </tbody>

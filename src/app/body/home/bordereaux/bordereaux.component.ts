@@ -3,12 +3,13 @@ import { FormGroup, FormControl } from '@angular/forms';
 import { ActivatedRoute, NavigationExtras, Router } from '@angular/router';
 import { MensualiteService } from 'src/app/services/mensualite.service';
 import Swal from 'sweetalert2';
-import {months} from "../../../constant";
+import {months, provinceData} from "../../../constant";
 import {TokenService} from "../../../services/token.service";
 import {BordereausService} from "../../../services/bordereaus.service";
 import {DatePipe} from "@angular/common";
 import { Facture } from 'src/app/models/facture';
 import { XlxsService } from 'src/app/services/xlxs/xlxs.service';
+import { ContratService } from 'src/app/services/contrat.service';
 
 @Component({
   selector: 'app-bordereaux',
@@ -22,7 +23,7 @@ export class BordereauxComponent implements OnInit {
   mois:any;
   montantPayer:any;
   montantImpayer:any;
-  currentFacture!: Facture;
+  currentFacture: any;
   message:any;
   successMessage:any;
   searchForm: any ={};
@@ -41,12 +42,13 @@ export class BordereauxComponent implements OnInit {
 
 
   constructor(private bordereauxService: BordereausService,private datePipe:DatePipe,
-              private activatedRoute: ActivatedRoute, private tokenService: TokenService,
+              private contratService: ContratService, private tokenService: TokenService,
               private mensualiteService: MensualiteService, private xlxsService: XlxsService) { }
 
   ngOnInit(): void {
   this.months = months;
   this.years = this.tokenService.getYearList();
+  this.provinces = provinceData;
   this.getBordereaux();
     this.init();
 
@@ -82,7 +84,10 @@ export class BordereauxComponent implements OnInit {
 
 
   exportToExcel(){
-    this.xlxsService.exportAsExcelFile(this.json, this.title);
+    if(confirm('Voulez-vous generer le fichier excel?')){
+      this.xlxsService.exportAsExcelFile(this.json, this.title);
+    }
+    
   }
 
   onSubmitSearch(){
@@ -154,7 +159,7 @@ export class BordereauxComponent implements OnInit {
         idNumber: "",
         clientName:"",
         amount: this.currentFacture.montant,
-        contractNumber: this.currentFacture.contrat.numContrat,
+        contractNumber: this.currentFacture.numContrat,
         month: this.currentFacture.mois,
         years: this.currentFacture.annee,
         transactionNumber: "",
@@ -166,8 +171,47 @@ export class BordereauxComponent implements OnInit {
   }
 
   onGenerate(){
-    let level = this.generateForm.get('niveau')
-    this.clickButton('closeGenerate');
+    let level = this.generateForm.get('niveau').value;
+    if(level === "NATIONAL"){
+      this.contratService.generateFactureNational().subscribe(
+        data =>{
+          Swal.fire('Merci...', 'Generation reussie!', 'success').then((res)=>{
+            if(res.isConfirmed){
+              this.getBordereaux();
+
+              this.init();
+              console.log(data);
+            }});
+            this.clickButton('closeGenerate');
+        },
+        error =>{
+          Swal.fire('Ooops...', 'Une erreur est survenue lors de votre operation '+error, 'error');
+          this.clickButton('closeGenerate');
+        }
+      );
+    }else if(level === "PROVINCIAL"){
+      this.contratService.generateFactureProvincial(this.generateForm.get('province').value).subscribe(
+        data =>{
+          Swal.fire('Merci...', 'Generation reussie!', 'success').then((res)=>{
+            if(res.isConfirmed){
+              this.getBordereaux();
+
+              this.init();
+              console.log(data);
+            }});
+            this.clickButton('closeGenerate');
+        },
+        error =>{
+          Swal.fire('Ooops...', 'Une erreur est survenue lors de votre operation '+error, 'error');
+          this.clickButton('closeGenerate');
+        }
+      );
+    }else{
+      console.log("Nothing to show")
+      Swal.fire('Ooops...', 'Aucune option de generation choisis ', 'info');
+          this.clickButton('closeGenerate');
+    }
+    
   }
 
   onMakePayment(){

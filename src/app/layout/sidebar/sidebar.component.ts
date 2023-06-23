@@ -18,7 +18,8 @@ export class SidebarComponent implements OnInit {
   isAdminTest: boolean = false;
   isFinance: boolean = false;
   isProvincial: boolean = false;
-  isCommercial: boolean = false;
+  isComptabilite: boolean = false;
+  isDgi: boolean = false;
   roles: string[] = [];
 
   constructor(private authService: AuthService,
@@ -34,7 +35,7 @@ export class SidebarComponent implements OnInit {
           this.isAdminTest = true;
           break;
         }
-        case 'PAYMENT':{
+        case 'POSTE_FINANCE':{
           this.isFinance = true;
           break;
         }
@@ -42,13 +43,21 @@ export class SidebarComponent implements OnInit {
           this.isProvincial = true;
           break;
         }
-        case 'COMMERCIAL':{
-          this.isCommercial = true;
+        case 'COMPTABILITE':{
+          this.isComptabilite = true;
           break;
         }
         
         case 'DSI':{
           this.isAdminTest = true;
+          break;
+        }
+        case 'DG':{
+          this.isAdminTest = true;
+          break;
+        }
+        case 'DGI':{
+          this.isDgi = true;
           break;
         }
         default:{

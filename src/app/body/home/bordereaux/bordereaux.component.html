@@ -38,6 +38,10 @@
                         <div>
                           <a type="button" class="btn btn-outline-info" data-toggle="modal" data-target="#produceBordereauModal"> <i class="fa fa-address-card"></i>&nbsp; Produire des bordereaux</a>
                         </div>
+                          &nbsp;&nbsp;
+                        <div>
+                          <a type="button" class="btn btn-outline-primary" (click)="exportToExcel()"> <i class="fa fa-file-export"></i>&nbsp; Exporter sur excel</a>
+                        </div>
                       </div>
                       
                       <hr>
@@ -74,6 +78,7 @@
                         <thead class="thead-light">
                           <tr>
                             <th scope="col" class="sort" data-sort="numContrat">Code Contrat</th>
+                            <th scope="col" class="sort" data-sort="numContrat">Nom Client</th>
                             <th scope="col" class="sort" data-sort="action">Mois</th>
                             <th scope="col" class="sort" data-sort="nameClient">Année</th>
                             <th scope="col" class="sort" data-sort="typeClient">Motif</th>
@@ -84,13 +89,14 @@
                         <tbody class="list">
                           <tr  *ngFor="let item of lists | paginate: { itemsPerPage: 50, currentPage: p }| filter:term">
 
-                            <td>{{item.contrat?.numContrat}}</td>
+                            <td>{{item.numContrat}}</td>
+                            <td>{{item.nomClient}}</td>
                             <td>{{item.mois}}</td>
                             <td>{{item.annee}}</td>
                             <td>{{item.motif}}</td>
                             <td>{{item.montant+' USD'}}</td>
                             <td *ngIf="!item.status">
-                              <a  type="button"   (click)="payment(item)">Effectuer paiement</a>
+                              <a class="badge bagde-primary text-info"  type="button"   (click)="payment(item)">Effectuer paiement</a>
                             </td>
                             <td *ngIf="item.status">
                               Paiement effectué

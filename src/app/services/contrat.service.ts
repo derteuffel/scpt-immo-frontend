@@ -85,6 +85,14 @@ export class ContratService {
     return this.http.get(`${host}/secteurActivite/${secteurActivite}`,{headers: this.headers});
   }
 
+  generateFactureNational():Observable<any>{
+    return this.http.get(`${host}/factures/nationale`,{headers: this.headers});
+  }
+
+  generateFactureProvincial(province:any):Observable<any>{
+    return this.http.get(`${host}/factures/provincial/${province}`,{headers: this.headers});
+  }
+
   delete(id:any):Observable<any>{
     return this.http.delete(`${host}/${id}`,{headers: this.headers});
   }

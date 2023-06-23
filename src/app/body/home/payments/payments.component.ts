@@ -11,6 +11,7 @@ import {months, provinceData} from "../../../constant";
 import {TokenService} from "../../../services/token.service";
 import {DatePipe} from "@angular/common";
 import {Chart, ChartConfiguration} from "chart.js";
+import { XlxsService } from 'src/app/services/xlxs/xlxs.service';
 
 @Component({
   selector: 'app-payments',
@@ -19,11 +20,7 @@ import {Chart, ChartConfiguration} from "chart.js";
   providers: [DatePipe]
 })
 export class PaymentsComponent implements OnInit {
-  anciens: Contrat[]=[];
-  actifs: Contrat[]=[];
-  montantTotal:any;
-  montantPayer:any;
-  montantImpayer:any;
+  
   selectedItem: any ={};
   mensualites: any[]=[];
   p:number=1;
@@ -36,9 +33,12 @@ export class PaymentsComponent implements OnInit {
   years: string[]=[];
   navigationParams: any ={};
   search: any ={};
+  json:any;
+  title ='';
+
   private subscriptions: Subscription[] = [];
 
-  constructor(private route: Router, private localeService: LocaleService, private datePipe: DatePipe,
+  constructor(private route: Router, private xlxsService: XlxsService, private datePipe: DatePipe,
               private mensualiteService: MensualiteService, private tokenService: TokenService) { }
 
   ngOnInit(): void {
@@ -52,8 +52,8 @@ export class PaymentsComponent implements OnInit {
 
   init(){
         this.searchForm = new FormGroup({
-      mois: new FormControl(this.datePipe.transform(new Date(),"MM")),
-      year: new FormControl(this.datePipe.transform(new Date(),"yyyy")),
+      mois: new FormControl(this.tokenService.getCurrentMois()),
+      year: new FormControl(this.tokenService.getCurrentYear()),
       province: new FormControl("KINSHASA"),
       value: new FormControl('')
     });
@@ -70,12 +70,15 @@ export class PaymentsComponent implements OnInit {
     this.route.navigate(['/admin/payments/search'], searchNavigationExtras);
 
   }
+
   onSubmitSearch(){
     let month = this.setMois(this.searchForm.get('mois').value);
     let year = this.searchForm.get('year').value;
-    this.mensualiteService.findAllForRepport(month,year,[]).subscribe(
+    this.mensualiteService.findAllForRepport(month,year).subscribe(
       data => {
             this.mensualites = data.mensualites;
+            this.json = data.mensualites;
+            this.title ="RESUME NATIONAL"+year+''+month
             this.initChart(data.montantPayer,data.montantImpayer,data.montantTotal,true)
           this.initChartNational(data.mensualiteSearchHelpers, true);
         console.log(data);
@@ -86,10 +89,19 @@ export class PaymentsComponent implements OnInit {
 
   }
 
+  exportToExcel(){
+    if(confirm('Voulez-vous generer le fichier excel?')){
+      this.xlxsService.exportAsExcelFile(this.json, this.title);
+    }
+    
+  }
+
   getMensualites(){
     this.mensualiteService.findAll().subscribe(
       data =>{
         this.mensualites = data;
+        this.json = data;
+        this.title = "RESUME TOTAL";
         console.log(data);
       },
       error =>{

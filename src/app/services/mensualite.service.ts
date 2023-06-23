@@ -71,9 +71,8 @@ export class MensualiteService {
     return this.http.get(`${host}/date/year/${year}/mois/${mois}/province/${province}`,{headers: this.headers});
   }
 
-  findAllForRepport(mois:any, year:any, provinces:any):Observable<any>{
+  findAllForRepport(mois:any, year:any):Observable<any>{
     const form ={
-      "provinces":provinces,
       "mois": mois,
       "year": year
     }

@@ -107,11 +107,10 @@
                                 <i class="fas fa-ellipsis-v"></i>
                               </a>
                               <div class="dropdown-menu dropdown-menu-right dropdown-menu-arrow">
-                                <a class="dropdown-item" type="button"  href="/admin/contrats/detail/{{item.id}}">Details</a>
-                                <a class="dropdown-item" type="button"  (click)="detailMensualite(item)">Voir mensualites</a>
-                                <a class="dropdown-item" type="button" *ngIf="item.status"  (click)="editItem(item)">Edit</a>
-                                <a class="dropdown-item" type="button" *ngIf="item.status"  (click)="cancelItem(item)">Terminer contrat</a>
-                                <a class="dropdown-item" type="button" *ngIf="item.status"  (click)="deleteItem(item.id)">Supprimer</a>
+                                <a class="dropdown-item" type="button"  href="/admin/contrats/detail/{{item.id}}">Details <i class="fa fa-eye"></i></a>
+                                <a class="dropdown-item" type="button" *ngIf="item.status"  (click)="editItem(item)">Edit <i class="fa fa-edit"></i></a>
+                                <a class="dropdown-item" type="button" *ngIf="item.status"  (click)="cancelItem(item)">Terminer contrat <i class="fa fa-clock"></i></a>
+                                <a class="dropdown-item" type="button" *ngIf="item.status"  (click)="deleteItem(item.id)">Supprimer <i class="fa fa-trash"></i></a>
                               </div>
                             </div>
                           </td>
@@ -139,8 +138,6 @@
 <button [hidden]="true" type="button" id="openDetail" data-toggle="modal" data-target="#detailContratModal">
 </button>
 
-<button [hidden]="true" type="button" id="openDetailMensualite" data-toggle="modal" data-target="#detailMensualiteModal">
-</button>
 
 <!-- model add user -->
 <div  class="modal draggable fade bd-example-modal-lg" id="addContratModal" tabindex="-1" role="dialog"
@@ -308,47 +305,6 @@ aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
 </div>
 </div>
 
-<!-- model add user -->
-<div  class="modal draggable fade bd-example-modal-lg" id="detailMensualiteModal" tabindex="-1" role="dialog"
-aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
-<div class="modal-dialog" role="document">
-  <div class="modal-content">
-    <div class="modal-header">
-      <h5 class="modal-title text-center">Detail mensualite Contrat</h5>
-      <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-        <span aria-hidden="true">&times;</span>
-      </button>
-    </div>
-    <div class="modal-body">
-      <!-- Light table -->
-      <div class="table-responsive">
-        <table class="table align-items-center table-flush">
-          <thead class="thead-light">
-            <tr>
-                <th scope="col" class="sort" data-sort="numContrat">Numero</th>
-              <th scope="col" class="sort" data-sort="nameClient">Client</th>
-              <th scope="col" class="sort" data-sort="typeClient">Date  paiement</th>
-              <th scope="col" class="sort" data-sort="secteurActivite">Montant</th>
-            </tr>
-          </thead>
-          <tbody class="list">
-            <tr  *ngFor="let item of mensualites | paginate: { itemsPerPage: 10, currentPage: p }">
-              <td>{{item.numeroBodereau}}</td>
-              <td>{{item.contrat.nameClient}}</td>
-              <td>{{item.dateVersement}}</td>
-              <td>{{item.montant}}</td>
-            </tr>
-          </tbody>
-        </table>
-      </div>
-    </div>
-    <div class="modal-footer">
-      <button type="button" class="btn btn-secondary" data-dismiss="modal" (click)="clickButton('edit-contrat-close')" >Fermer</button>
-    </div>
-  </div>
-  
-</div>
-</div>
 
 <!-- model add user -->
 <div  class="modal draggable fade bd-example-modal-lg" id="detailContratModal" tabindex="-1" role="dialog"

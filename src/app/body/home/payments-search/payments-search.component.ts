@@ -6,6 +6,7 @@ import Swal from 'sweetalert2';
 import {months, provinceData} from "../../../constant";
 import {TokenService} from "../../../services/token.service";
 import {Chart, ChartConfiguration} from "chart.js";
+import { XlxsService } from 'src/app/services/xlxs/xlxs.service';
 
 @Component({
   selector: 'app-payments-search',
@@ -30,10 +31,13 @@ export class PaymentsSearchComponent implements OnInit {
   selectedItem: any ={};
   p:number=1;
   term: string='';
+  json:any;
+  title="";
 
 
   constructor(private mensualiteService: MensualiteService, private route: Router,
-              private activatedRoute: ActivatedRoute, private tokenService: TokenService) { }
+              private activatedRoute: ActivatedRoute, private tokenService: TokenService,
+              private xlxsService:XlxsService) { }
 
   ngOnInit(): void {
   this.activatedRoute.queryParams.subscribe(params => {
@@ -83,6 +87,7 @@ export class PaymentsSearchComponent implements OnInit {
     this.mensualiteService.findAllByDate(form.mois, form.year, form.province).subscribe(
       data =>{
         this.mensualites = data.mensualites;
+        this.json = data.mensualites;
         this.montantImpayer = data.montantImpayer;
         this.montantPayer = data.montantPayer;
         this.montantTotal = data.montantTotal;
@@ -99,6 +104,12 @@ export class PaymentsSearchComponent implements OnInit {
   }
 
 
+  exportToExcel(){
+    if(confirm('Voulez-vous generer le fichier excel?')){
+      this.xlxsService.exportAsExcelFile(this.json, this.title);
+    }
+    
+  }
 
   generateRepport(){
     const formData = this.navigationParams;
