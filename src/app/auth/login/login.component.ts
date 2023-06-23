@@ -21,7 +21,7 @@ import { TokenStorageService } from '../token-storage.service';
     isLoggedIn = false;
     isLoginFailed = false;
     errorMessage = '';
-    role?: Role;
+    role!: string;
     constructor(private authService: AuthService,
       private router: Router) { }
 
@@ -29,8 +29,8 @@ import { TokenStorageService } from '../token-storage.service';
 
     console.log(this.authService.getUserToken());
     if(this.authService.getUserToken() != null){
-      console.log(this.authService.currentUserO.role);
-      if(this.authService.currentUserO.role == Role.POSTE_FINANCE || this.authService.currentUserO.role == Role.COMPTABILITE){
+      console.log(this.authService.currentUserO.role+'');
+      if(this.authService.currentUserO.role+'' === "POSTE_FINANCE" || this.authService.currentUserO.role+'' === "COMPTABILITE"){
         console.log(this.authService.currentUserO.role+' 1');
         this.router.navigateByUrl("/admin/payments");
       }else{
@@ -60,11 +60,14 @@ import { TokenStorageService } from '../token-storage.service';
       this.isLoginFailed = false;
       this.isLoggedIn = true;
       localStorage.setItem('id', this.authService.currentUserValue.id + '');
-      this.role = this.authService.currentUserValue.role;
+      this.role = this.authService.currentUserValue.role.toString();
       console.log('Je veux voir le role : '+this.role);
-      if(this.role === Role.POSTE_FINANCE || this.role === Role.COMPTABILITE){
+    
+      if(this.role === "POSTE_FINANCE" || this.role === "COMPTABILITE"){
+        console.log('Je suis comptable ou poste finance');
         this.router.navigateByUrl("/admin/payments");
       }else{
+        console.log('Je ne suis pas comptable ou poste finance');
         this.router.navigateByUrl("/admin/locations");
       }
       console.log(this.role);
