@@ -36,27 +36,27 @@
                   <div class="card-header border-0">
                     <div class="navbar-search navbar-search-light form-inline mr-sm-3" id="navbar-search-main">
                       <div class="row">
-                        <div class="col-md-6 col-lg-4">
-                          <div class="form-group mb-0">
-                            <div class="input-group input-group-alternative input-group-merge">
-                              <div class="input-group-prepend">
-                                <span class="input-group-text"><i class="fas fa-search"></i></span>
-                              </div>
-                              <input class="form-control" placeholder="Rechercher un local" [(ngModel)]="term" type="text">
+                        <div class="form-group mb-0">
+                          <div class="input-group input-group-alternative input-group-merge">
+                            <div class="input-group-prepend">
+                              <span class="input-group-text"><i class="fas fa-search"></i></span>
                             </div>
+                            <input class="form-control" placeholder="Recherche rapide" [(ngModel)]="term" type="text">
                           </div>
                         </div>
-                        <div class="col-md-6 col-lg-7 ml-2" >
-                          <form [formGroup]="searchForm" (submit)="onSubmitSearch()">
+                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                        <form [formGroup]="searchForm" (submit)="onSubmitSearch()">
                           <div class="row">
                             <div class="form-group mb-0  ">
                               <div class="input-group input-group-alternative input-group-merge">
-                                <label class="mx-2">Rechercher par province</label>
+                                <label class="mx-2"></label>
                                 <select formControlName="province" class="form-control">
+                                  <option value="">--Choisir une province---</option>
                                   <option *ngFor="let item of provinces" value="{{item.name}}">{{item.name}}</option>
                                 </select>
                               </div>
                             </div>
+                            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
                             <div>
                               <button type="submit" class="btn btn-icon-only mb-0" >
                                 <span class="input-group-text"><i class="fas fa-search"></i></span>
@@ -64,8 +64,6 @@
                             </div>
                           </div>
                          </form>
-                        </div>
-
                       </div>
 
                     </div>
@@ -160,6 +158,7 @@ aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
                   <div class="form-group">
                     <label class="form-control-label" for="input-username">Province</label>
                     <select formControlName="province" class="form-control" >
+                      <option value="">-- Choisir une province --</option>
                         <option *ngFor="let item of provinces" value="{{item.name}}">{{item.name}}</option>
                     </select>
                   </div>
@@ -197,6 +196,7 @@ aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
                   <div class="form-group">
                     <label class="form-control-label" for="input-username">Acces</label>
                     <select formControlName="role" class="form-control" >
+                      <option value="">-- Choisir un accès --</option>
                         <option *ngFor="let item of roles" value="{{item}}">{{item}}</option>
                     </select>
                   </div>

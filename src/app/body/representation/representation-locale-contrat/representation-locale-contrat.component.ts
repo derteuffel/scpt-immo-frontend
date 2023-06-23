@@ -64,6 +64,7 @@ export class RepresentationLocaleContratComponent implements OnInit {
         this.currentLocale = data.locale;
         console.log(data);
         this.getContratEncour();
+        this.getDossierByOccupation();
       },
       error =>{
         console.log(error);

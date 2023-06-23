@@ -315,12 +315,14 @@ aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
                   <div class="form-group">
                     <label class="form-control-label" >Type de client</label>
                     <select formControlName="typeClient" class="form-control" >
+                      <option value="">-- Choisir un type de client --</option>
                         <option *ngFor="let item of types" value="{{item}}">{{item}}</option>
                     </select>
                   </div>
                 <div class="form-group">
                     <label class="form-control-label" >Type de contrat</label>
                     <select formControlName="typeContrat" class="form-control" >
+                      <option value="">-- Choisir un type de contrat --</option>
                         <option *ngFor="let item of typesContrat" value="{{item}}">{{item}}</option>
                     </select>
                   </div>
@@ -328,6 +330,7 @@ aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
                   <div class="form-group">
                     <label class="form-control-label" >Secteur d'activite</label>
                     <select formControlName="secteurActivite" class="form-control" >
+                      <option value="">-- Choisir un secteur d'activite --</option>
                         <option *ngFor="let item of activites" value="{{item}}">{{item}}</option>
                     </select>
                   </div>
@@ -377,12 +380,14 @@ aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
                   <div class="form-group">
                     <label class="form-control-label" >Type de client</label>
                     <select formControlName="raisonSocial" class="form-control" >
+                      <option value="">-- Choisir un type de client --</option>
                         <option *ngFor="let item of types" value="{{item}}">{{item}}</option>
                     </select>
                   </div>
                 <div class="form-group">
                     <label class="form-control-label" >Type de dossier</label>
                     <select formControlName="typeDossier" class="form-control" >
+                      <option value="">-- Choisir un type de contrat --</option>
                         <option *ngFor="let item of typesContrat" value="{{item}}">{{item}}</option>
                     </select>
                   </div>
@@ -390,6 +395,7 @@ aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
                   <div class="form-group">
                     <label class="form-control-label" >Activite</label>
                     <select formControlName="activite" class="form-control" >
+                      <option value="">-- Choisir un secteur d'activite --</option>
                         <option *ngFor="let item of activites" value="{{item}}">{{item}}</option>
                     </select>
                   </div>
@@ -458,6 +464,7 @@ aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
                   <div class="form-group">
                     <label class="form-control-label" >Type de client</label>
                     <select formControlName="typeClient" class="form-control" >
+                      <option value="">-- Choisir un type de client --</option>
                         <option *ngFor="let item of types" value="{{item}}">{{item}}</option>
                     </select>
                   </div>
@@ -465,6 +472,7 @@ aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
                   <div class="form-group">
                     <label class="form-control-label" >Secteur d'activite</label>
                     <select formControlName="secteurActivite" class="form-control" >
+                      <option value="">-- Choisir un secteur d'activite --</option>
                         <option *ngFor="let item of activites" value="{{item}}">{{item}}</option>
                     </select>
                   </div>
@@ -515,20 +523,27 @@ aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
               <div class="form-group">
                 <label class="form-control-label" >Type de client</label>
                 <select formControlName="raisonSocial" class="form-control" >
+                  <option value="">-- Choisir un type de client --</option>
                   <option *ngFor="let item of types" value="{{item}}">{{item}}</option>
+                </select>
+              </div>
+              <div class="form-group">
+                <label class="form-control-label" >Type de dossier</label>
+                <select formControlName="typeDossier" class="form-control" >
+                  <option value="">-- Choisir un type de contrat --</option>
+                    <option *ngFor="let item of typesContrat" value="{{item}}">{{item}}</option>
                 </select>
               </div>
 
               <div class="form-group">
                 <label class="form-control-label" >Activite</label>
                 <select formControlName="activite" class="form-control" >
+                  <option value="">-- Choisir un secteur d'activite --</option>
                   <option *ngFor="let item of activites" value="{{item}}">{{item}}</option>
                 </select>
               </div>
 
             </div>
-
-
       </div>
     </div>
     <div class="modal-footer">

@@ -7,6 +7,7 @@ import { AuthService } from 'src/app/auth/auth.service';
 import {constant, provinceData} from 'src/app/constant';
 import { Role } from 'src/app/enums/role.enum';
 import { LocaleService } from 'src/app/services/locale.service';
+import { XlxsService } from 'src/app/services/xlxs/xlxs.service';
 import Swal from 'sweetalert2';
 
 @Component({
@@ -17,6 +18,8 @@ import Swal from 'sweetalert2';
 export class RepresentationsComponent implements OnInit {
 
   lists: any[]=[];
+  json:any;
+  title="";
   p:number = 1;
   provinces: Array<any>=[];
   villes: Array<any>=[];
@@ -32,7 +35,8 @@ export class RepresentationsComponent implements OnInit {
   searchForm: any;
   private subscriptions: Subscription[] = [];
 
-  constructor(private localeService: LocaleService, private authService: AuthService, private route: Router) {
+  constructor(private localeService: LocaleService, private authService: AuthService, private route: Router,
+    private xlxsService: XlxsService) {
 
 
      }
@@ -72,10 +76,18 @@ export class RepresentationsComponent implements OnInit {
     });
   }
 
+  exportToExcel(){
+    if(confirm('Voulez-vous generer le fichier excel?')){
+      this.xlxsService.exportAsExcelFile(this.json, this.title);
+    }
+    
+  }
+
   loadList(){
     this.localeService.findAll().subscribe(
       data =>{
         this.lists = data;
+        this.json = data;
         console.log(data);
       },
       error =>{
@@ -255,6 +267,7 @@ export class RepresentationsComponent implements OnInit {
       this.localeService.findAllByProvince(this.searchForm.get('province').value).subscribe(
         data =>{
           this.lists = data;
+          this.json = data;
           console.log(data);
         },
         error =>{
@@ -265,6 +278,7 @@ export class RepresentationsComponent implements OnInit {
       this.localeService.findAllByVille(this.searchForm.get('value').value).subscribe(
         data =>{
           this.lists = data;
+          this.json = data;
           console.log(data);
         },
         error =>{
