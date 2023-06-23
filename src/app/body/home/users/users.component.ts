@@ -1,6 +1,6 @@
 import { HttpErrorResponse } from '@angular/common/http';
 import { Component, OnInit } from '@angular/core';
-import { UntypedFormGroup, UntypedFormControl } from '@angular/forms';
+import { UntypedFormGroup, UntypedFormControl, FormControlDirective, FormControl } from '@angular/forms';
 import { Subscription } from 'rxjs';
 import { AuthService } from 'src/app/auth/auth.service';
 import {constant, provinceData} from 'src/app/constant';
@@ -23,6 +23,7 @@ export class UsersComponent implements OnInit {
   uploadedFile?: File;
   imgURL: any;
   searchForm: any;
+  roles:string[]=[];
   private subscriptions: Subscription[] = [];
 
   constructor(
@@ -31,6 +32,7 @@ export class UsersComponent implements OnInit {
   ngOnInit(): void {
     this.loadList();
     this.provinces = provinceData;
+    this.roles = constant.ROLES;
     this.init();
   }
 
@@ -44,6 +46,7 @@ export class UsersComponent implements OnInit {
       fonction: new UntypedFormControl(''),
       email: new UntypedFormControl(''),
       telephone: new UntypedFormControl(''),
+      role: new FormControl('')
 
     });
 
@@ -74,6 +77,7 @@ export class UsersComponent implements OnInit {
       fonction: this.form.get('fonction').value,
       matricule: this.form.get('matricule').value,
       telephone: this.form.get('telephone').value,
+      role: this.form.get('role'),value
 
     };
 
