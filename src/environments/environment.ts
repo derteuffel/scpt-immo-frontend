@@ -3,7 +3,7 @@
 // The list of file replacements can be found in `angular.json`.
 
 export const HOST = 'http://localhost:8181/api'
-//export const HOST = 'http://41.79.235.88:8080/api'
+//export const HOST = 'http://41.79.235.88:8282/api'
 export const environment = {
   production: false,
 

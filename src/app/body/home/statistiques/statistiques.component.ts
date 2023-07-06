@@ -1,3 +1,4 @@
+import { DatePipe } from '@angular/common';
 import { Component, OnInit } from '@angular/core';
 import { FormControl, FormGroup } from '@angular/forms';
 import { months, provinceData } from 'src/app/constant';
@@ -9,7 +10,8 @@ import Swal from 'sweetalert2';
 @Component({
   selector: 'app-statistiques',
   templateUrl: './statistiques.component.html',
-  styleUrls: ['./statistiques.component.css']
+  styleUrls: ['./statistiques.component.css'],
+  providers: [DatePipe]
 })
 export class StatistiquesComponent implements OnInit {
 
@@ -24,7 +26,7 @@ export class StatistiquesComponent implements OnInit {
   p:number=1;
 
   constructor(private statistiqueService:StatistiquesService, private tokenService:TokenService,
-    private xsxlService:XlxsService) { }
+    private xsxlService:XlxsService, private datePipe: DatePipe) { }
 
   ngOnInit(): void {
     this.provinces = provinceData;
@@ -90,13 +92,13 @@ export class StatistiquesComponent implements OnInit {
 
   init(){
     this.form = new FormGroup({
-      month: new FormControl(''),
-      year: new FormControl(''),
+      month: new FormControl(this.tokenService.setMois(this.tokenService.getCurrentMois())),
+      year: new FormControl(this.tokenService.getCurrentYear()),
       province: new FormControl('')
     })
     this.provinceForm = new FormGroup({
-      month: new FormControl(''),
-      year: new FormControl(''),
+      month: new FormControl(this.tokenService.getCurrentMois()),
+      year: new FormControl(this.tokenService.getCurrentYear()),
       province: new FormControl('')
     })
   }

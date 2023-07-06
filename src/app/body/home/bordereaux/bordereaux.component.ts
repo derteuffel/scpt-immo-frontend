@@ -39,6 +39,8 @@ export class BordereauxComponent implements OnInit {
   provinces: Array<any> =[];
   json:any;
   title ='';
+  anneeEncours:any;
+  moisEncours:any;
 
 
   constructor(private bordereauxService: BordereausService,private datePipe:DatePipe,
@@ -50,6 +52,8 @@ export class BordereauxComponent implements OnInit {
   this.years = this.tokenService.getYearList();
   this.provinces = provinceData;
   this.getBordereaux();
+    this.anneeEncours = this.tokenService.getCurrentYear();
+    this.moisEncours = this.tokenService.getCurrentMois();
     this.init();
 
   }
@@ -57,16 +61,16 @@ export class BordereauxComponent implements OnInit {
 
   init(){
     this.searchForm = new FormGroup({
-      mois: new FormControl(""),
-      year: new FormControl(""),
+      mois: new FormControl(this.moisEncours),
+      year: new FormControl(this.anneeEncours),
     });
     this.form = new FormGroup({
       clientName: new FormControl(''),
       idNumber: new FormControl(''),
       amount: new FormControl(0.0),
       contractNumber: new FormControl(''),
-      month: new FormControl(''),
-      years: new FormControl(''),
+      month: new FormControl(this.moisEncours),
+      years: new FormControl(this.anneeEncours),
       transactionNumber: new FormControl(''),
       status: new FormControl(false),
       paymentDate: new FormControl(null),
@@ -91,6 +95,7 @@ export class BordereauxComponent implements OnInit {
   }
 
   onSubmitSearch(){
+    
     const searchValue = {mois:this.searchForm.get('mois').value,year:this.searchForm.get('year').value}
     if (searchValue.mois != null && searchValue.mois != ""){
       this.bordereauxService.findAllByStatusAndMoisAndYear(false,searchValue.mois,searchValue.year).subscribe(
