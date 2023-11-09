@@ -49,6 +49,17 @@ export class LocaleService {
     return this.http.put(`${host}/${id}`, form,{headers: this.headers});
   }
 
+  uploadFiles(form:any, id:any):Observable<any>{
+    console.log(form.name);
+    let formData = new FormData();
+    formData.append("file",form)
+    return this.http.post(`${host}/uploadFile/${id}`, formData,{headers: this.headers});
+  }
+
+  removeFile(form:any, id:any):Observable<any>{
+    return this.http.post(`${host}/removeFile/${id}`, form,{headers: this.headers});
+  }
+
   findOne(id:any):Observable<any>{
     return this.http.get(`${host}/${id}`,{headers: this.headers});
   }

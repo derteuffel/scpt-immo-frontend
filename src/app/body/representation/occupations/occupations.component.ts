@@ -2,7 +2,7 @@ import { HttpErrorResponse } from '@angular/common/http';
 import { Component, OnInit } from '@angular/core';
 import { UntypedFormGroup, UntypedFormControl } from '@angular/forms';
 import { ActivatedRoute } from '@angular/router';
-import { Subscription } from 'rxjs';
+import { Observable, Subscription } from 'rxjs';
 import { LocaleService } from 'src/app/services/locale.service';
 import { MensualiteService } from 'src/app/services/mensualite.service';
 import { OccupationService } from 'src/app/services/occupation.service';
@@ -30,6 +30,9 @@ export class OccupationsComponent implements OnInit {
   p:number=1;
   private subscriptions: Subscription[] = [];
 
+  selectedFiles!: FileList;
+  fileInfos!: Observable<any>;
+
   constructor(private occupationService:OccupationService, private activatedRoute: ActivatedRoute,
     private localeService: LocaleService, private mensualiteService: MensualiteService) { }
 
@@ -37,6 +40,48 @@ export class OccupationsComponent implements OnInit {
   this.getlocale(this.activatedRoute.snapshot.paramMap.get('id'));
   this.init();
   }
+
+
+selectFiles(event:any) {
+  this.selectedFiles = event.target.files;
+}
+
+uploadFiles(){
+  for (let i = 0; i < this.selectedFiles.length; i++) {
+    console.log(this.selectedFiles[i].name)
+  
+    this.localeService.uploadFiles(this.selectedFiles[i],this.currentLocale.id).subscribe(
+      data =>{
+        console.log(data);
+      },
+      error =>{
+        Swal.fire('Ooops...', 'Internal error occured while saving local '+error, 'error');
+      }
+    );
+  }
+}
+
+removeFile(file:any){
+  Swal.fire('Alert.', 'Etes-vous sur de vouloir supprimer cette image?', 'warning').then((res)=>{
+              if(res.isConfirmed){
+                this.localeService.removeFile(file, this.currentLocale.id).subscribe(
+                  data =>{
+                    Swal.fire('Thank you...', 'You submitted succesfully!', 'success').then((res)=>{
+                        if(res.isConfirmed){
+                        this.getlocale(this.currentLocale.id);
+                        
+                        this.init();
+                      }
+                    })
+                  },
+                  error =>{
+                    Swal.fire('Ooops...', 'Internal error occured while saving local ', 'error');
+                  }
+                )
+                 
+                 }
+            })
+}
 
   getlocale(id:any){
     this.localeService.findOne(id).subscribe(

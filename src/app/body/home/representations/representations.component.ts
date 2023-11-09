@@ -67,7 +67,10 @@ export class RepresentationsComponent implements OnInit {
       miseEnService: new FormControl(''),
       montant: new FormControl(null),
       superficie: new FormControl(null),
-      taux: new FormControl(null)
+      taux: new FormControl(null),
+      longitude:new FormControl(''),
+      latitude: new FormControl(''),
+      accuracy: new FormControl('')
     });
 
     this.searchForm = new FormGroup({
@@ -111,6 +114,10 @@ export class RepresentationsComponent implements OnInit {
       montant: this.form.get('montant').value,
       superficie: this.form.get('superficie').value,
       taux: this.form.get('taux').value,
+      longitude: this.form.get('longitude').value,
+      latitude: this.form.get('latitude').value,
+      accuracy: this.form.get('accuracy').value
+
     };
 
     console.log(formData);
@@ -172,7 +179,10 @@ export class RepresentationsComponent implements OnInit {
       miseEnService: item.miseEnService,
       montant: item.montant,
       superficie: item.superficie,
-      taux: item.taux
+      taux: item.taux,
+      longitude: item.longitude,
+      latitude: item.latitude,
+      accuracy: item.accuracy
     });
   }
 
@@ -224,7 +234,10 @@ export class RepresentationsComponent implements OnInit {
       miseEnService: this.form.get('miseEnService').value,
       montant: this.form.get('montant').value,
       superficie: this.form.get('superficie').value,
-      taux: this.form.get('taux').value
+      taux: this.form.get('taux').value,
+      longitude: this.form.get('longitude').value,
+      latitude: this.form.get('latitude').value,
+      accuracy: this.form.get('accuracy').value
     };
 
     console.log(formData);

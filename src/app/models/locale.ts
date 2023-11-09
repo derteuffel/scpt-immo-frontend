@@ -13,5 +13,9 @@ export class Locale{
     reference?:any;
     observation?:any;
     miseEnService?:any;
+    files:any;
+    longitude:any;
+    latitude:any;
+    accuracy:any;
    
 }
