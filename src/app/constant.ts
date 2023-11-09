@@ -128,7 +128,7 @@ export const  provinceData =
       ],
       territoires:[
         "Gombe",
-        "Kinsambu",
+        "Kintambo",
         "Ngaliema",
         "Mont Ngafula",
         "N'Djaba",

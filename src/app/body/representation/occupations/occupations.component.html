@@ -9,9 +9,7 @@
                       <nav aria-label="breadcrumb" class="d-none d-md-inline-block ml-md-4">
                         <ol class="breadcrumb breadcrumb-links breadcrumb-dark">
                           <li class="breadcrumb-item"><a href="/admin/locations"><i class="fas fa-home"></i></a></li>
-                          <li class="breadcrumb-item " ><a href="/admin/locations">Parcelles</a></li>
-                          <li class="breadcrumb-item " ><a href="/admin/locations/detail/{{currentLocale?.id}}">{{currentLocale?.province+' '+currentLocale?.ville}}</a></li>
-                          <li class="breadcrumb-item active" aria-current="page"><a href="#">{{currentLocale?.designation}}</a></li>
+                          <li class="breadcrumb-item active" aria-current="page"><span>{{currentLocale?.designation}}</span></li>
                         </ol>
                       </nav>
                     </div>
@@ -51,6 +49,14 @@
                                         <th>Designation</th>
                                         <td>{{currentLocale.designation}}</td>
                                     </tr>
+                                    <tr>
+                                        <th>Denomination</th>
+                                        <td>{{currentLocale.denomination}}</td>
+                                    </tr>
+                                    <tr>
+                                        <th>Reference</th>
+                                        <td>{{currentLocale.reference}}</td>
+                                    </tr>
                             </table>
                             </div>
                       </div>
@@ -58,14 +64,7 @@
                             <div class="table-responsive">
                                 <table class="table table-bordered align-items-center table-flush ">
                                         
-                                  <tr>
-                                    <th>Denomination</th>
-                                    <td>{{currentLocale.denomination}}</td>
-                                </tr>
-                                <tr>
-                                    <th>Reference</th>
-                                    <td>{{currentLocale.reference}}</td>
-                                </tr>
+                                  
                                   <tr>
                                     <th>Superficie</th>
                                     <td>{{currentLocale.superficie+' m2'}}</td>
@@ -78,8 +77,27 @@
                                         
                                   <tr>
                                     <th>Date de mise en service<th>
-                                     <td>{{currentLocale?.miseEnService}}</td>
-                                   </tr>  
+                                     <td>{{currentLocale.miseEnService}}</td>
+                                   </tr> 
+                                   <tr>
+                                      <th>Longitude</th>
+                                      <td>{{currentLocale.longitude}}</td>
+                                    </tr>
+                                        
+                                    <tr>
+                                      <th>Latitude</th>
+                                      <td>{{currentLocale.latitude}}</td>
+                                    </tr>
+                                          
+                                    <tr>
+                                      <th>Altitude<th>
+                                      <td>{{currentLocale.accuracy}}</td>
+                                    </tr> 
+                                    <tr>
+                                      
+                                      <td><a href="#" type="button"  data-toggle="modal" data-target="#viewPicturesModal" class="btn">Voir les images <i class="fa fa-images"></i></a></td>
+                                      <td><a href="#" type="button"  data-toggle="modal" data-target="#addPicturesModal" class="btn btn-outline-info">Ajouter des images <i class="fa fa-plus"></i></a></td>
+                                    </tr>  
                                 </table>
                             </div>
                         
@@ -105,10 +123,10 @@
                             <h3 class="mb-0"><a type="button" class="btn btn-outline-info" (click)="getOccupationByLocale()"><i class="fa fa-list"></i>&nbsp;Les locaux({{alls.length}})</a></h3>
                           </div>
                           <div class="col-xl-3 col-md-6 alert alert-secondary mr-1">
-                            <h3 class="mb-0"><a type="button" class="btn btn-outline-warning" (click)="getOccupationLibre()"><i class="fa fa-list"></i>&nbsp;Libres ({{libres.length}})</a> </h3>
+                            <h3 class="mb-0"><a type="button" class="btn btn-outline-success" (click)="getOccupationLibre()"><i class="fa fa-list"></i>&nbsp;Libres ({{libres.length}})</a> </h3>
                           </div>
                           <div class="col-xl-3 col-md-6 alert alert-secondary mr-1">
-                            <h3 class="mb-0 "><a type="button" class="btn btn-outline-success" (click)="getOccupationOcuppe()"> <i class="fa fa-list"></i>&nbsp;Occupes ({{occupes.length}})</a></h3>
+                            <h3 class="mb-0 "><a type="button" class="btn btn-outline-warning" (click)="getOccupationOcuppe()"> <i class="fa fa-list"></i>&nbsp;Occupes ({{occupes.length}})</a></h3>
                           </div>
                     
                           <div class="col-xl-2 col-md-6 alert alert-secondary">
@@ -217,6 +235,65 @@ aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
       <button type="submit"  class="btn btn-primary">Enregistrer</button>
     </div>
     </form> 
+  </div>
+  
+</div>
+</div>
+
+<!-- model view pictures -->
+<div  class="modal draggable fade bd-example-modal-lg" id="viewPicturesModal" tabindex="-1" role="dialog"
+aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
+<div class="modal-dialog" role="document">
+  <div class="modal-content">
+    <div class="modal-header">
+      <h5 class="modal-title text-center">Detail Images</h5>
+      <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+        <span aria-hidden="true">&times;</span>
+      </button>
+    </div>
+    <div class="modal-body">
+      <div *ngIf="currentLocale.files?.length > 0">
+            <div class="pl-lg-4" *ngFor="let item of currentLocale.files">
+                <p><img src="{{item}}" alt="{{item}}">&nbsp; <a class="btn btn-danger" (click)="removeFile(item)"><i class="fa fa-trash"></i></a></p><br>
+            </div>
+      </div>
+      <div *ngIf="currentLocale.files?.length == 0">
+            <div class="pl-lg-4">
+                  <div class="alert alert-warning">
+                    <span>Ooops, vous n'avez aucune image charger pour cette parcelle</span>
+                  </div>
+            </div>
+      </div>
+            
+    </div>
+    <div class="modal-footer">
+      <button type="button"  class="btn btn-secondary" data-dismiss="modal" aria-label="Close">Fermer</button>
+    </div>
+  </div>
+  
+</div>
+</div>
+
+<!-- model view pictures -->
+<div  class="modal draggable fade bd-example-modal-lg" id="addPicturesModal" tabindex="-1" role="dialog"
+aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
+<div class="modal-dialog" role="document">
+  <div class="modal-content">
+    <div class="modal-header">
+      <h5 class="modal-title text-center">Ajout Images</h5>
+      <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+        <span aria-hidden="true">&times;</span>
+      </button>
+    </div>
+    <div class="modal-body">
+      <input type="file" multiple (change)="selectFiles($event)">
+    </div>
+    <div class="modal-footer">
+      <button type="button"  class="btn btn-secondary" data-dismiss="modal" aria-label="Close">Fermer</button>
+      <button  class="btn btn-primary" [disabled]="!selectedFiles"
+                  (click)="uploadFiles()">Enregistrer</button>
+    </div>
+    
   </div>
   
 </div>
