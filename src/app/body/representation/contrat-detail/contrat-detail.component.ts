@@ -151,8 +151,8 @@ export class ContratDetailComponent implements OnInit {
 
   init(){
     this.form = new FormGroup({
-      mois: new FormControl(''),
-      montant: new FormControl(null),
+      moi: new FormControl(''),
+      montant: new FormControl(this.currentOccupation.montantOccupation),
       motif: new FormControl(''),
       annee: new FormControl('')
     });
@@ -167,10 +167,26 @@ export class ContratDetailComponent implements OnInit {
   }
 
   onSubmit(){
+
+    let tmpMoi = '';
+    let tmpAnnee = "";
+
+    if(this.form.get("moi").value != null && this.form.get("moi").value != ""){
+      tmpMoi = this.form.get("moi").value
+    }else{
+      tmpMoi = this.tokenService.getCurrentMois();
+    }
+
+    if(this.form.get("annee").value != null && this.form.get("annee").value != ""){
+      tmpAnnee = this.form.get("annee").value;
+    }else{
+      tmpAnnee = this.tokenService.getCurrentYear();
+    }
+    
     const form = {
-      montant: this.form.get("montant").value,
-      mois: this.tokenService.getCurrentMois(),
-      annee: this.tokenService.getCurrentYear(),
+      montant: this.currentOccupation.montantOccupation,
+      mois:  tmpMoi,
+      annee: tmpAnnee ,
       motif: this.form.get("motif").value
     }
     console.log(this.tokenService.getCurrentMois())
@@ -400,8 +416,8 @@ export class ContratDetailComponent implements OnInit {
     this.selectedItem = item;
     this.clickButton('openEdit');
     this.form.patchValue({
-      mois: item.mois,
-      montant: item.montant,
+      moi: item.mois,
+      montant: this.currentOccupation.montantOccupation,
       annee: item.annee,
       motif: item.motif,
       id:item.id,
@@ -453,7 +469,31 @@ export class ContratDetailComponent implements OnInit {
 
   onEditSubmit(id:any){
 
-    this.bordereauxService.update(this.form.value, id).subscribe(
+    let tmpMoi = '';
+    let tmpAnnee = "";
+
+    if(this.form.get("moi").value != null && this.form.get("moi").value != ""){
+      tmpMoi = this.form.get("moi").value
+    }else{
+      tmpMoi = this.tokenService.getCurrentMois();
+    }
+
+    if(this.form.get("annee").value != null && this.form.get("annee").value != ""){
+      tmpAnnee = this.form.get("annee").value;
+    }else{
+      tmpAnnee = this.tokenService.getCurrentYear();
+    }
+    
+    const form = {
+      id: this.selectedItem.id,
+      montant: this.currentOccupation.montantOccupation,
+      mois:  tmpMoi,
+      annee: tmpAnnee ,
+      motif: this.form.get("motif").value,
+      status: this.selectedItem.status,
+      numFacture: this.selectedItem.numFacture
+    }
+    this.bordereauxService.update(form, id).subscribe(
       data => {
         console.log(data);
         this.clickButton('edit-payment-close');

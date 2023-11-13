@@ -254,7 +254,10 @@ aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
     <div class="modal-body">
       <div *ngIf="currentLocale.files?.length > 0">
             <div class="pl-lg-4" *ngFor="let item of currentLocale.files">
-                <p><img src="{{item}}" alt="{{item}}">&nbsp; <a class="btn btn-danger" (click)="removeFile(item)"><i class="fa fa-trash"></i></a></p><br>
+              <div class="picture">
+                <p><img src="{{item}}" class="image" alt="{{item}}">&nbsp; <a class="btn btn-danger" (click)="removeFile(item)"><i class="fa fa-trash"></i></a></p><br>
+              </div>
+                
             </div>
       </div>
       <div *ngIf="currentLocale.files?.length == 0">
@@ -289,7 +292,7 @@ aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
       <input type="file" multiple (change)="selectFiles($event)">
     </div>
     <div class="modal-footer">
-      <button type="button"  class="btn btn-secondary" data-dismiss="modal" aria-label="Close">Fermer</button>
+      <button type="button"  class="btn btn-secondary" data-dismiss="modal" id="add-picture-close" aria-label="Close">Fermer</button>
       <button  class="btn btn-primary" [disabled]="!selectedFiles"
                   (click)="uploadFiles()">Enregistrer</button>
     </div>

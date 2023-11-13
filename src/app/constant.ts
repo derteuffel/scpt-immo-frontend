@@ -1,7 +1,7 @@
 export const constant = {
   ROLES: ['ROOT','DG','DSI','COMPTABILITE','PROVINCIAL','POSTE_FINANCE','DGI'],
   TYPE_CLIENT: ['ONG','FONDATION','SOCIETE PRIVE','EGLISE','SOCIETE PUBLIQUE','INDIVIDU'],
-  ACTIVITE: ['AGRO-ALIMENTAIRE','TECHNOLOGIE','TELEVISION','TELECOMMUNICATIONS','AGRONOMIE',
+  ACTIVITE: ['AGRO-ALIMENTAIRE','TECHNOLOGIE','TELEVISION','TELECOMMUNICATIONS','AGRONOMIE','COMMUNICATIONS',
     'SERVICES GENERAUX','EDUCATION','MARKETING','MALEWA','DIVERS','CABINET PRIVE','TERRASSE',
     'PARKING-VEHICULE','CAFE','EAU PURE','BOISSON','QUINCAILLERIE','RESTAURANT','PEINTURE','AJUSTAGE',
     'SCIERI','BRIQUETTERIE','BOUTIQUE','DEPOTS BOISSON','MECANIQUE','COUTURE','NUMERIQUE','AUTRES']
@@ -400,7 +400,7 @@ export const  provinceData =
     }
   ]
 
-export const months = ['Janvier','Fevrier','Mars','Avril','Mai','Juin','Juillet','Août','Septembre','Octobre','Novembre','Décembre']
+export const months = ['JANVIER','FEVRIER','MARS','AVRIL','MAI','JUIN','JUILLET','AOUT','SEPTEMBRE','OCTOBRE','NOVEMBRE','DECEMBRE']
 export const services = ['Secretariat Direction General','Direction General','Secretariat Direction Gestion Immobiliere','Direction Gestion Immobiliere',
 'Service Commercial','Coordination provincial','Service Technique','Secretariat Direction Juridique','Direction Juridique','Service Comptable',
 'Secrettariat des finances', 'Direction des Finances'];

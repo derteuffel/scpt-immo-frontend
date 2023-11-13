@@ -53,7 +53,7 @@ export class LocaleService {
     console.log(form.name);
     let formData = new FormData();
     formData.append("file",form)
-    return this.http.post(`${host}/uploadFile/${id}`, formData,{headers: this.headers});
+    return this.http.post(`${host}/uploadFile/${id}`, formData,{headers: this.formHeaders});
   }
 
   removeFile(form:any, id:any):Observable<any>{

@@ -45,40 +45,40 @@ export class TokenService{
     let month = this.datePipe.transform(this.newDate,"MM")!
     switch(month){
       case "01":
-        return "Janvier"
+        return "JANVIER"
         break
       case "02":
-        return "Fevrier"
+        return "FEVRIER"
         break
       case "03":
-        return "Mars"
+        return "MARS"
         break
       case "04":
-        return "Avril"
+        return "AVRIL"
         break
       case "05":
-        return "Mai"
+        return "MAI"
         break
       case "06":
-        return "Juin"
+        return "JUIN"
         break
       case "07":
-        return "Juillet"
+        return "JUILLET"
         break
       case "08":
-        return "Aout"
+        return "AOUT"
         break
       case "09":
-        return "Septembre"
+        return "SEPTEMBRE"
         break
       case "10":
-        return "Octobre"
+        return "OCTOBRE"
         break
       case "11":
-        return "Novembre"
+        return "NOVEMBRE"
         break
       case "12":
-        return "Decembre"
+        return "DECEMBRE"
         break
       default:
         return "Aucun mois trouver"

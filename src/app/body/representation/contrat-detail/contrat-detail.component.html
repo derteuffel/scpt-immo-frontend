@@ -9,9 +9,9 @@
                       <nav aria-label="breadcrumb" class="d-none d-md-inline-block ml-md-4">
                         <ol class="breadcrumb breadcrumb-links breadcrumb-dark">
                           <li class="breadcrumb-item"><a href="/admin/locations"><i class="fas fa-home"></i></a></li>
-                          <li class="breadcrumb-item " ><a href="/admin/locations">Parcelles</a></li>
-                          <li class="breadcrumb-item " ><a href="/admin/locations/detail/{{currentOccupation?.locale?.id}}">Local {{currentContrat?.occupation?.numeroOccupation}}</a></li>
-                          <li class="breadcrumb-item active" aria-current="page"><a href="#">Contrat numero : {{currentContrat?.numContrat}}</a></li>
+                          <li class="breadcrumb-item " ><a href="/admin/locations/detail/{{currentOccupation?.locale?.id}}">Parcelle {{currentOccupation?.locale?.denomination}}</a></li>
+                           <li class="breadcrumb-item " ><a href="/admin/occupation/contrats/{{currentOccupation?.id}}">Local {{currentOccupation?.numeroOccupation}}</a></li>
+                          <li class="breadcrumb-item active" aria-current="page"><span>Contrat numero : {{currentContrat?.numContrat}}</span></li>
                         </ol>
                       </nav>
                     </div>
@@ -27,7 +27,7 @@
                 <h3>Detail du contrat {{currentContrat.numContrat}}</h3>
                 <input type="file" *ngIf="!currentContrat.contratFile" class="form-control" (change)="onChange($event)">
                 <button type="button" *ngIf="!currentContrat.contratFile" class="btn btn-outline-info" (click)="produceContract()" >Charger le contrat &nbsp; <i class="fa fa-file-export"></i></button>
-                <a href="#" type="button"  data-toggle="modal" data-target="#addFactureModal" class="btn btn-outline-default">Produire bordereau   <i class="fa fa-book"></i></a>
+                <a href="#" type="button"  data-toggle="modal" data-target="#addFactureModal" class="btn btn-outline-default">Produire bordereau   <i class="fa fa-plus"></i></a>
                 <a href="#" type="button"  data-toggle="modal" data-target="#produceBordereauModal" class="btn btn-outline-primary">Générer le bordereau PDF   <i class="fa fa-file"></i></a>
               </div>
               <!-- model add user -->
@@ -196,7 +196,7 @@ aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
     <div class="modal-body">
       <div class="form-group">
         <label class="form-control-label" >Mois</label>
-        <select formControlName="mois" class="form-control" >
+        <select formControlName="moi" class="form-control" >
           <option *ngFor="let item of mois" value="{{item}}">{{item}}</option>
         </select>
       </div>
@@ -205,10 +205,6 @@ aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
         <select formControlName="annee" class="form-control" >
           <option *ngFor="let item of annees" value="{{item}}">{{item}}</option>
         </select>
-      </div>
-      <div class="form-group">
-        <label class="form-control-label" >Montant</label>
-        <input type="text" formControlName="montant"  class="form-control" placeholder="Montant facture">
       </div>
       <div class="form-group">
         <label class="form-control-label" >Motif</label>
@@ -243,13 +239,23 @@ aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
             <h6 class="heading-small text-muted mb-4">Formulaire</h6>
             <div class="pl-lg-4">
               <div class="form-group">
-                <label class="form-control-label" >Montant</label>
-                <input type="text" formControlName="montant"  class="form-control" placeholder="Montant facture">
+                    <label class="form-control-label" >Mois comptant</label>
+                    <select formControlName="moi" class="form-control" >
+                      <option value="">-- Choisir un mois --</option>
+                        <option *ngFor="let item of mois" value="{{item}}">{{item}}</option>
+                    </select>
               </div>
               <div class="form-group">
-                <label class="form-control-label" >Motif</label>
-                <textarea formControlName="motif"  class="form-control" rows="4" placeholder="Motif du bordereau"></textarea>
-              </div>
+                    <label class="form-control-label" >Annee comptante</label>
+                    <select formControlName="annee" class="form-control" >
+                      <option value="">-- Choisir une annee --</option>
+                        <option *ngFor="let item of annees" value="{{item}}">{{item}}</option>
+                    </select>
+                  </div>
+                  <div class="form-group">
+                    <label class="form-control-label" >Motif</label>
+                    <textarea formControlName="motif"  class="form-control" rows="4" placeholder="Motif du bordereau"></textarea>
+                  </div>
             </div>
           </div>
         </div>

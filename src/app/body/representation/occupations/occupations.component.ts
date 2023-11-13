@@ -52,6 +52,7 @@ uploadFiles(){
   
     this.localeService.uploadFiles(this.selectedFiles[i],this.currentLocale.id).subscribe(
       data =>{
+        this.clickButton('add-picture-close');
         console.log(data);
       },
       error =>{
