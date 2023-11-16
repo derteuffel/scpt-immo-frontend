@@ -72,7 +72,8 @@
               "browserTarget": "scpt-frontend:build:production"
             },
             "development": {
-              "browserTarget": "scpt-frontend:build:development"
+              "browserTarget": "scpt-frontend:build:development",
+              "disableHostCheck": true
             }
           },
           "defaultConfiguration": "development"
