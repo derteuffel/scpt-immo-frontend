@@ -14,7 +14,7 @@ import Swal from 'sweetalert2';
   styleUrls: ['./statistiques.component.css'],
   providers: [DatePipe]
 })
-export class StatistiquesComponent implements OnInit,OnDestroy {
+export class StatistiquesComponent implements OnInit {
 
   lists:any[]=[];
   provinces:Array<any> = [];
@@ -35,9 +35,7 @@ export class StatistiquesComponent implements OnInit,OnDestroy {
   }
 
   ngOnInit(): void {
-    this.checkSub = interval(300000).subscribe((func =>{
       this.tokenService.checkConnected();
-    }))
     this.provinces = provinceData;
     this.mois = months;
     this.years = this.tokenService.getYearList();

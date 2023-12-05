@@ -13,7 +13,7 @@ import Swal from 'sweetalert2';
   templateUrl: './users.component.html',
   styleUrls: ['./users.component.css']
 })
-export class UsersComponent implements OnInit,OnDestroy {
+export class UsersComponent implements OnInit {
   lists: any[]=[];
   p:number = 1;
   provinces: Array<any> = [];
@@ -30,14 +30,10 @@ export class UsersComponent implements OnInit,OnDestroy {
 
   constructor(
     private authService: AuthService, private tokenService:TokenService) { }
-  ngOnDestroy(): void {
-    this.checkSub?.unsubscribe();
-  }
+
 
   ngOnInit(): void {
-    this.checkSub = interval(300000).subscribe((func =>{
       this.tokenService.checkConnected();
-    }))
     this.loadList();
     this.provinces = provinceData;
     this.roles = constant.ROLES;

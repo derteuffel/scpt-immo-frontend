@@ -26,7 +26,7 @@ const imagePath = 'data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAk8AAACECAYAAAC
   styleUrls: ['./contrat-detail.component.css'],
   providers: [DatePipe]
 })
-export class ContratDetailComponent implements OnInit,OnDestroy {
+export class ContratDetailComponent implements OnInit {
   lists: any[]=[];
   alls:any[]=[];
   mois: string[]=[];
@@ -58,14 +58,10 @@ export class ContratDetailComponent implements OnInit,OnDestroy {
 
   constructor(private contratService:ContratService, private activatedRoute: ActivatedRoute, private mensualiteService: MensualiteService, private bordereauxService: BordereausService,
               private tokenService: TokenService) { }
-  ngOnDestroy(): void {
-    this.checkSub?.unsubscribe();
-  }
+ 
 
   ngOnInit(): void {
-    this.checkSub = interval(300000).subscribe((func =>{
       this.tokenService.checkConnected();
-    }))
   this.getContrat(this.activatedRoute.snapshot.paramMap.get('id'));
   this.mois = months;
   this.annees = this.tokenService.getYearList()

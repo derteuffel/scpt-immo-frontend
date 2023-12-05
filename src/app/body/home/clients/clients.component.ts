@@ -12,7 +12,7 @@ import { TokenService } from 'src/app/services/token.service';
   templateUrl: './clients.component.html',
   styleUrls: ['./clients.component.css']
 })
-export class ClientsComponent implements OnInit,OnDestroy {
+export class ClientsComponent implements OnInit {
   lists: Contrat[]=[];
   anciens: Contrat[]=[];
   actifs: Contrat[]=[];
@@ -27,9 +27,7 @@ export class ClientsComponent implements OnInit,OnDestroy {
   }
 
   ngOnInit(): void {
-    this.subscriptions = interval(300000).subscribe((func =>{
       this.tokenService.checkConnected();
-    }))
   this.getAll();
   }
 

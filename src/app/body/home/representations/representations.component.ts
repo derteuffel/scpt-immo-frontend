@@ -16,7 +16,7 @@ import Swal from 'sweetalert2';
   templateUrl: './representations.component.html',
   styleUrls: ['./representations.component.css']
 })
-export class RepresentationsComponent implements OnInit,OnDestroy {
+export class RepresentationsComponent implements OnInit {
 
   lists: any[]=[];
   json:any;
@@ -41,14 +41,11 @@ export class RepresentationsComponent implements OnInit,OnDestroy {
 
 
      }
-  ngOnDestroy(): void {
-    this.checkSub?.unsubscribe();
-  }
+
 
   ngOnInit(): void {
-    this.checkSub = interval(300000).subscribe((func =>{
       this.tokenService.checkConnected();
-    }))
+
     this.loadList();
     this.provinces = provinceData;
     this.init();

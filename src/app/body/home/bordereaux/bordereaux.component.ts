@@ -18,7 +18,7 @@ import { Subscription, interval, takeWhile } from 'rxjs';
   styleUrls: ['./bordereaux.component.css'],
   providers: [DatePipe]
 })
-export class BordereauxComponent implements OnInit,OnDestroy{
+export class BordereauxComponent implements OnInit{
 
   lists: any;
   mois:any;
@@ -50,14 +50,10 @@ export class BordereauxComponent implements OnInit,OnDestroy{
               private mensualiteService: MensualiteService, private xlxsService: XlxsService) { 
                   
               }
-  ngOnDestroy(): void {
-    this.checkSub?.unsubscribe();
-  }
+
 
   ngOnInit(): void {
-    this.checkSub = interval(300000).subscribe((func =>{
-      this.tokenService.checkConnected();
-    }))
+  this.tokenService.checkConnected();
   this.months = months;
   this.years = this.tokenService.getYearList();
   this.provinces = provinceData;

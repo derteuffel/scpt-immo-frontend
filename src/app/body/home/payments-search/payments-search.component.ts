@@ -14,7 +14,7 @@ import { Subscription, interval } from 'rxjs';
   templateUrl: './payments-search.component.html',
   styleUrls: ['./payments-search.component.css']
 })
-export class PaymentsSearchComponent implements OnInit,OnDestroy {
+export class PaymentsSearchComponent implements OnInit {
 
   mensualites: any[]=[];
   montantTotal:any;
@@ -42,14 +42,9 @@ export class PaymentsSearchComponent implements OnInit,OnDestroy {
               private activatedRoute: ActivatedRoute, private tokenService: TokenService,
               private xlxsService:XlxsService) { }
   
-  ngOnDestroy(): void {
-    this.checkSub?.unsubscribe();
-  }
 
   ngOnInit(): void {
-    this.checkSub = interval(300000).subscribe((func =>{
       this.tokenService.checkConnected();
-    }))
   this.activatedRoute.queryParams.subscribe(params => {
       console.log(params['values']);
       if(params['values']){

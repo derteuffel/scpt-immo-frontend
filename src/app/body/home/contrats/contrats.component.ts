@@ -19,7 +19,7 @@ import Swal from 'sweetalert2';
   templateUrl: './contrats.component.html',
   styleUrls: ['./contrats.component.css']
 })
-export class ContratsComponent implements OnInit,OnDestroy {
+export class ContratsComponent implements OnInit {
   lists: Contrat[]=[];
   termines: Contrat[]=[];
   encours: Contrat[]=[];
@@ -38,14 +38,9 @@ export class ContratsComponent implements OnInit,OnDestroy {
 
   constructor(private contratService:ContratService, private tokenService: TokenService,
     private occupationService: OccupationService, private mensualiteService: MensualiteService) { }
-  ngOnDestroy(): void {
-    this.checkSub?.unsubscribe();
-  }
 
   ngOnInit(): void {
-    this.checkSub = interval(300000).subscribe((func =>{
       this.tokenService.checkConnected();
-    }))
     this.types = constant.TYPE_CLIENT;
     this.activites = constant.ACTIVITE;
   this.getAll();

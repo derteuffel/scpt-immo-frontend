@@ -8,7 +8,7 @@ import { Subscription, interval } from 'rxjs';
   templateUrl: './dossiers.component.html',
   styleUrls: ['./dossiers.component.css']
 })
-export class DossiersComponent implements OnInit,OnDestroy {
+export class DossiersComponent implements OnInit {
 
   lists: any[]=[];
   listsCompletes: number=0;
@@ -25,9 +25,7 @@ export class DossiersComponent implements OnInit,OnDestroy {
   }
 
   ngOnInit(): void {
-    this.checkSub = interval(300000).subscribe((func =>{
       this.tokenService.checkConnected();
-    }))
     this.findAll();
   }
 

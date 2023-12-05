@@ -17,7 +17,7 @@ import { TokenService } from 'src/app/services/token.service';
   templateUrl: './dossier-details.component.html',
   styleUrls: ['./dossier-details.component.css']
 })
-export class DossierDetailsComponent implements OnInit,OnDestroy {
+export class DossierDetailsComponent implements OnInit {
 
   currentDossier: any ={};
   lists:Etape[]=[];
@@ -39,14 +39,11 @@ export class DossierDetailsComponent implements OnInit,OnDestroy {
   constructor(private dossierService:DossierService, private etapeService: EtapeService,
               private activatedRoute: ActivatedRoute, private contratService: ContratService,
               private tokenService:TokenService) { }
-  ngOnDestroy(): void {
-    this.checkSub?.unsubscribe();
-  }
+
 
   ngOnInit(): void {
-    this.checkSub = interval(300000).subscribe((func =>{
       this.tokenService.checkConnected();
-    }))
+ 
     this.init();
     this.getDossier(this.activatedRoute.snapshot.paramMap.get('id'));
     this.actions = actions;

@@ -17,7 +17,7 @@ import Swal from 'sweetalert2';
   templateUrl: './user-detail.component.html',
   styleUrls: ['./user-detail.component.css']
 })
-export class UserDetailComponent implements OnInit,OnDestroy {
+export class UserDetailComponent implements OnInit {
 
   currentUser: User = new User();
   roles: string[]=[];
@@ -30,14 +30,10 @@ export class UserDetailComponent implements OnInit,OnDestroy {
   subscription?: Subscription;
 
   constructor(private authService:AuthService, private activatedRoute: ActivatedRoute, private tokenService:TokenService) { }
-  ngOnDestroy(): void {
-    this.subscription?.unsubscribe();
-  }
+
 
   ngOnInit(): void {
-    this.subscription = interval(300000).subscribe((func =>{
       this.tokenService.checkConnected();
-    }))
     this.roles = constant.ROLES;
 
   this.getUser(this.activatedRoute.snapshot.paramMap.get('id'));

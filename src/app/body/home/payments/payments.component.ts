@@ -19,7 +19,7 @@ import { XlxsService } from 'src/app/services/xlxs/xlxs.service';
   styleUrls: ['./payments.component.css'],
   providers: [DatePipe]
 })
-export class PaymentsComponent implements OnInit,OnDestroy {
+export class PaymentsComponent implements OnInit {
   
   selectedItem: any ={};
   mensualites: any[]=[];
@@ -40,14 +40,10 @@ export class PaymentsComponent implements OnInit,OnDestroy {
 
   constructor(private route: Router, private xlxsService: XlxsService, private datePipe: DatePipe,
               private mensualiteService: MensualiteService, private tokenService: TokenService) { }
-  ngOnDestroy(): void {
-    this.subscription?.unsubscribe();
-  }
+
 
   ngOnInit(): void {
-    this.subscription = interval(300000).subscribe((func =>{
       this.tokenService.checkConnected();
-    }))
     this.months = months
     this.years = this.tokenService.getYearList();
     this.provinces = provinceData;

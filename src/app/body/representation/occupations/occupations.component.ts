@@ -14,7 +14,7 @@ import Swal from 'sweetalert2';
   templateUrl: './occupations.component.html',
   styleUrls: ['./occupations.component.css']
 })
-export class OccupationsComponent implements OnInit,OnDestroy {
+export class OccupationsComponent implements OnInit {
 
   lists: any[]=[];
   alls:any[]=[];
@@ -37,14 +37,11 @@ export class OccupationsComponent implements OnInit,OnDestroy {
 
   constructor(private occupationService:OccupationService, private activatedRoute: ActivatedRoute,
     private localeService: LocaleService, private tokenService: TokenService) { }
-  ngOnDestroy(): void {
-    this.checkSub?.unsubscribe();
-  }
+ 
 
   ngOnInit(): void {
-    this.checkSub = interval(300000).subscribe((func =>{
       this.tokenService.checkConnected();
-    }))
+
   this.getlocale(this.activatedRoute.snapshot.paramMap.get('id'));
   this.init();
   }

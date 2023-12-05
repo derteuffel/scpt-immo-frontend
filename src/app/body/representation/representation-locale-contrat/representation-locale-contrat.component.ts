@@ -19,7 +19,7 @@ import { TokenService } from 'src/app/services/token.service';
   templateUrl: './representation-locale-contrat.component.html',
   styleUrls: ['./representation-locale-contrat.component.css']
 })
-export class RepresentationLocaleContratComponent implements OnInit,OnDestroy {
+export class RepresentationLocaleContratComponent implements OnInit {
 
 
   lists: Contrat[]=[];
@@ -50,14 +50,10 @@ export class RepresentationLocaleContratComponent implements OnInit,OnDestroy {
   constructor(private contratService:ContratService, private activatedRoute: ActivatedRoute,
     private occupationService: OccupationService, private mensualiteService: MensualiteService,
               private dossierService:DossierService,private tokenService: TokenService) { }
-  ngOnDestroy(): void {
-    this.checkSub?.unsubscribe();
-  }
 
   ngOnInit(): void {
-    this.checkSub = interval(300000).subscribe((func =>{
       this.tokenService.checkConnected();
-    }))
+
     this.types = ['ONG','FONDATION','SOCIETE PRIVE','EGLISE','SOCIETE PUBLIQUE','INDIVIDU'];
     this.activites = constant.ACTIVITE;
   this.getOccupation(this.activatedRoute.snapshot.paramMap.get('id'));
