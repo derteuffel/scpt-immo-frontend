@@ -48,7 +48,6 @@ export class ContratsComponent implements OnInit {
   }
 
   getAll(){
-    this.tokenService.checkConnected();
     this.contratService.findAll().subscribe(
       data =>{
         this.lists = data;
