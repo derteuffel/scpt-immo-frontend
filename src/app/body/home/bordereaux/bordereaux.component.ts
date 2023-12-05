@@ -53,7 +53,6 @@ export class BordereauxComponent implements OnInit{
 
 
   ngOnInit(): void {
-  this.tokenService.checkConnected();
   this.months = months;
   this.years = this.tokenService.getYearList();
   this.provinces = provinceData;

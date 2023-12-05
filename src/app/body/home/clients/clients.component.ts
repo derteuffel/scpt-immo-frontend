@@ -22,12 +22,9 @@ export class ClientsComponent implements OnInit {
   subscriptions?: Subscription;
 
   constructor(private contratService:ContratService, private tokenService: TokenService) { }
-  ngOnDestroy(): void {
-    this.subscriptions?.unsubscribe();
-  }
+
 
   ngOnInit(): void {
-      this.tokenService.checkConnected();
   this.getAll();
   }
 

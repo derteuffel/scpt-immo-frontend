@@ -61,7 +61,6 @@ export class ContratDetailComponent implements OnInit {
  
 
   ngOnInit(): void {
-      this.tokenService.checkConnected();
   this.getContrat(this.activatedRoute.snapshot.paramMap.get('id'));
   this.mois = months;
   this.annees = this.tokenService.getYearList()

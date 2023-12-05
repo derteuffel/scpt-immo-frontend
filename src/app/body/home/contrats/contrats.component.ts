@@ -40,7 +40,6 @@ export class ContratsComponent implements OnInit {
     private occupationService: OccupationService, private mensualiteService: MensualiteService) { }
 
   ngOnInit(): void {
-      this.tokenService.checkConnected();
     this.types = constant.TYPE_CLIENT;
     this.activites = constant.ACTIVITE;
   this.getAll();

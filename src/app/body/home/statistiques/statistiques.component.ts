@@ -35,7 +35,6 @@ export class StatistiquesComponent implements OnInit {
   }
 
   ngOnInit(): void {
-      this.tokenService.checkConnected();
     this.provinces = provinceData;
     this.mois = months;
     this.years = this.tokenService.getYearList();

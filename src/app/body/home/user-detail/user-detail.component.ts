@@ -33,7 +33,6 @@ export class UserDetailComponent implements OnInit {
 
 
   ngOnInit(): void {
-      this.tokenService.checkConnected();
     this.roles = constant.ROLES;
 
   this.getUser(this.activatedRoute.snapshot.paramMap.get('id'));

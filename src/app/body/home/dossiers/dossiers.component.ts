@@ -20,12 +20,8 @@ export class DossiersComponent implements OnInit {
 
   constructor(private dossierService: DossierService, private tokenService: TokenService) { }
   
-  ngOnDestroy(): void {
-    this.checkSub?.unsubscribe();
-  }
-
+  
   ngOnInit(): void {
-      this.tokenService.checkConnected();
     this.findAll();
   }
 

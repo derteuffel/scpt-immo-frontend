@@ -40,8 +40,6 @@ export class OccupationsComponent implements OnInit {
  
 
   ngOnInit(): void {
-      this.tokenService.checkConnected();
-
   this.getlocale(this.activatedRoute.snapshot.paramMap.get('id'));
   this.init();
   }

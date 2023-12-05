@@ -33,7 +33,6 @@ export class UsersComponent implements OnInit {
 
 
   ngOnInit(): void {
-      this.tokenService.checkConnected();
     this.loadList();
     this.provinces = provinceData;
     this.roles = constant.ROLES;

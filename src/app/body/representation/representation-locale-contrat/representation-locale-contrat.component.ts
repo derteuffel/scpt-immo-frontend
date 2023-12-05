@@ -52,7 +52,6 @@ export class RepresentationLocaleContratComponent implements OnInit {
               private dossierService:DossierService,private tokenService: TokenService) { }
 
   ngOnInit(): void {
-      this.tokenService.checkConnected();
 
     this.types = ['ONG','FONDATION','SOCIETE PRIVE','EGLISE','SOCIETE PUBLIQUE','INDIVIDU'];
     this.activites = constant.ACTIVITE;

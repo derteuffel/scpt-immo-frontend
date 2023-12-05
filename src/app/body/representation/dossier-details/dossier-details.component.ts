@@ -41,9 +41,7 @@ export class DossierDetailsComponent implements OnInit {
               private tokenService:TokenService) { }
 
 
-  ngOnInit(): void {
-      this.tokenService.checkConnected();
- 
+  ngOnInit(): void { 
     this.init();
     this.getDossier(this.activatedRoute.snapshot.paramMap.get('id'));
     this.actions = actions;

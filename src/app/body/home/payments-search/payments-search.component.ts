@@ -44,7 +44,6 @@ export class PaymentsSearchComponent implements OnInit {
   
 
   ngOnInit(): void {
-      this.tokenService.checkConnected();
   this.activatedRoute.queryParams.subscribe(params => {
       console.log(params['values']);
       if(params['values']){
