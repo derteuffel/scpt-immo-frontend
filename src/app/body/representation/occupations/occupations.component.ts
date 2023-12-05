@@ -1,11 +1,12 @@
 import { HttpErrorResponse } from '@angular/common/http';
-import { Component, OnInit } from '@angular/core';
-import { UntypedFormGroup, UntypedFormControl } from '@angular/forms';
+import { Component, OnDestroy, OnInit } from '@angular/core';
+import { UntypedFormGroup, UntypedFormControl, FormControl } from '@angular/forms';
 import { ActivatedRoute } from '@angular/router';
-import { Observable, Subscription } from 'rxjs';
+import { Observable, Subscription, interval } from 'rxjs';
 import { LocaleService } from 'src/app/services/locale.service';
 import { MensualiteService } from 'src/app/services/mensualite.service';
 import { OccupationService } from 'src/app/services/occupation.service';
+import { TokenService } from 'src/app/services/token.service';
 import Swal from 'sweetalert2';
 
 @Component({
@@ -13,7 +14,7 @@ import Swal from 'sweetalert2';
   templateUrl: './occupations.component.html',
   styleUrls: ['./occupations.component.css']
 })
-export class OccupationsComponent implements OnInit {
+export class OccupationsComponent implements OnInit,OnDestroy {
 
   lists: any[]=[];
   alls:any[]=[];
@@ -32,11 +33,18 @@ export class OccupationsComponent implements OnInit {
 
   selectedFiles!: FileList;
   fileInfos!: Observable<any>;
+  checkSub?:Subscription;
 
   constructor(private occupationService:OccupationService, private activatedRoute: ActivatedRoute,
-    private localeService: LocaleService, private mensualiteService: MensualiteService) { }
+    private localeService: LocaleService, private tokenService: TokenService) { }
+  ngOnDestroy(): void {
+    this.checkSub?.unsubscribe();
+  }
 
   ngOnInit(): void {
+    this.checkSub = interval(300000).subscribe((func =>{
+      this.tokenService.checkConnected();
+    }))
   this.getlocale(this.activatedRoute.snapshot.paramMap.get('id'));
   this.init();
   }
@@ -143,7 +151,8 @@ removeFile(file:any){
     this.form = new UntypedFormGroup({
       numeroOccupation: new UntypedFormControl(''),
       supperficieOccupation: new UntypedFormControl(''),
-      montantOccupation: new UntypedFormControl('')
+      montantOccupation: new UntypedFormControl(''),
+      description: new FormControl('')
     });
   }
 
@@ -152,6 +161,7 @@ removeFile(file:any){
       numeroOccupation: this.form.get('numeroOccupation').value,
       supperficieOccupation: this.form.get('supperficieOccupation').value,
       montantOccupation: this.form.get('montantOccupation').value,
+      description: this.form.get('description').value
     }
   
    
@@ -207,6 +217,7 @@ removeFile(file:any){
       numeroOccupation: item.numeroOccupation,
       supperficieOccupation: item.supperficieOccupation,
       montantOccupation: item.montantOccupation,
+      description:item.description
       
     });
   }
@@ -218,6 +229,7 @@ removeFile(file:any){
       numeroOccupation: this.form.get('numeroOccupation').value,
       supperficieOccupation: this.form.get('supperficieOccupation').value,
       montantOccupation: this.form.get('montantOccupation').value,
+      description: this.form.get('description').value
     }
 
     Swal.fire({

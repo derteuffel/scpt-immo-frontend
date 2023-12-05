@@ -1,9 +1,10 @@
 import { HttpErrorResponse } from '@angular/common/http';
-import { Component, OnInit } from '@angular/core';
-import { Subscription } from 'rxjs';
+import { Component, OnDestroy, OnInit } from '@angular/core';
+import { Subscription, interval } from 'rxjs';
 import { Contrat } from 'src/app/models/contrat';
 
 import { ContratService } from 'src/app/services/contrat.service';
+import { TokenService } from 'src/app/services/token.service';
 
 
 @Component({
@@ -11,22 +12,29 @@ import { ContratService } from 'src/app/services/contrat.service';
   templateUrl: './clients.component.html',
   styleUrls: ['./clients.component.css']
 })
-export class ClientsComponent implements OnInit {
+export class ClientsComponent implements OnInit,OnDestroy {
   lists: Contrat[]=[];
   anciens: Contrat[]=[];
   actifs: Contrat[]=[];
   selectedItem: any ={};
   p:number=1;
   term: string='';
-  private subscriptions: Subscription[] = [];
+  subscriptions?: Subscription;
 
-  constructor(private contratService:ContratService) { }
+  constructor(private contratService:ContratService, private tokenService: TokenService) { }
+  ngOnDestroy(): void {
+    this.subscriptions?.unsubscribe();
+  }
 
   ngOnInit(): void {
+    this.subscriptions = interval(300000).subscribe((func =>{
+      this.tokenService.checkConnected();
+    }))
   this.getAll();
   }
 
   getAll(){
+    this.tokenService.checkConnected();
     this.contratService.findAll().subscribe(
       data =>{
         this.lists = data;
@@ -61,6 +69,7 @@ export class ClientsComponent implements OnInit {
 
   
   getClientActifs(){
+    this.tokenService.checkConnected();
     this.contratService.findAllByStatus(true).subscribe(
       data =>{
         this.lists = data;
@@ -73,6 +82,7 @@ export class ClientsComponent implements OnInit {
   }
 
   getAncienClients(){
+    this.tokenService.checkConnected();
     this.contratService.findAllByStatus(false).subscribe(
       data =>{
         this.lists = data;
@@ -86,6 +96,7 @@ export class ClientsComponent implements OnInit {
 
 
   detailItem(item:any){
+    this.tokenService.checkConnected();
     this.selectedItem = item;
     this.clickButton('openDetail');
   }

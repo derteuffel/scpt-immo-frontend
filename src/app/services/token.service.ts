@@ -1,5 +1,7 @@
 import { Injectable } from "@angular/core";
 import {DatePipe} from "@angular/common";
+import { JwtHelperService } from "@auth0/angular-jwt";
+import { Router } from "@angular/router";
 
 const TOKEN_KEY = 'AuthToken';
 
@@ -11,11 +13,23 @@ export class TokenService{
 
   years: string[]=[];
   newDate= new Date();
+  timeout :any;
 
-    constructor(private datePipe: DatePipe) { }
+    constructor(private datePipe: DatePipe, private jwtHelper: JwtHelperService, private router:Router) { }
 
   public getToken(): string {
     return sessionStorage.getItem(TOKEN_KEY) || '';
+  }
+
+  checkConnected(){
+    if(this.jwtHelper.isTokenExpired(this.getToken())){
+      sessionStorage.removeItem(TOKEN_KEY);
+      localStorage.removeItem('currentUser')
+      if(confirm("Oooops, votre temps de connexion a expirer. Vueillez-vous reconnecter svp")){
+        this.router.navigate(["/login"]);
+      }
+      
+    }
   }
 
   
@@ -99,39 +113,39 @@ export class TokenService{
 
     switch(mois){
       case "01":
-        return "Janvier";
+        return "JANVIER";
         break;
       case "02":
-        return "Fevrier";
+        return "FEVRIER";
         break;
       case "03":
-        return "Mars";
+        return "MARS";
       case "04":
-        return "Avril";
+        return "AVRIL";
         break;
       case "05":
-        return "Mai";
+        return "MAI";
         break;
       case "06":
-        return "Juin";
+        return "JUIN";
         break;
       case "07":
-        return "Juillet";
+        return "JUILLET";
         break;
       case "08":
-        return "Aout";
+        return "AOUT";
         break;
       case "09":
-        return "Septembre";
+        return "SEPTEMBRE";
         break;
       case "10":
-        return "Octobre";
+        return "OCTOBRE";
         break;
       case "11":
-        return "Novembre";
+        return "NOVEMBRE";
         break;
       case "12":
-        return "Decembre";
+        return "DECEMBRE";
         break;
     }
     return '';

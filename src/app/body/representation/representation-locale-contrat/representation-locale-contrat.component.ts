@@ -1,8 +1,8 @@
 import { HttpErrorResponse } from '@angular/common/http';
-import { Component, OnInit } from '@angular/core';
+import { Component, OnDestroy, OnInit } from '@angular/core';
 import { FormGroup, FormControl } from '@angular/forms';
 import { ActivatedRoute } from '@angular/router';
-import { Subscription } from 'rxjs';
+import { Subscription, interval } from 'rxjs';
 import { ContratService } from 'src/app/services/contrat.service';
 import { LocaleService } from 'src/app/services/locale.service';
 import { MensualiteService } from 'src/app/services/mensualite.service';
@@ -12,13 +12,14 @@ import {constant} from "../../../constant";
 import {Contrat} from "../../../models/contrat";
 import {Dossier} from "../../../models/dossier";
 import {DossierService} from "../../../services/dossier/dossier.service";
+import { TokenService } from 'src/app/services/token.service';
 
 @Component({
   selector: 'app-representation-locale-contrat',
   templateUrl: './representation-locale-contrat.component.html',
   styleUrls: ['./representation-locale-contrat.component.css']
 })
-export class RepresentationLocaleContratComponent implements OnInit {
+export class RepresentationLocaleContratComponent implements OnInit,OnDestroy {
 
 
   lists: Contrat[]=[];
@@ -44,12 +45,19 @@ export class RepresentationLocaleContratComponent implements OnInit {
   p:number=1;
   p1:number=1;
   private subscriptions: Subscription[] = [];
+  checkSub?: Subscription;
 
   constructor(private contratService:ContratService, private activatedRoute: ActivatedRoute,
     private occupationService: OccupationService, private mensualiteService: MensualiteService,
-              private dossierService:DossierService) { }
+              private dossierService:DossierService,private tokenService: TokenService) { }
+  ngOnDestroy(): void {
+    this.checkSub?.unsubscribe();
+  }
 
   ngOnInit(): void {
+    this.checkSub = interval(300000).subscribe((func =>{
+      this.tokenService.checkConnected();
+    }))
     this.types = ['ONG','FONDATION','SOCIETE PRIVE','EGLISE','SOCIETE PUBLIQUE','INDIVIDU'];
     this.activites = constant.ACTIVITE;
   this.getOccupation(this.activatedRoute.snapshot.paramMap.get('id'));

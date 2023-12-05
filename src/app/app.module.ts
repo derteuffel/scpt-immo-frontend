@@ -36,6 +36,7 @@ import { DossierDetailsComponent } from './body/representation/dossier-details/d
 import { DossiersComponent } from './body/home/dossiers/dossiers.component';
 import {NgChartsModule} from "ng2-charts";
 import { StatistiquesComponent } from './body/home/statistiques/statistiques.component';
+import { JWT_OPTIONS, JwtHelperService } from '@auth0/angular-jwt';
 
 
 @NgModule({
@@ -72,7 +73,7 @@ import { StatistiquesComponent } from './body/home/statistiques/statistiques.com
     Ng2SearchPipeModule,
     NgChartsModule
     ],
-  providers: [DatePipe],
+  providers: [DatePipe,{provide:JWT_OPTIONS,useValue:JWT_OPTIONS},JwtHelperService],
   bootstrap: [AppComponent]
 })
 export class AppModule { }

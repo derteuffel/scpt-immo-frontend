@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnDestroy, OnInit } from '@angular/core';
 import { FormGroup, FormControl } from '@angular/forms';
 import { ActivatedRoute, NavigationExtras, Router } from '@angular/router';
 import { MensualiteService } from 'src/app/services/mensualite.service';
@@ -10,6 +10,7 @@ import {DatePipe} from "@angular/common";
 import { Facture } from 'src/app/models/facture';
 import { XlxsService } from 'src/app/services/xlxs/xlxs.service';
 import { ContratService } from 'src/app/services/contrat.service';
+import { Subscription, interval, takeWhile } from 'rxjs';
 
 @Component({
   selector: 'app-bordereaux',
@@ -17,7 +18,7 @@ import { ContratService } from 'src/app/services/contrat.service';
   styleUrls: ['./bordereaux.component.css'],
   providers: [DatePipe]
 })
-export class BordereauxComponent implements OnInit {
+export class BordereauxComponent implements OnInit,OnDestroy{
 
   lists: any;
   mois:any;
@@ -41,13 +42,22 @@ export class BordereauxComponent implements OnInit {
   title ='';
   anneeEncours:any;
   moisEncours:any;
+  checkSub?:Subscription;
 
 
   constructor(private bordereauxService: BordereausService,private datePipe:DatePipe,
               private contratService: ContratService, private tokenService: TokenService,
-              private mensualiteService: MensualiteService, private xlxsService: XlxsService) { }
+              private mensualiteService: MensualiteService, private xlxsService: XlxsService) { 
+                  
+              }
+  ngOnDestroy(): void {
+    this.checkSub?.unsubscribe();
+  }
 
   ngOnInit(): void {
+    this.checkSub = interval(300000).subscribe((func =>{
+      this.tokenService.checkConnected();
+    }))
   this.months = months;
   this.years = this.tokenService.getYearList();
   this.provinces = provinceData;
@@ -135,6 +145,7 @@ export class BordereauxComponent implements OnInit {
       },
       error =>{
         console.log(error);
+        
       }
     );
   }

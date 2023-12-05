@@ -1,8 +1,8 @@
 import { HttpErrorResponse } from '@angular/common/http';
-import { Component, OnInit } from '@angular/core';
+import { Component, OnDestroy, OnInit } from '@angular/core';
 import { UntypedFormGroup, UntypedFormControl } from '@angular/forms';
 import { ActivatedRoute } from '@angular/router';
-import { Subscription } from 'rxjs';
+import { Subscription, interval } from 'rxjs';
 import { constant } from 'src/app/constant';
 import { Contrat } from 'src/app/models/contrat';
 import { Locale } from 'src/app/models/locale';
@@ -11,6 +11,7 @@ import { ContratService } from 'src/app/services/contrat.service';
 import { LocaleService } from 'src/app/services/locale.service';
 import { MensualiteService } from 'src/app/services/mensualite.service';
 import { OccupationService } from 'src/app/services/occupation.service';
+import { TokenService } from 'src/app/services/token.service';
 import Swal from 'sweetalert2';
 
 @Component({
@@ -18,7 +19,7 @@ import Swal from 'sweetalert2';
   templateUrl: './contrats.component.html',
   styleUrls: ['./contrats.component.css']
 })
-export class ContratsComponent implements OnInit {
+export class ContratsComponent implements OnInit,OnDestroy {
   lists: Contrat[]=[];
   termines: Contrat[]=[];
   encours: Contrat[]=[];
@@ -33,11 +34,18 @@ export class ContratsComponent implements OnInit {
   p:number=1;
   term: string='';
   private subscriptions: Subscription[] = [];
+  checkSub?:Subscription;
 
-  constructor(private contratService:ContratService, private activatedRoute: ActivatedRoute,
+  constructor(private contratService:ContratService, private tokenService: TokenService,
     private occupationService: OccupationService, private mensualiteService: MensualiteService) { }
+  ngOnDestroy(): void {
+    this.checkSub?.unsubscribe();
+  }
 
   ngOnInit(): void {
+    this.checkSub = interval(300000).subscribe((func =>{
+      this.tokenService.checkConnected();
+    }))
     this.types = constant.TYPE_CLIENT;
     this.activites = constant.ACTIVITE;
   this.getAll();
@@ -46,13 +54,13 @@ export class ContratsComponent implements OnInit {
   }
 
   getAll(){
+    this.tokenService.checkConnected();
     this.contratService.findAll().subscribe(
       data =>{
         this.lists = data;
-        console.log(data);
       },
       error =>{
-        console.log(error);
+        Swal.fire('Ooops...', 'Une erreur est survenue'+error, 'error')
       }
     );
 
@@ -63,7 +71,7 @@ export class ContratsComponent implements OnInit {
         console.log(data);
       },
       error =>{
-        console.log(error);
+        Swal.fire('Ooops...', 'Une erreur est survenue'+error, 'error')
       }
     );
 
@@ -73,7 +81,7 @@ export class ContratsComponent implements OnInit {
         console.log(data);
       },
       error =>{
-        console.log(error);
+        Swal.fire('Ooops...', 'Une erreur est survenue'+error, 'error')
       }
     );
   }
@@ -103,7 +111,7 @@ export class ContratsComponent implements OnInit {
         console.log(data);
       },
       error =>{
-        console.log(error);
+        Swal.fire('Ooops...', 'Une erreur est survenue'+error, 'error')
       }
     );
   }
@@ -150,15 +158,14 @@ export class ContratsComponent implements OnInit {
 
             },
             error =>{
-              Swal.fire('Ooops...', 'There are internal error while saving!', 'error')
-              console.log(error);
+             Swal.fire('Ooops...', 'Une erreur est survenue'+error, 'error')
+              
             }
           );
         }
       },
       error =>{
-        Swal.fire('Ooops...', 'Internale error while loading data', 'error')
-        console.log(error);
+        Swal.fire('Ooops...', 'Une erreur est survenue'+error, 'error')
       }
     );
     }else{
@@ -177,8 +184,7 @@ export class ContratsComponent implements OnInit {
 
         },
         error =>{
-          Swal.fire('Ooops...', 'Internale error while saving data', 'error')
-          console.log(error);
+          Swal.fire('Ooops...', 'Une erreur est survenue'+error, 'error')
         }
       );
     }
@@ -196,7 +202,7 @@ export class ContratsComponent implements OnInit {
           this.getAll();
         },
         error =>{
-          console.log(error);
+          Swal.fire('Ooops...', 'Une erreur est survenue'+error, 'error')
         }
       );
     }
@@ -210,7 +216,7 @@ export class ContratsComponent implements OnInit {
         console.log(data);
       },
       error =>{
-        console.log(error);
+        Swal.fire('Ooops...', 'Une erreur est survenue'+error, 'error')
       }
     );
   }
@@ -222,7 +228,7 @@ export class ContratsComponent implements OnInit {
         console.log(data);
       },
       error =>{
-        console.log(error);
+        Swal.fire('Ooops...', 'Une erreur est survenue'+error, 'error')
       }
     );
   }
@@ -262,7 +268,7 @@ export class ContratsComponent implements OnInit {
         console.log(data);
       },
       error =>{
-        console.log(error);
+        Swal.fire('Ooops...', 'Une erreur est survenue'+error, 'error')
       }
     );
   }
@@ -293,8 +299,8 @@ export class ContratsComponent implements OnInit {
 
       },
       error =>{
-        Swal.fire('Ooops....', 'Internal error occured while saving the contract', 'error')
-        console.log(error);
+        Swal.fire('Ooops...', 'Une erreur est survenue'+error, 'error')
+        
       }
     );
   }
@@ -314,9 +320,7 @@ export class ContratsComponent implements OnInit {
             })
         },
         (error: HttpErrorResponse) => {
-          Swal.fire('Oops....', 'Internal error occured while deleting', 'error')
-
-          console.log(error.error.message);
+          Swal.fire('Ooops...', 'Une erreur est survenue'+error, 'error')
         }
       )
     );

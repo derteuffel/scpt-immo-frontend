@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnDestroy, OnInit } from '@angular/core';
 import {UntypedFormGroup, UntypedFormControl, FormGroup, FormControl} from '@angular/forms';
 import { ActivatedRoute, NavigationExtras, Router } from '@angular/router';
 import { MensualiteService } from 'src/app/services/mensualite.service';
@@ -7,13 +7,14 @@ import {months, provinceData} from "../../../constant";
 import {TokenService} from "../../../services/token.service";
 import {Chart, ChartConfiguration} from "chart.js";
 import { XlxsService } from 'src/app/services/xlxs/xlxs.service';
+import { Subscription, interval } from 'rxjs';
 
 @Component({
   selector: 'app-payments-search',
   templateUrl: './payments-search.component.html',
   styleUrls: ['./payments-search.component.css']
 })
-export class PaymentsSearchComponent implements OnInit {
+export class PaymentsSearchComponent implements OnInit,OnDestroy {
 
   mensualites: any[]=[];
   montantTotal:any;
@@ -34,20 +35,27 @@ export class PaymentsSearchComponent implements OnInit {
   json:any;
   title="";
 
+  checkSub?:Subscription;
+
 
   constructor(private mensualiteService: MensualiteService, private route: Router,
               private activatedRoute: ActivatedRoute, private tokenService: TokenService,
               private xlxsService:XlxsService) { }
+  
+  ngOnDestroy(): void {
+    this.checkSub?.unsubscribe();
+  }
 
   ngOnInit(): void {
+    this.checkSub = interval(300000).subscribe((func =>{
+      this.tokenService.checkConnected();
+    }))
   this.activatedRoute.queryParams.subscribe(params => {
       console.log(params['values']);
       if(params['values']){
-        console.log('im not free');
       this.navigationParams = JSON.parse(params['values']);
       }
-      console.log('------- jai charger le navigation ------');
-      console.log(this.navigationParams);
+      
       this.loadByDate(this.navigationParams );
     });
   this.months = months;

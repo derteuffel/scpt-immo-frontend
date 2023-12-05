@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnDestroy, OnInit } from '@angular/core';
 import {Dossier} from "../../../models/dossier";
 import {DossierService} from "../../../services/dossier/dossier.service";
 import {EtapeService} from "../../../services/etape/etape.service";
@@ -6,17 +6,18 @@ import {Etape} from "../../../models/etape";
 import {UntypedFormControl, UntypedFormGroup} from "@angular/forms";
 import Swal from "sweetalert2";
 import {HttpErrorResponse} from "@angular/common/http";
-import {Subscription} from "rxjs";
+import {Subscription, interval} from "rxjs";
 import {ActivatedRoute} from "@angular/router";
 import {actions, services, typeEtapes} from "../../../constant";
 import {ContratService} from "../../../services/contrat.service";
+import { TokenService } from 'src/app/services/token.service';
 
 @Component({
   selector: 'app-dossier-details',
   templateUrl: './dossier-details.component.html',
   styleUrls: ['./dossier-details.component.css']
 })
-export class DossierDetailsComponent implements OnInit {
+export class DossierDetailsComponent implements OnInit,OnDestroy {
 
   currentDossier: any ={};
   lists:Etape[]=[];
@@ -33,11 +34,19 @@ export class DossierDetailsComponent implements OnInit {
   term:string='';
 
   private subscriptions: Subscription[] = [];
+  checkSub?:Subscription;
 
   constructor(private dossierService:DossierService, private etapeService: EtapeService,
-              private activatedRoute: ActivatedRoute, private contratService: ContratService) { }
+              private activatedRoute: ActivatedRoute, private contratService: ContratService,
+              private tokenService:TokenService) { }
+  ngOnDestroy(): void {
+    this.checkSub?.unsubscribe();
+  }
 
   ngOnInit(): void {
+    this.checkSub = interval(300000).subscribe((func =>{
+      this.tokenService.checkConnected();
+    }))
     this.init();
     this.getDossier(this.activatedRoute.snapshot.paramMap.get('id'));
     this.actions = actions;

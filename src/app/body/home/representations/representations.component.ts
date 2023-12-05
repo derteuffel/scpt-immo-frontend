@@ -1,12 +1,13 @@
 import { HttpErrorResponse } from '@angular/common/http';
-import { Component, OnInit } from '@angular/core';
+import { Component, OnDestroy, OnInit } from '@angular/core';
 import { FormControl, FormGroup } from '@angular/forms';
 import { Router } from '@angular/router';
-import { Subscription } from 'rxjs';
+import { Subscription, interval } from 'rxjs';
 import { AuthService } from 'src/app/auth/auth.service';
 import {constant, provinceData} from 'src/app/constant';
 import { Role } from 'src/app/enums/role.enum';
 import { LocaleService } from 'src/app/services/locale.service';
+import { TokenService } from 'src/app/services/token.service';
 import { XlxsService } from 'src/app/services/xlxs/xlxs.service';
 import Swal from 'sweetalert2';
 
@@ -15,7 +16,7 @@ import Swal from 'sweetalert2';
   templateUrl: './representations.component.html',
   styleUrls: ['./representations.component.css']
 })
-export class RepresentationsComponent implements OnInit {
+export class RepresentationsComponent implements OnInit,OnDestroy {
 
   lists: any[]=[];
   json:any;
@@ -34,15 +35,20 @@ export class RepresentationsComponent implements OnInit {
   imgURL: any;
   searchForm: any;
   private subscriptions: Subscription[] = [];
-
+  checkSub?:Subscription;
   constructor(private localeService: LocaleService, private authService: AuthService, private route: Router,
-    private xlxsService: XlxsService) {
+    private xlxsService: XlxsService, private tokenService:TokenService) {
 
 
      }
+  ngOnDestroy(): void {
+    this.checkSub?.unsubscribe();
+  }
 
   ngOnInit(): void {
-
+    this.checkSub = interval(300000).subscribe((func =>{
+      this.tokenService.checkConnected();
+    }))
     this.loadList();
     this.provinces = provinceData;
     this.init();

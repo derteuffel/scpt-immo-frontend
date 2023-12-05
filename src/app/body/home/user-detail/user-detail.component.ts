@@ -1,14 +1,15 @@
 import { HttpErrorResponse } from '@angular/common/http';
-import { Component, OnInit } from '@angular/core';
+import { Component, OnDestroy, OnInit } from '@angular/core';
 import { UntypedFormGroup, UntypedFormControl } from '@angular/forms';
 import { ActivatedRoute } from '@angular/router';
-import { Subscription } from 'rxjs';
+import { Subscription, interval } from 'rxjs';
 import { AuthService } from 'src/app/auth/auth.service';
 import { constant } from 'src/app/constant';
 import { User } from 'src/app/models/user';
 import { ContratService } from 'src/app/services/contrat.service';
 import { MensualiteService } from 'src/app/services/mensualite.service';
 import { OccupationService } from 'src/app/services/occupation.service';
+import { TokenService } from 'src/app/services/token.service';
 import Swal from 'sweetalert2';
 
 @Component({
@@ -16,7 +17,7 @@ import Swal from 'sweetalert2';
   templateUrl: './user-detail.component.html',
   styleUrls: ['./user-detail.component.css']
 })
-export class UserDetailComponent implements OnInit {
+export class UserDetailComponent implements OnInit,OnDestroy {
 
   currentUser: User = new User();
   roles: string[]=[];
@@ -26,11 +27,17 @@ export class UserDetailComponent implements OnInit {
   selectedItem: any ={};
   message?:string;
   p:number=1;
-  private subscriptions: Subscription[] = [];
+  subscription?: Subscription;
 
-  constructor(private authService:AuthService, private activatedRoute: ActivatedRoute) { }
+  constructor(private authService:AuthService, private activatedRoute: ActivatedRoute, private tokenService:TokenService) { }
+  ngOnDestroy(): void {
+    this.subscription?.unsubscribe();
+  }
 
   ngOnInit(): void {
+    this.subscription = interval(300000).subscribe((func =>{
+      this.tokenService.checkConnected();
+    }))
     this.roles = constant.ROLES;
 
   this.getUser(this.activatedRoute.snapshot.paramMap.get('id'));

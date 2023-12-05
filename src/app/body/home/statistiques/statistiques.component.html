@@ -119,12 +119,12 @@
                           <tr>
                             <th scope="col" class="sort" data-sort="entityName">Occupés</th>
                             <th scope="col"  class="sort" data-sort="action">Libres</th>
-                            <th scope="col"  class="sort" data-sort="nameClient">Total</th>
+                            <th scope="col" style="background-color: black; color: aliceblue;"  class="sort" data-sort="nameClient">Total</th>
                             <th scope="col"  data-sort="entityName">Locaux occupés payés</th>
                             <th scope="col"  class="sort" data-sort="action">Locaux occupés impayés</th>
-                            <th scope="col"  class="sort" data-sort="nameClient">Locaux occupés total</th>
+                            <th scope="col" style="background-color: black; color: aliceblue;"  class="sort" data-sort="nameClient">Locaux occupés total</th>
                             <th scope="col"  class="sort" data-sort="action">Locaux libres</th>
-                            <th scope="col"  class="sort" data-sort="nameClient">Total</th>
+                            <th scope="col" style="background-color: black; color: aliceblue;"  class="sort" data-sort="nameClient">Total</th>
                           </tr>
                         </thead>
                         <tbody class="list">
@@ -132,12 +132,12 @@
                             <td>{{item.entityName}}</td>
                             <td>{{item.nombreLocauxOccupe}}</td>
                             <td>{{item.nombreLocauxLibre}}</td>
-                            <td>{{item.nombreTotalLocaux}}</td>
+                            <td style="background-color: black; color: aliceblue;">{{item.nombreTotalLocaux}}</td>
                             <td>{{item.montantLocauxOccupePayer+' USD'}}</td>
                             <td>{{item.montantLocauxOccupeImpayer+' USD'}}</td>
-                            <td>{{item.montantLocauxOccupe+' USD'}}</td>
+                            <td style="background-color: black; color: aliceblue;">{{item.montantLocauxOccupe+' USD'}}</td>
                             <td>{{item.montantLocauxLibre+' USD'}}</td>
-                            <td>{{item.montantTotalLocaux+' USD'}}</td>
+                            <td style="background-color: black; color: aliceblue;">{{item.montantTotalLocaux+' USD'}}</td>
                           </tr>
                         </tbody>
                       </table>

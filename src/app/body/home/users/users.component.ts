@@ -1,10 +1,11 @@
 import { HttpErrorResponse } from '@angular/common/http';
-import { Component, OnInit } from '@angular/core';
+import { Component, OnDestroy, OnInit } from '@angular/core';
 import { UntypedFormGroup, UntypedFormControl, FormControlDirective, FormControl } from '@angular/forms';
-import { Subscription } from 'rxjs';
+import { Subscription, interval } from 'rxjs';
 import { AuthService } from 'src/app/auth/auth.service';
 import {constant, provinceData} from 'src/app/constant';
 import { LocaleService } from 'src/app/services/locale.service';
+import { TokenService } from 'src/app/services/token.service';
 import Swal from 'sweetalert2';
 
 @Component({
@@ -12,7 +13,7 @@ import Swal from 'sweetalert2';
   templateUrl: './users.component.html',
   styleUrls: ['./users.component.css']
 })
-export class UsersComponent implements OnInit {
+export class UsersComponent implements OnInit,OnDestroy {
   lists: any[]=[];
   p:number = 1;
   provinces: Array<any> = [];
@@ -25,11 +26,18 @@ export class UsersComponent implements OnInit {
   searchForm: any;
   roles:string[]=[];
   private subscriptions: Subscription[] = [];
+  checkSub?:Subscription;
 
   constructor(
-    private authService: AuthService) { }
+    private authService: AuthService, private tokenService:TokenService) { }
+  ngOnDestroy(): void {
+    this.checkSub?.unsubscribe();
+  }
 
   ngOnInit(): void {
+    this.checkSub = interval(300000).subscribe((func =>{
+      this.tokenService.checkConnected();
+    }))
     this.loadList();
     this.provinces = provinceData;
     this.roles = constant.ROLES;

@@ -1,7 +1,7 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnDestroy, OnInit } from '@angular/core';
 import { FormGroup, FormControl, MaxLengthValidator } from '@angular/forms';
 import { ActivatedRoute, NavigationExtras, Router } from '@angular/router';
-import { max, Subscription } from 'rxjs';
+import { interval, max, Subscription } from 'rxjs';
 import { Contrat } from 'src/app/models/contrat';
 import { ContratService } from 'src/app/services/contrat.service';
 import { LocaleService } from 'src/app/services/locale.service';
@@ -19,7 +19,7 @@ import { XlxsService } from 'src/app/services/xlxs/xlxs.service';
   styleUrls: ['./payments.component.css'],
   providers: [DatePipe]
 })
-export class PaymentsComponent implements OnInit {
+export class PaymentsComponent implements OnInit,OnDestroy {
   
   selectedItem: any ={};
   mensualites: any[]=[];
@@ -36,12 +36,18 @@ export class PaymentsComponent implements OnInit {
   json:any;
   title ='';
 
-  private subscriptions: Subscription[] = [];
+  subscription?: Subscription;
 
   constructor(private route: Router, private xlxsService: XlxsService, private datePipe: DatePipe,
               private mensualiteService: MensualiteService, private tokenService: TokenService) { }
+  ngOnDestroy(): void {
+    this.subscription?.unsubscribe();
+  }
 
   ngOnInit(): void {
+    this.subscription = interval(300000).subscribe((func =>{
+      this.tokenService.checkConnected();
+    }))
     this.months = months
     this.years = this.tokenService.getYearList();
     this.provinces = provinceData;

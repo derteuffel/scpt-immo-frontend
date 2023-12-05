@@ -1,6 +1,7 @@
 import { DatePipe } from '@angular/common';
-import { Component, OnInit } from '@angular/core';
+import { Component, OnDestroy, OnInit } from '@angular/core';
 import { FormControl, FormGroup } from '@angular/forms';
+import { Subscription, interval } from 'rxjs';
 import { months, provinceData } from 'src/app/constant';
 import { StatistiquesService } from 'src/app/services/statistques/statistiques.service';
 import { TokenService } from 'src/app/services/token.service';
@@ -13,7 +14,7 @@ import Swal from 'sweetalert2';
   styleUrls: ['./statistiques.component.css'],
   providers: [DatePipe]
 })
-export class StatistiquesComponent implements OnInit {
+export class StatistiquesComponent implements OnInit,OnDestroy {
 
   lists:any[]=[];
   provinces:Array<any> = [];
@@ -24,11 +25,19 @@ export class StatistiquesComponent implements OnInit {
   form:any;
   provinceForm:any;
   p:number=1;
+  checkSub?:Subscription;
 
   constructor(private statistiqueService:StatistiquesService, private tokenService:TokenService,
     private xsxlService:XlxsService, private datePipe: DatePipe) { }
+  
+  ngOnDestroy(): void {
+    this.checkSub?.unsubscribe();
+  }
 
   ngOnInit(): void {
+    this.checkSub = interval(300000).subscribe((func =>{
+      this.tokenService.checkConnected();
+    }))
     this.provinces = provinceData;
     this.mois = months;
     this.years = this.tokenService.getYearList();

@@ -147,6 +147,7 @@
                           <th scope="col" class="sort" data-sort="numContrat">Local numero</th>
                           <th scope="col" class="sort" data-sort="nameClient">Superficie</th>
                           <th scope="col" class="sort" data-sort="typeClient">Montant</th>
+                          <th scope="col" class="sort" data-sort="typeClient">description</th>
                           <th scope="col" class="sort" data-sort="secteurActivite">Status</th>
                           <th scope="col">Actions</th>
                         </tr>
@@ -156,6 +157,7 @@
                           <td>{{item.numeroOccupation}}</td>
                           <td>{{item.supperficieOccupation+' m2'}}</td>
                           <td>{{item.montantOccupation+' USD'}}</td>
+                          <td>{{item.description}}</td>
                           <td *ngIf="item.status" class="alert alert-warning">Occuper</td>
                           <td *ngIf="!item.status" class="alert alert-success">Libre</td>
                           
@@ -224,6 +226,10 @@ aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
                   <div class="form-group">
                     <label class="form-control-label" >Montant locatif</label>
                     <input type="number" formControlName="montantOccupation"  class="form-control" placeholder="Montant locatif du local">
+                  </div>
+                  <div class="form-group">
+                    <label class="form-control-label" >Description</label>
+                    <textarea formControlName="description"  class="form-control" rows="3" placeholder="Renseigner une description du local"></textarea>
                   </div>
             </div>
               
@@ -331,6 +337,10 @@ aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
                   <div class="form-group">
                     <label class="form-control-label" >Montant locatif</label>
                     <input type="number" formControlName="montantOccupation"  class="form-control" placeholder="Montant locatif du local">
+                  </div>
+                  <div class="form-group">
+                    <label class="form-control-label" >Description</label>
+                    <textarea formControlName="description"  class="form-control" rows="3" placeholder="Renseigner une description du local"></textarea>
                   </div>
                 
             </div>

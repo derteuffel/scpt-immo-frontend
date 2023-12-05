@@ -1,8 +1,8 @@
 import { HttpErrorResponse } from '@angular/common/http';
-import { Component, OnInit, ViewChild } from '@angular/core';
+import { Component, OnDestroy, OnInit, ViewChild } from '@angular/core';
 import { FormGroup, FormControl } from '@angular/forms';
 import { ActivatedRoute } from '@angular/router';
-import { Subscription } from 'rxjs';
+import { Subscription, interval } from 'rxjs';
 import { ContratService } from 'src/app/services/contrat.service';
 import { LocaleService } from 'src/app/services/locale.service';
 import { MensualiteService } from 'src/app/services/mensualite.service';
@@ -26,7 +26,7 @@ const imagePath = 'data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAk8AAACECAYAAAC
   styleUrls: ['./contrat-detail.component.css'],
   providers: [DatePipe]
 })
-export class ContratDetailComponent implements OnInit {
+export class ContratDetailComponent implements OnInit,OnDestroy {
   lists: any[]=[];
   alls:any[]=[];
   mois: string[]=[];
@@ -51,15 +51,21 @@ export class ContratDetailComponent implements OnInit {
   file: any;
   billFile: any;
   private subscriptions: Subscription[] = [];
+  checkSub?:Subscription;
 
 
   image: any;
 
-  constructor(private contratService:ContratService, private activatedRoute: ActivatedRoute,
-    private localeService: LocaleService, private mensualiteService: MensualiteService, private bordereauxService: BordereausService,
+  constructor(private contratService:ContratService, private activatedRoute: ActivatedRoute, private mensualiteService: MensualiteService, private bordereauxService: BordereausService,
               private tokenService: TokenService) { }
+  ngOnDestroy(): void {
+    this.checkSub?.unsubscribe();
+  }
 
   ngOnInit(): void {
+    this.checkSub = interval(300000).subscribe((func =>{
+      this.tokenService.checkConnected();
+    }))
   this.getContrat(this.activatedRoute.snapshot.paramMap.get('id'));
   this.mois = months;
   this.annees = this.tokenService.getYearList()
