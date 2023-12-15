@@ -48,10 +48,8 @@ export class RepresentationsComponent implements OnInit {
     this.provinces = provinceData;
     this.init();
     if(this.authService.currentUserValue.role+'' == 'PAYMENT'){
-      console.log('Je suis dedans pour tester le role');
       this.route.navigateByUrl('admin/payments');
     }
-    console.log('Je suis dedans deja ');
   }
 
   init(){
@@ -71,7 +69,14 @@ export class RepresentationsComponent implements OnInit {
       taux: new FormControl(null),
       longitude:new FormControl(''),
       latitude: new FormControl(''),
-      accuracy: new FormControl('')
+      accuracy: new FormControl(''),
+      urbanDegre:new FormControl(''),
+      etatPhysique: new FormControl(''),
+      locationRate: new FormControl(0),
+      revenuRate:new FormControl(0),
+      referenceAmount: new FormControl(0),
+      ponderation: new FormControl(0),
+      rateIRL: new FormControl(0),
     });
 
     this.searchForm = new FormGroup({
@@ -117,7 +122,14 @@ export class RepresentationsComponent implements OnInit {
       taux: this.form.get('taux').value,
       longitude: this.form.get('longitude').value,
       latitude: this.form.get('latitude').value,
-      accuracy: this.form.get('accuracy').value
+      accuracy: this.form.get('accuracy').value,
+      urbanDegre: this.form.get('urbanDegre').value,
+      etatPhysique: this.form.get('etatPhysique').value,
+      locationRate: this.form.get('locationRate').value,
+      revenuRate: this.form.get('revenuRate').value,
+      referenceAmount: this.form.get('referenceAmount').value,
+      ponderation: this.form.get('ponderation').value,
+      rateIRL: this.form.get('rateIRL').value
 
     };
 
@@ -133,8 +145,6 @@ export class RepresentationsComponent implements OnInit {
 
           }
         })
-
-
       },
       error =>{
         console.log(error);
@@ -183,7 +193,14 @@ export class RepresentationsComponent implements OnInit {
       taux: item.taux,
       longitude: item.longitude,
       latitude: item.latitude,
-      accuracy: item.accuracy
+      accuracy: item.accuracy,
+      urbanDegre: item.urbanDegre,
+      etatPhysique: item.etatPhysique,
+      locationRate: item.locationRate,
+      revenuRate: item.revenuRate,
+      referenceAmount: item.referenceAmount,
+      ponderation: item.ponderation,
+      rateIRL: item.rateIRL
     });
   }
 
@@ -238,7 +255,14 @@ export class RepresentationsComponent implements OnInit {
       taux: this.form.get('taux').value,
       longitude: this.form.get('longitude').value,
       latitude: this.form.get('latitude').value,
-      accuracy: this.form.get('accuracy').value
+      accuracy: this.form.get('accuracy').value,
+      urbanDegre: this.form.get('urbanDegre').value,
+      etatPhysique: this.form.get('etatPhysique').value,
+      locationRate: this.form.get('locationRate').value,
+      revenuRate: this.form.get('revenuRate').value,
+      referenceAmount: this.form.get('referenceAmount').value,
+      ponderation: this.form.get('ponderation').value,
+      rateIRL: this.form.get('rateIRL').value
     };
 
     console.log(formData);

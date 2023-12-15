@@ -40,14 +40,15 @@ export class PaymentsComponent implements OnInit {
 
   constructor(private route: Router, private xlxsService: XlxsService, private datePipe: DatePipe,
               private mensualiteService: MensualiteService, private tokenService: TokenService) { }
+  
 
 
   ngOnInit(): void {
     this.months = months
     this.years = this.tokenService.getYearList();
     this.provinces = provinceData;
-  this.init();
-  this.onSubmitSearch();
+    this.init();
+    this.onSubmitSearch();
   }
 
 

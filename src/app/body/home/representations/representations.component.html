@@ -47,41 +47,40 @@
                           </div>
                         </div>
                         <br>
-                        <br>
+                    </div>
+                  </div>
+                  <div class="card-header border-0">
+                    <div class="navbar-search navbar-search-light " id="navbar-search-main">
                         <div class="ml-2" >
                           <div class="alert alert-default text-center">
                             <span>Recherche par rapport a une ville</span>
                           </div>
                           <form [formGroup]="searchForm" (submit)="onSubmitSearch()">
-                          <div class="row">
-                            <div class="col-md-6 col-lg-5">
-                              <div class="form-group mb-0  ">
-                                <div class="input-group input-group-alternative input-group-merge">
+                            <div class="row">
+                              <div class="col-md-6 col-lg-5">
+                                <div class="form-group mb-0  ">
                                   <select formControlName="province" #province (change)="changeProvince(province.value)"  class="form-control">
-                                    <option  value="">--Choisir une province--</option>
-                                    <option *ngFor="let item of provinces" value="{{item.name}}">{{item.name}}</option>
-                                  </select>
+                                      <option  value="">--Choisir une province--</option>
+                                      <option *ngFor="let item of provinces" value="{{item.name}}">{{item.name}}</option>
+                                    </select>
                                 </div>
                               </div>
-                            </div>
-                            <div class="col-md-6 col-lg-5">
-                              <div class="form-group mb-0  ">
-                                <div class="input-group input-group-alternative input-group-merge">
+                              <div class="col-md-6 col-lg-5">
+                                <div class="form-group mb-0  ">
                                   <select formControlName="value" class="form-control">
-                                    <option  value="">--Choisir une ville--</option>
-                                    <option *ngFor="let item of villes" value="{{item}}">{{item}}</option>
-                                  </select>
+                                      <option  value="">--Choisir une ville--</option>
+                                      <option *ngFor="let item of villes" value="{{item}}">{{item}}</option>
+                                    </select>
                                 </div>
                               </div>
-                            </div>
 
-                            <div class="col-md-6 col-lg-2">
-                              <button type="submit" class="btn btn-icon-only mb-0" >
-                                <span class="input-group-text"><i class="fas fa-search"></i></span>
-                              </button>
+                              <div class="col-md-6 col-lg-2">
+                                <button type="submit" class="btn btn-outline-primary" >
+                                  <span >Chercher &nbsp;&nbsp;<i class="fas fa-search"></i></span>
+                                </button>
+                              </div>
                             </div>
-                          </div>
-                         </form>
+                          </form>
                         </div>
                     </div>
                   </div>
@@ -222,7 +221,7 @@ aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
                     <input type="text" formControlName="reference"  class="form-control" placeholder="Reference ou titre(registre)">
                   </div>
                   <div class="form-group">
-                    <label class="form-control-label" >Superficie</label>
+                    <label class="form-control-label" >Superficie m2</label>
                     <input type="number" formControlName="superficie"  class="form-control" placeholder="Superficie">
                   </div>
 
@@ -245,6 +244,30 @@ aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
                   <div class="form-group">
                     <label class="form-control-label" >Altitude</label>
                     <input type="text" formControlName="accuracy"  class="form-control" placeholder="Altitude">
+                  </div>
+                  <div class="form-group">
+                    <label class="form-control-label" >Degre d'urbanisation</label>
+                    <input type="text" formControlName="urbanDegre"  class="form-control" placeholder="Degre d'urbanisation">
+                  </div>
+                  <div class="form-group">
+                    <label class="form-control-label" >Etat physique</label>
+                    <input type="text" formControlName="etatPhysique"  class="form-control" placeholder="Etat physique">
+                  </div>
+                  <div class="form-group">
+                    <label class="form-control-label" >Taux de location $/m2</label>
+                    <input type="number" formControlName="locationRate"  class="form-control" placeholder="Taux de location">
+                  </div>
+                  <div class="form-group">
+                    <label class="form-control-label" >Taux de revenu locatif %</label>
+                    <input type="number" formControlName="revenuRate"  class="form-control" placeholder="Taux de revenu locatif">
+                  </div>
+                  <div class="form-group">
+                    <label class="form-control-label" >Coeficiant de ponderation</label>
+                    <input type="number" formControlName="ponderation"  class="form-control" placeholder="Coeficiant de ponderation">
+                  </div>
+                  <div class="form-group">
+                    <label class="form-control-label" >Taux IRL</label>
+                    <input type="number" formControlName="rateIRL"  class="form-control" placeholder="Taux IRL">
                   </div>
             </div>
       </div>
@@ -318,7 +341,6 @@ aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
                   <option  value="">--None--</option>
                     <option *ngFor="let item of provinces" value="{{item.name}}">{{item.name}}</option>
                 </select>
-
               </div>
 
               <div class="form-group">
@@ -353,7 +375,7 @@ aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
                 <input type="text" formControlName="reference"  class="form-control" placeholder="Reference ou titre(registre)">
               </div>
               <div class="form-group">
-                <label class="form-control-label" >Superficie</label>
+                <label class="form-control-label" >Superficie m2</label>
                 <input type="number" formControlName="superficie"  class="form-control" placeholder="Superficie">
               </div>
 
@@ -377,10 +399,31 @@ aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
                     <label class="form-control-label" >Altitude</label>
                     <input type="text" formControlName="accuracy"  class="form-control" placeholder="Altitude">
                   </div>
-
+                  <div class="form-group">
+                    <label class="form-control-label" >Degre d'urbanisation</label>
+                    <input type="text" formControlName="urbanDegre"  class="form-control" placeholder="Degre d'urbanisation">
+                  </div>
+                  <div class="form-group">
+                    <label class="form-control-label" >Etat physique</label>
+                    <input type="text" formControlName="etatPhysique"  class="form-control" placeholder="Etat physique">
+                  </div>
+                  <div class="form-group">
+                    <label class="form-control-label" >Taux de location $/m2</label>
+                    <input type="number" formControlName="locationRate"  class="form-control" placeholder="Taux de location">
+                  </div>
+                  <div class="form-group">
+                    <label class="form-control-label" >Taux de revenu locatif %</label>
+                    <input type="number" formControlName="revenuRate"  class="form-control" placeholder="Taux de revenu locatif">
+                  </div>
+                  <div class="form-group">
+                    <label class="form-control-label" >Coeficiant de ponderation</label>
+                    <input type="number" formControlName="ponderation"  class="form-control" placeholder="Coeficiant de ponderation">
+                  </div>
+                  <div class="form-group">
+                    <label class="form-control-label" >Taux IRL</label>
+                    <input type="number" formControlName="rateIRL"  class="form-control" placeholder="Taux IRL">
+                  </div>
             </div>
-
-
       </div>
     </div>
     <div class="modal-footer">

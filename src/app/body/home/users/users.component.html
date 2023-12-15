@@ -34,9 +34,10 @@
                         </div>
                   </div>
                   <div class="card-header border-0">
-                    <div class="navbar-search navbar-search-light form-inline mr-sm-3" id="navbar-search-main">
+                    <div class="navbar-search navbar-search-light" id="navbar-search-main">
                       <div class="row">
-                        <div class="form-group mb-0">
+                        <div class="col-lg-4 col-md-6">
+                          <div class="form-group mb-0">
                           <div class="input-group input-group-alternative input-group-merge">
                             <div class="input-group-prepend">
                               <span class="input-group-text"><i class="fas fa-search"></i></span>
@@ -44,10 +45,13 @@
                             <input class="form-control" placeholder="Recherche rapide" [(ngModel)]="term" type="text">
                           </div>
                         </div>
-                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-                        <form [formGroup]="searchForm" (submit)="onSubmitSearch()">
+                        </div>
+                        
+                        <div class="col-lg-8 col-md-6">
+                          <form [formGroup]="searchForm" (submit)="onSubmitSearch()">
                           <div class="row">
-                            <div class="form-group mb-0  ">
+                            <div class="col-lg-6 col-md-6">
+                              <div class="form-group mb-0  ">
                               <div class="input-group input-group-alternative input-group-merge">
                                 <label class="mx-2"></label>
                                 <select formControlName="province" class="form-control">
@@ -55,15 +59,19 @@
                                   <option *ngFor="let item of provinces" value="{{item.name}}">{{item.name}}</option>
                                 </select>
                               </div>
+                              </div>
                             </div>
+                            
                             &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-                            <div>
-                              <button type="submit" class="btn btn-icon-only mb-0" >
-                                <span class="input-group-text"><i class="fas fa-search"></i></span>
+                            <div class="col-lg-4 col-md-6">
+                              <button type="submit" class="btn btn-outline-primary mb-0" >
+                                <span >Chercher&nbsp;&nbsp;<i class="fas fa-search"></i></span>
                               </button>
                             </div>
                           </div>
                          </form>
+                        </div>
+                        
                       </div>
 
                     </div>
@@ -131,6 +139,12 @@
                 </div>
               </div>
         </div>
+        <br>
+      <div  class="card-body">
+        <div class="m-3">
+            <a type="button" class="btn btn-outline-primary" (click)="exportToExcel()"><i class="fa fa-file-export"></i>&nbsp;Exporter en EXCEL</a>
+        </div>
+      </div>
         <app-footer></app-footer>
     </div>
 </div>

@@ -14,6 +14,16 @@ export class Locale{
     observation?:any;
     miseEnService?:any;
     files:any;
+    documents:any;
+    urbanDegre:any;
+    etatPhysique:any;
+    locationRate:any;
+    revenuRate:any;
+    referenceAmount:any;
+    ponderation:any;
+    rateIRL:any;
+    writtenBy:any;
+    writtenOn:any;
     longitude:any;
     latitude:any;
     accuracy:any;

@@ -1,7 +1,7 @@
 import { NgModule } from '@angular/core';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { BrowserModule } from '@angular/platform-browser';
-import { HttpClientModule, HTTP_INTERCEPTORS } from '@angular/common/http';
+import { HttpClientModule } from '@angular/common/http';
 
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
@@ -21,14 +21,6 @@ import { PaymentsComponent } from './body/home/payments/payments.component';
 import { PaymentsSearchComponent } from './body/home/payments-search/payments-search.component';
 import { ContratDetailComponent } from './body/representation/contrat-detail/contrat-detail.component';
 import { OccupationsComponent } from './body/representation/occupations/occupations.component';
-import { NotificationService } from './services/notification.service';
-import { AuthenticationGuard } from './auth/authentication.guard';
-import { AuthService } from './auth/auth.service';
-import { LocaleService } from './services/locale.service';
-import { OccupationService } from './services/occupation.service';
-import { ContratService } from './services/contrat.service';
-import { MensualiteService } from './services/mensualite.service';
-import { NotificationModule } from './notification.module';
 import { UserDetailComponent } from './body/home/user-detail/user-detail.component';
 import {DatePipe} from "@angular/common";
 import {BordereauxComponent} from "./body/home/bordereaux/bordereaux.component";
@@ -37,6 +29,10 @@ import { DossiersComponent } from './body/home/dossiers/dossiers.component';
 import {NgChartsModule} from "ng2-charts";
 import { StatistiquesComponent } from './body/home/statistiques/statistiques.component';
 import { JWT_OPTIONS, JwtHelperService } from '@auth0/angular-jwt';
+import { NgIdleKeepaliveModule } from '@ng-idle/keepalive';
+import { MomentModule } from 'angular2-moment';
+import { ModalModule } from 'ngx-bootstrap/modal';
+import { BnNgIdleService } from 'bn-ng-idle';
 
 
 @NgModule({
@@ -71,9 +67,12 @@ import { JWT_OPTIONS, JwtHelperService } from '@auth0/angular-jwt';
     HttpClientModule,
     NgxPaginationModule,
     Ng2SearchPipeModule,
-    NgChartsModule
+    NgChartsModule,
+    NgIdleKeepaliveModule.forRoot(),
+    MomentModule,
+    ModalModule.forRoot(),
     ],
-  providers: [DatePipe,{provide:JWT_OPTIONS,useValue:JWT_OPTIONS},JwtHelperService],
+  providers: [DatePipe,{provide:JWT_OPTIONS,useValue:JWT_OPTIONS},JwtHelperService, BnNgIdleService],
   bootstrap: [AppComponent]
 })
 export class AppModule { }

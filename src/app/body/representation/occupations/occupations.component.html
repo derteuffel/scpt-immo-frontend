@@ -26,7 +26,7 @@
               </div>
               <div class="card-body">
                   <div class="row">
-                      <div class="col-md-6">
+                      <div class="col-lg-4 col-md-6">
                           <div class="table-responsive">
                             <table class="table table-bordered align-items-center table-flush">
                                     <tr>
@@ -60,7 +60,7 @@
                             </table>
                             </div>
                       </div>
-                      <div class="col-md-6">
+                      <div class="col-lg-4 col-md-6">
                             <div class="table-responsive">
                                 <table class="table table-bordered align-items-center table-flush ">
                                         
@@ -94,14 +94,112 @@
                                       <td>{{currentLocale.accuracy}}</td>
                                     </tr> 
                                     <tr>
-                                      
-                                      <td><a href="#" type="button"  data-toggle="modal" data-target="#viewPicturesModal" class="btn">Voir les images <i class="fa fa-images"></i></a></td>
-                                      <td><a href="#" type="button"  data-toggle="modal" data-target="#addPicturesModal" class="btn btn-outline-info">Ajouter des images <i class="fa fa-plus"></i></a></td>
+                                      <th>Documents</th>
+                                      <td>
+                                        <span *ngIf="currentLocale.documents.length === 0" class="text-danger">
+                                          Aucun document associé
+                                        </span>
+                                        <div  *ngIf="currentLocale.documents.length > 0">
+                                          <ul *ngFor="let item of currentLocale.documents">
+                                            <li><a href="{{item}}">{{item}}</a> &nbsp;&nbsp; <a type="button" class="btn" (click)="removeDocument(item)"><i class="fa fa-trash"></i></a> </li>
+                                          </ul>
+                                        </div>
+                                        
+                                      </td>
                                     </tr>  
                                 </table>
                             </div>
                         
                       </div>
+                      <div class="col-lg-4 col-md-6">
+                            <div class="table-responsive">
+                                <table class="table table-bordered align-items-center table-flush ">
+                                        
+                                  
+                                  <tr>
+                                    <th>Degré urbanistique</th>
+                                    <td>{{currentLocale.urbanDegre}}</td>
+                                  </tr>
+                                       
+                                  <tr>
+                                    <th>Etat physique du site</th>
+                                    <td>{{currentLocale.etatPhysique}}</td>
+                                  </tr>
+                                        
+                                  <tr>
+                                    <th>Taux de revenu locatif<th>
+                                     <td>{{currentLocale.revenuRate+' %'}}</td>
+                                   </tr> 
+                                   <tr>
+                                      <th>Taux de location</th>
+                                      <td>{{currentLocale.locationRate+' $/m2'}}</td>
+                                    </tr>
+                                        
+                                    <tr>
+                                      <th>Prix de reférence au m2</th>
+                                      <td>{{currentLocale.referenceAmount+' $'}}</td>
+                                    </tr>
+                                          
+                                    <tr>
+                                      <th>Coeficiant de pondération<th>
+                                      <td>{{currentLocale.ponderation}}</td>
+                                    </tr> 
+                                    <tr>
+                                      <th>Taux IRL</th>
+                                      <td>{{currentLocale.rateIRL+' %'}}</td>
+                                    </tr> 
+                                    <tr>
+                                      <th>Enregistré par<th>
+                                      <td>{{currentLocale.writtenBy}}</td>
+                                    </tr> 
+                                    <tr>
+                                      <th>Date d'enrégistrement</th>
+                                      <td>{{currentLocale.writtenOn}}</td>
+                                    </tr>  
+                                </table>
+                            </div>
+                        
+                      </div>
+                  </div>
+                  <div class="row my-3">
+                    <div class="col-md-6">
+                      <a href="#" type="button" *ngIf="currentLocale.files.length <= 3"  data-toggle="modal" data-target="#addPicturesModal" class="btn  btn-outline-primary"> <i class="fa fa-file"></i>&nbsp; Images</a>
+                    </div>
+                    <div class="col-md-6">
+                      <a href="#" type="button"  data-toggle="modal" data-target="#addDocumentModal" class="btn  btn-outline-primary"> <i class="fa fa-file"></i>&nbsp; Documents</a>
+                    </div>
+                  </div>
+                  <div *ngIf="currentLocale.files.length === 0">
+                    <div class="alert alert-warning">
+                      <span>Aucune image disponible</span>
+                    </div>
+                  </div>
+                  <div *ngIf="currentLocale.files.length > 0" class="row">
+                    <div class="col-lg-4 col-md-6">
+                      <div class="p-3">
+                          <img src="{{currentLocale.files[0]}}" height="200" alt="{{currentLocale.files[0]}}">
+                          <div *ngIf="currentLocale.files[0]" class="mt-2">
+                            <a type="button" class="btn" (click)="removeFile(currentLocale.files[0])"><i class="fa fa-trash"></i></a> 
+                          </div>
+                        </div>
+                    </div>
+                    <div class="col-lg-4 col-md-6">
+                       <div class="p-3">
+                          <img src="{{currentLocale.files[1]}}" height="200" alt="{{currentLocale.files[1]}}">
+                          <div *ngIf="currentLocale.files[1]" class="mt-2">
+                            <a type="button" class="btn" (click)="removeFile(currentLocale.files[1])"><i class="fa fa-trash"></i></a> 
+                          </div>
+                        </div>
+                    </div>
+                    <div class="col-lg-4 col-md-6">
+                       <div class="p-3">
+
+                          <img src="{{currentLocale.files[2]}}" height="200" alt="{{currentLocale.files[2]}}">
+                          <div *ngIf="currentLocale.files[2]" class="mt-2">
+                            <a type="button" class="btn" (click)="removeFile(currentLocale.files[2])"><i class="fa fa-trash"></i></a> 
+                          </div>
+                        </div>
+                    </div>
                   </div>
                 
               </div>
@@ -146,8 +244,9 @@
                         <tr>
                           <th scope="col" class="sort" data-sort="numContrat">Local numero</th>
                           <th scope="col" class="sort" data-sort="nameClient">Superficie</th>
-                          <th scope="col" class="sort" data-sort="typeClient">Montant</th>
-                          <th scope="col" class="sort" data-sort="typeClient">description</th>
+                          <th scope="col" class="sort" data-sort="typeClient">Montant Officiel</th>
+                           <th scope="col" class="sort" data-sort="typeClient">Montant appliqué</th>
+                          <th scope="col" class="sort" data-sort="typeClient">Description</th>
                           <th scope="col" class="sort" data-sort="secteurActivite">Status</th>
                           <th scope="col">Actions</th>
                         </tr>
@@ -156,9 +255,10 @@
                         <tr  *ngFor="let item of lists | paginate: { itemsPerPage: 20, currentPage: p }">
                           <td>{{item.numeroOccupation}}</td>
                           <td>{{item.supperficieOccupation+' m2'}}</td>
+                          <td>{{item.montantAPayerOccupation+' USD'}}</td>
                           <td>{{item.montantOccupation+' USD'}}</td>
                           <td>{{item.description}}</td>
-                          <td *ngIf="item.status" class="alert alert-warning">Occuper</td>
+                          <td *ngIf="item.status" class="alert alert-warning">Occupé</td>
                           <td *ngIf="!item.status" class="alert alert-success">Libre</td>
                           
                           <td class="text-right">
@@ -169,7 +269,6 @@
                               <div class="dropdown-menu dropdown-menu-right dropdown-menu-arrow">
                                 <a class="dropdown-item" href="/admin/occupation/contrats/{{item.id}}">Voir les contrats &nbsp; <i class="fa fa-eye"></i></a>
                                 <a class="dropdown-item" type="button"   (click)="editItem(item)">Edit &nbsp; <i class="fa fa-edit"></i></a>
-                                
                                 <a class="dropdown-item" type="button"   (click)="deleteItem(item.id)">Supprimer &nbsp; <i class="fa fa-trash"></i></a>
                               </div>
                             </div>
@@ -224,16 +323,14 @@ aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
                     <input type="number" formControlName="supperficieOccupation"  class="form-control" placeholder="Superficie du local">
                   </div>
                   <div class="form-group">
-                    <label class="form-control-label" >Montant locatif</label>
-                    <input type="number" formControlName="montantOccupation"  class="form-control" placeholder="Montant locatif du local">
+                    <label class="form-control-label" >Montant du local</label>
+                    <input type="number" formControlName="montantOccupation"  class="form-control" placeholder="Montant du local">
                   </div>
                   <div class="form-group">
                     <label class="form-control-label" >Description</label>
                     <textarea formControlName="description"  class="form-control" rows="3" placeholder="Renseigner une description du local"></textarea>
                   </div>
             </div>
-              
-         
       </div>
     </div>
     <div class="modal-footer">
@@ -283,7 +380,7 @@ aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
 </div>
 </div>
 
-<!-- model view pictures -->
+<!-- model add pictures -->
 <div  class="modal draggable fade bd-example-modal-lg" id="addPicturesModal" tabindex="-1" role="dialog"
 aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
 <div class="modal-dialog" role="document">
@@ -295,12 +392,37 @@ aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
       </button>
     </div>
     <div class="modal-body">
-      <input type="file" multiple (change)="selectFiles($event)">
+      <input type="file" (change)="selectFiles($event)">
     </div>
     <div class="modal-footer">
       <button type="button"  class="btn btn-secondary" data-dismiss="modal" id="add-picture-close" aria-label="Close">Fermer</button>
       <button  class="btn btn-primary" [disabled]="!selectedFiles"
                   (click)="uploadFiles()">Enregistrer</button>
+    </div>
+    
+  </div>
+  
+</div>
+</div>
+
+<!-- model add documents -->
+<div  class="modal draggable fade bd-example-modal-lg" id="addDocumentModal" tabindex="-1" role="dialog"
+aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
+<div class="modal-dialog" role="document">
+  <div class="modal-content">
+    <div class="modal-header">
+      <h5 class="modal-title text-center">Ajout des documents</h5>
+      <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+        <span aria-hidden="true">&times;</span>
+      </button>
+    </div>
+    <div class="modal-body">
+      <input type="file" multiple (change)="selectFiles($event)">
+    </div>
+    <div class="modal-footer">
+      <button type="button"  class="btn btn-secondary" data-dismiss="modal" id="add-picture-close" aria-label="Close">Fermer</button>
+      <button  class="btn btn-primary" [disabled]="!selectedFiles"
+                  (click)="uploadDocuments()">Enregistrer</button>
     </div>
     
   </div>
@@ -327,7 +449,7 @@ aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
             <div class="pl-lg-4">
               
                 <div class="form-group">
-                    <label class="form-control-label" >Numero du local</label>
+                    <label class="form-control-label" >Numéro du local</label>
                     <input type="text" formControlName="numeroOccupation"  class="form-control" placeholder="Numero du local">
                   </div>
                   <div class="form-group">
@@ -335,17 +457,14 @@ aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
                     <input type="number" formControlName="supperficieOccupation"  class="form-control" placeholder="Superficie du local">
                   </div>
                   <div class="form-group">
-                    <label class="form-control-label" >Montant locatif</label>
-                    <input type="number" formControlName="montantOccupation"  class="form-control" placeholder="Montant locatif du local">
+                    <label class="form-control-label" >Montant du local</label>
+                    <input type="number" formControlName="montantOccupation"  class="form-control" placeholder="Montant du local">
                   </div>
                   <div class="form-group">
                     <label class="form-control-label" >Description</label>
                     <textarea formControlName="description"  class="form-control" rows="3" placeholder="Renseigner une description du local"></textarea>
                   </div>
-                
             </div>
-              
-         
       </div>
     </div>
     <div class="modal-footer">

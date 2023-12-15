@@ -22,6 +22,7 @@ export class ClientsComponent implements OnInit {
   subscriptions?: Subscription;
 
   constructor(private contratService:ContratService, private tokenService: TokenService) { }
+  
 
 
   ngOnInit(): void {
@@ -29,7 +30,6 @@ export class ClientsComponent implements OnInit {
   }
 
   getAll(){
-    this.tokenService.checkConnected();
     this.contratService.findAll().subscribe(
       data =>{
         this.lists = data;
@@ -64,7 +64,6 @@ export class ClientsComponent implements OnInit {
 
   
   getClientActifs(){
-    this.tokenService.checkConnected();
     this.contratService.findAllByStatus(true).subscribe(
       data =>{
         this.lists = data;
@@ -77,7 +76,6 @@ export class ClientsComponent implements OnInit {
   }
 
   getAncienClients(){
-    this.tokenService.checkConnected();
     this.contratService.findAllByStatus(false).subscribe(
       data =>{
         this.lists = data;
@@ -91,7 +89,6 @@ export class ClientsComponent implements OnInit {
 
 
   detailItem(item:any){
-    this.tokenService.checkConnected();
     this.selectedItem = item;
     this.clickButton('openDetail');
   }

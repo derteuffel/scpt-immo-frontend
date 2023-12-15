@@ -25,19 +25,23 @@
                   
                   <div class="card-header border-0">
                     <h5>Recherche Nationale</h5>
-                    <div class="navbar-search navbar-search-light form-inline mr-sm-3" id="navbar-search-main">
+                    <div class="navbar-search navbar-search-light" id="navbar-search-main">
                      
                         <form [formGroup]="form" (submit)="retrievesNational()">
                           <div class="row">
-                            <div class="form-group mb-0">
+                            <div class="col-lg-3 col-md-6">
+                              <div class="form-group mb-0">
                               <div class="input-group input-group-alternative input-group-merge">
                                 <select formControlName="month" class="form-control" >
                                   <option  value="">--Choisir un mois--</option>
                                   <option *ngFor="let item of mois" value="{{item}}">{{item}}</option>
                                 </select>
                               </div>
+                              </div>
                             </div>
-                            <div class="form-group mb-0">
+                            
+                            <div class="col-lg-3 col-md-6">
+                              <div class="form-group mb-0">
                               <div class="input-group input-group-alternative input-group-merge">
                                 <select formControlName="year" class="form-control" >
                                   <option  value="">--Choisir une année--</option>
@@ -45,7 +49,10 @@
                                 </select>
                               </div>
                             </div>
-                            <div class="form-group mb-0">
+                            </div>
+                            
+                            <div class="col-lg-3 col-md-6">
+                              <div class="form-group mb-0">
                                 <div class="input-group input-group-alternative input-group-merge">
                                   <select formControlName="province" class="form-control" >
                                     <option  value="">--Choisir une option--</option>
@@ -54,9 +61,11 @@
                                   </select>
                                 </div>
                               </div>
-                            <div>
-                              <button type="submit" class="btn btn-icon-only mb-0" >
-                                <span class="input-group-text"><i class="fas fa-search"></i></span>
+                            </div>
+                            
+                            <div class="col-lg-3 col-md-6">
+                              <button type="submit" class="btn btn-outline-primary mb-0" >
+                                <span >Chercher&nbsp;&nbsp;<i class="fas fa-search"></i></span>
                               </button>
                             </div>
                           </div>
@@ -66,44 +75,49 @@
                   <br>
                   <div class="card-header border-0">
                     <h5>Recherche par province</h5>
-                    <div class="navbar-search navbar-search-light form-inline mr-sm-3" >
-                      <div class="row">
-                        <div class="col-md-6 col-lg-12" >
-                          <form [formGroup]="provinceForm" (submit)="retrievesProvince()">
+                    <div class="navbar-search navbar-search-light " >
+                      <form [formGroup]="provinceForm" (submit)="retrievesProvince()">
                           <div class="row">
-                            <div class="form-group mb-0">
+                            <div class="col-lg-3 col-md-6">
+                               <div class="form-group mb-0">
                               <div class="input-group input-group-alternative input-group-merge">
                                 <select formControlName="province" class="form-control" >
                                   <option  value="">--Choisir une province--</option>
                                   <option *ngFor="let item of provinces" value="{{item.name}}">{{item.name}}</option>
                                 </select>
                               </div>
+                              </div>
                             </div>
-                            <div class="form-group mb-0">
+                           
+                            <div class="col-lg-3 col-md-6">
+                              <div class="form-group mb-0">
                               <div class="input-group input-group-alternative input-group-merge">
                                 <select formControlName="month" class="form-control" >
                                   <option  value="">--Choisir un mois--</option>
                                   <option *ngFor="let item of mois" value="{{item}}">{{item}}</option>
                                 </select>
                               </div>
+                              </div>
                             </div>
-                            <div class="form-group mb-0">
+                            
+                            <div class="col-lg-3 col-md-6">
+                              <div class="form-group mb-0">
                               <div class="input-group input-group-alternative input-group-merge">
                                 <select formControlName="year" class="form-control" >
                                   <option  value="">--Choisir une année--</option>
                                   <option *ngFor="let item of years" value="{{item}}">{{item}}</option>
                                 </select>
                               </div>
+                              </div>
                             </div>
-                            <div>
-                              <button type="submit" class="btn btn-icon-only mb-0" >
-                                <span class="input-group-text"><i class="fas fa-search"></i></span>
+                            
+                            <div class="col-lg-3 col-md-6">
+                              <button type="submit" class="btn btn-outline-primary mb-0" >
+                                <span >Chercher&nbsp;&nbsp;<i class="fas fa-search"></i></span>
                               </button>
                             </div>
                           </div>
                          </form>
-                        </div>
-                      </div>
 
                     </div>
                   </div>

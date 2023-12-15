@@ -16,6 +16,8 @@ export class SidebarComponent implements OnInit {
   user?: User;
   errorMessage = '';
   isAdminTest: boolean = false;
+  isDSI = false;
+  isROOT = false;
   isFinance: boolean = false;
   isProvincial: boolean = false;
   isComptabilite: boolean = false;
@@ -32,7 +34,7 @@ export class SidebarComponent implements OnInit {
       this.user = this.authService.currentUserValue;
       switch(this.user.role+''){
         case "ROOT":{
-          this.isAdminTest = true;
+          this.isROOT = true;
           break;
         }
         case 'POSTE_FINANCE':{
@@ -43,16 +45,16 @@ export class SidebarComponent implements OnInit {
           this.isProvincial = true;
           break;
         }
-        case 'COMPTABILITE':{
+        case 'FINANCE':{
           this.isComptabilite = true;
           break;
         }
         
         case 'DSI':{
-          this.isAdminTest = true;
+          this.isDSI = true;
           break;
         }
-        case 'DG':{
+        case 'MANAGER':{
           this.isAdminTest = true;
           break;
         }

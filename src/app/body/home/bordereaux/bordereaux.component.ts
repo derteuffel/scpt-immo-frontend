@@ -53,16 +53,34 @@ export class BordereauxComponent implements OnInit{
 
 
   ngOnInit(): void {
-  this.months = months;
-  this.years = this.tokenService.getYearList();
-  this.provinces = provinceData;
-  this.getBordereaux();
+    this.months = months;
+    this.years = this.tokenService.getYearList();
+    this.provinces = provinceData;
+    this.getBordereaux();
     this.anneeEncours = this.tokenService.getCurrentYear();
     this.moisEncours = this.tokenService.getCurrentMois();
     this.init();
 
   }
 
+
+  isFinance():boolean{
+    let user = JSON.parse(localStorage.getItem('currentUser')!)
+    if(user.role === 'POSTE_FINANCE' || user.role === 'ROOT'){
+      return true;
+    }else{
+      return false;
+    }
+  }
+
+   isDGI():boolean{
+    let user = JSON.parse(localStorage.getItem('currentUser')!)
+    if(user.role === 'DGI' || user.role === 'ROOT'){
+      return true;
+    }else{
+      return false;
+    }
+  }
 
   init(){
     this.searchForm = new FormGroup({

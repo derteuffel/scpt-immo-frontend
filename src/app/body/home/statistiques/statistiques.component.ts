@@ -30,9 +30,6 @@ export class StatistiquesComponent implements OnInit {
   constructor(private statistiqueService:StatistiquesService, private tokenService:TokenService,
     private xsxlService:XlxsService, private datePipe: DatePipe) { }
   
-  ngOnDestroy(): void {
-    this.checkSub?.unsubscribe();
-  }
 
   ngOnInit(): void {
     this.provinces = provinceData;

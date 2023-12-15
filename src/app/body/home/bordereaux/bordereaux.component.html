@@ -35,7 +35,7 @@
                         </div>
                         
                         <div>
-                          <a type="button" class="btn btn-outline-info" data-toggle="modal" data-target="#produceBordereauModal"> <i class="fa fa-address-card"></i>&nbsp; Produire tous les bordereaux pour le mois encours</a>
+                          <a type="button" *ngIf="isDGI()" class="btn btn-outline-info" data-toggle="modal" data-target="#produceBordereauModal"> <i class="fa fa-address-card"></i>&nbsp; Produire tous les bordereaux pour le mois encours</a>
                         </div>
                           &nbsp;&nbsp;
                         <div>
@@ -43,28 +43,30 @@
                         </div>
                       </div>
                       
-                      <hr>
+                      <br>
                       <form [formGroup]="searchForm" (submit)="onSubmitSearch()">
                         <div class="row">
-                          <div class="form-group mb-0">
-                            <div class="input-group input-group-alternative input-group-merge">
-                              <select formControlName="mois" class="form-control" >
+                          <div class="col-lg-4 col-md-6">
+                            <div class="form-group mb-0">
+                            <select formControlName="mois" class="form-control" >
                                 <option  value="">--Choisir un mois--</option>
                                 <option *ngFor="let item of months" value="{{item}}">{{item}}</option>
                               </select>
                             </div>
                           </div>
-                          <div class="form-group mb-0">
-                            <div class="input-group input-group-alternative input-group-merge">
-                              <select formControlName="year" class="form-control" >
+                          
+                          <div class="col-lg-4 col-md-6">
+                            <div class="form-group mb-0">
+                            <select formControlName="year" class="form-control" >
                                 <option  value="">--Choisir une année--</option>
                                 <option *ngFor="let item of years" value="{{item}}">{{item}}</option>
                               </select>
                             </div>
                           </div>
-                          <div>
-                            <button type="submit" class="btn btn-icon-only mb-0" >
-                              <span class="input-group-text"><i class="fas fa-search"></i></span>
+                          
+                          <div class="col-lg-4 col-md-6">
+                            <button type="submit" class="btn btn-outline-primary" >
+                              <span>Chercher&nbsp;&nbsp;<i class="fas fa-search"></i></span>
                             </button>
                           </div>
                         </div>
@@ -94,7 +96,7 @@
                             <td>{{item.annee}}</td>
                             <td>{{item.motif}}</td>
                             <td>{{item.montant+' USD'}}</td>
-                            <td *ngIf="!item.status">
+                            <td *ngIf="!item.status && isFinance()">
                               <a class="badge bagde-primary text-info"  type="button"   (click)="payment(item)">Effectuer paiement</a>
                             </td>
                             <td *ngIf="item.status">
@@ -147,7 +149,7 @@
                 <input type="text" formControlName="clientName"  class="form-control" placeholder="Nom du client">
               </div>
               <div class="form-group">
-                <label class="form-control-label" >Numero d'identite</label>
+                <label class="form-control-label" >Personne versante</label>
                 <input type="text" formControlName="idNumber"   class="form-control" placeholder="Numero d'identite">
               </div>
               <div class="form-group">

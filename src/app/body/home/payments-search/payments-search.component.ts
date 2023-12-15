@@ -42,19 +42,20 @@ export class PaymentsSearchComponent implements OnInit {
               private activatedRoute: ActivatedRoute, private tokenService: TokenService,
               private xlxsService:XlxsService) { }
   
+  
 
   ngOnInit(): void {
-  this.activatedRoute.queryParams.subscribe(params => {
-      console.log(params['values']);
-      if(params['values']){
-      this.navigationParams = JSON.parse(params['values']);
-      }
-      
-      this.loadByDate(this.navigationParams );
-    });
-  this.months = months;
-  this.years = this.tokenService.getYearList();
-  this.provinces = provinceData
+    this.activatedRoute.queryParams.subscribe(params => {
+        console.log(params['values']);
+        if(params['values']){
+        this.navigationParams = JSON.parse(params['values']);
+        }
+        
+        this.loadByDate(this.navigationParams );
+      });
+    this.months = months;
+    this.years = this.tokenService.getYearList();
+    this.provinces = provinceData
 
     this.init();
 

@@ -1,7 +1,7 @@
 import { HttpClient, HttpHeaders, HttpResponse } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { Router } from '@angular/router';
-import { BehaviorSubject, catchError, map, Observable, throwError } from 'rxjs';
+import { BehaviorSubject, catchError, map, Observable, Subscription, throwError } from 'rxjs';
 import { environment } from 'src/environments/environment';
 import { User } from '../models/user';
 
@@ -27,6 +27,10 @@ export class AuthService {
 
   currentUserO: User;
   headers: HttpHeaders;
+
+  authToken: any;
+  tokenSubscription = new Subscription();
+  timeout:any;
 
   constructor(private http: HttpClient ) {
                 this.currentUserSubject = new BehaviorSubject<User> (JSON.parse(localStorage.getItem('currentUser')|| '{}'));
@@ -100,7 +104,7 @@ export class AuthService {
   getUserToken():string{
     let userCurrent:any;
     if(userJson!=null){
-      userCurrent = JSON.parse(localStorage.getItem('currentUser')|| '{}');
+      userCurrent = JSON.parse(localStorage.getItem('currentUser')!);
       return userCurrent.token;
     }
     return null as any;

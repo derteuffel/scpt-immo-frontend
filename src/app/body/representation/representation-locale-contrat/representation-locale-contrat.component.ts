@@ -50,14 +50,15 @@ export class RepresentationLocaleContratComponent implements OnInit {
   constructor(private contratService:ContratService, private activatedRoute: ActivatedRoute,
     private occupationService: OccupationService, private mensualiteService: MensualiteService,
               private dossierService:DossierService,private tokenService: TokenService) { }
+  
 
   ngOnInit(): void {
 
     this.types = ['ONG','FONDATION','SOCIETE PRIVE','EGLISE','SOCIETE PUBLIQUE','INDIVIDU'];
     this.activites = constant.ACTIVITE;
-  this.getOccupation(this.activatedRoute.snapshot.paramMap.get('id'));
-  this.typesContrat = ['LOCATION',"EXPLOITATION"];
-  this.init();
+    this.getOccupation(this.activatedRoute.snapshot.paramMap.get('id'));
+    this.typesContrat = ['LOCATION',"EXPLOITATION"];
+    this.init();
   }
 
   getOccupation(id:any){

@@ -21,6 +21,7 @@ export class DossiersComponent implements OnInit {
   constructor(private dossierService: DossierService, private tokenService: TokenService) { }
   
   
+  
   ngOnInit(): void {
     this.findAll();
   }

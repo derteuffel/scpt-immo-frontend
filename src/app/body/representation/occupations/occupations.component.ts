@@ -37,6 +37,7 @@ export class OccupationsComponent implements OnInit {
 
   constructor(private occupationService:OccupationService, private activatedRoute: ActivatedRoute,
     private localeService: LocaleService, private tokenService: TokenService) { }
+  
  
 
   ngOnInit(): void {
@@ -50,19 +51,45 @@ selectFiles(event:any) {
 }
 
 uploadFiles(){
-  for (let i = 0; i < this.selectedFiles.length; i++) {
-    console.log(this.selectedFiles[i].name)
-  
-    this.localeService.uploadFiles(this.selectedFiles[i],this.currentLocale.id).subscribe(
+
+    this.localeService.uploadFiles(this.selectedFiles[0],this.currentLocale.id).subscribe(
       data =>{
         this.clickButton('add-picture-close');
-        console.log(data);
+        Swal.fire('Merci...', 'Images enregistrer avec succes!', 'success').then((res)=>{
+                        if(res.isConfirmed){
+                        this.getlocale(this.currentLocale.id);
+                        
+                        this.init();
+                         this.selectedFiles = new FileList
+                      }
+                   }
+                )
+      },
+      error =>{
+        Swal.fire('Ooops...', 'Internal error occured while saving local '+error.message, 'error');
+      }
+    );
+}
+
+uploadDocuments(){
+    this.localeService.uploadDocuments(this.selectedFiles[0],this.currentLocale.id).subscribe(
+      data =>{
+        this.clickButton('add-picture-close');
+        Swal.fire('Merci...', 'Document enregistrer avec succes!', 'success').then((res)=>{
+                        if(res.isConfirmed){
+                        this.getlocale(this.currentLocale.id);
+                        
+                        this.init();
+                         this.selectedFiles = new FileList
+                      }
+                   }
+                )
+       
       },
       error =>{
         Swal.fire('Ooops...', 'Internal error occured while saving local '+error, 'error');
       }
     );
-  }
 }
 
 removeFile(file:any){
@@ -85,6 +112,28 @@ removeFile(file:any){
                  
                  }
             })
+}
+
+removeDocument(file:any){
+  Swal.fire('Alert.', 'Etes-vous sur de vouloir supprimer ce document?', 'warning').then((res)=>{
+              if(res.isConfirmed){
+                this.localeService.removeDocument(file, this.currentLocale.id).subscribe(
+                  data =>{
+                    Swal.fire('Thank you...', 'You submitted succesfully!', 'success').then((res)=>{
+                        if(res.isConfirmed){
+                        this.getlocale(this.currentLocale.id);
+                        
+                        this.init();
+                      }
+                    })
+                  },
+                  error =>{
+                    Swal.fire('Ooops...', 'Internal error occured while saving local ', 'error');
+                  }
+                )
+                 
+            }
+        })
 }
 
   getlocale(id:any){

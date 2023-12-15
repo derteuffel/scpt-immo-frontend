@@ -6,6 +6,7 @@ import { AuthService } from 'src/app/auth/auth.service';
 import {constant, provinceData} from 'src/app/constant';
 import { LocaleService } from 'src/app/services/locale.service';
 import { TokenService } from 'src/app/services/token.service';
+import { XlxsService } from 'src/app/services/xlxs/xlxs.service';
 import Swal from 'sweetalert2';
 
 @Component({
@@ -27,10 +28,13 @@ export class UsersComponent implements OnInit {
   roles:string[]=[];
   private subscriptions: Subscription[] = [];
   checkSub?:Subscription;
+  json:any
+  title:any;
 
   constructor(
-    private authService: AuthService, private tokenService:TokenService) { }
-
+    private authService: AuthService, private tokenService:TokenService,
+    private xlxsService: XlxsService) { }
+  
 
   ngOnInit(): void {
     this.loadList();
@@ -58,14 +62,19 @@ export class UsersComponent implements OnInit {
     });
   }
 
+    exportToExcel(){
+    this.xlxsService.exportAsExcelFile(this.json, this.title);
+    }
+
   loadList(){
     this.authService.findAll().subscribe(
       data =>{
         this.lists = data;
-        console.log(data);
+        this.json = data;
+        this.title ='RESUME UTILISATEUR';
       },
       error =>{
-        console.log(error);
+        Swal.fire('Ooops...', 'Internal error occured while loading!', 'error');
       }
     );
   }
@@ -98,7 +107,6 @@ export class UsersComponent implements OnInit {
                     });
       },
       error =>{
-        console.log(error);
         Swal.fire('Ooops...', 'Internal error occured while saving!', 'error');
 
       }

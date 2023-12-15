@@ -37,8 +37,16 @@
                         <td>{{currentOccupation.supperficieOccupation+' m2'}}</td>
                       </tr>
                       <tr>
-                        <th>Montant Locatif</th>
+                        <th>Montant Locatif Officiel</th>
+                        <td>{{currentOccupation.montantAPayerOccupation+' USD'}}</td>
+                      </tr>
+                      <tr>
+                        <th>Montant Locatif Applique</th>
                         <td>{{currentOccupation.montantOccupation+' USD'}}</td>
+                      </tr>
+                      <tr>
+                        <th>Montant IRL</th>
+                        <td>{{currentOccupation.montantIRLOccupation+' USD'}}</td>
                       </tr>
                       <tr>
                         <th>Description</th>
@@ -158,7 +166,7 @@
                     </nav>
                   </div>
                 </div>
-              <div class="card">
+              <!-- <div class="card">
                 <div class="card-header border-0">
                   <div class="mx-5 text-center">
                     <h3><strong>Les Dossiers</strong> </h3>
@@ -188,7 +196,7 @@
 
                   </div>
                 </div>
-                <!-- Light table -->
+                
                 <div class="card-body">
                   <div class="table-responsive">
                     <table class="table align-items-center table-flush">
@@ -246,7 +254,7 @@
                     </table>
                   </div>
                 </div>
-                <!-- Card footer -->
+                 Card footer
                 <div class="card-footer py-4">
                   <nav aria-label="...">
                     <ul class="pagination justify-content-end mb-0">
@@ -254,7 +262,7 @@
                     </ul>
                   </nav>
                 </div>
-              </div>
+              </div> -->
               </div>
         </div>
         <app-footer></app-footer>

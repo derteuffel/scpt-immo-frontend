@@ -39,6 +39,7 @@ export class DossierDetailsComponent implements OnInit {
   constructor(private dossierService:DossierService, private etapeService: EtapeService,
               private activatedRoute: ActivatedRoute, private contratService: ContratService,
               private tokenService:TokenService) { }
+  
 
 
   ngOnInit(): void { 

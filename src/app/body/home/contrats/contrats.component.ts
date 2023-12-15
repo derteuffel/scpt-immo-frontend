@@ -38,13 +38,14 @@ export class ContratsComponent implements OnInit {
 
   constructor(private contratService:ContratService, private tokenService: TokenService,
     private occupationService: OccupationService, private mensualiteService: MensualiteService) { }
+  
 
   ngOnInit(): void {
     this.types = constant.TYPE_CLIENT;
     this.activites = constant.ACTIVITE;
-  this.getAll();
-  this.init();
-  this.setLocale();
+    this.getAll();
+    this.init();
+    this.setLocale();
   }
 
   getAll(){

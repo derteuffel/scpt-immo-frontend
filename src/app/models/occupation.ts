@@ -6,6 +6,10 @@ export class Occupation{
     numeroOccupation:any;
     supperficieOccupation:any;
     montantOccupation:any;
+    montantIRLOccupation:any;
+    montantAPayerOccupation:any;
+    montantGarantiOccupation:any;
+    nombreMoisGarantie:any;
     status:any;
     locale?: Locale
 }

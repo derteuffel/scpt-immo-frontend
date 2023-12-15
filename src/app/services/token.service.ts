@@ -2,6 +2,8 @@ import { Injectable } from "@angular/core";
 import {DatePipe} from "@angular/common";
 import { JwtHelperService } from "@auth0/angular-jwt";
 import { Router } from "@angular/router";
+import { User } from "../models/user";
+import { Observable, Subject } from "rxjs";
 
 const TOKEN_KEY = 'AuthToken';
 
@@ -14,22 +16,24 @@ export class TokenService{
   years: string[]=[];
   newDate= new Date();
   timeout :any;
+  user!: User;
 
-    constructor(private datePipe: DatePipe, private jwtHelper: JwtHelperService, private router:Router) { }
+  private userLoggedIn = new Subject<boolean>();
+
+    constructor(private datePipe: DatePipe, private jwtHelper: JwtHelperService, private router:Router) {
+      this.userLoggedIn.next(false);
+     }
 
   public getToken(): string {
     return sessionStorage.getItem(TOKEN_KEY) || '';
   }
 
-  checkConnected(){
-    if(this.jwtHelper.isTokenExpired(this.getToken())){
-      sessionStorage.removeItem(TOKEN_KEY);
-      localStorage.removeItem('currentUser')
-      if(confirm("Oooops, votre temps de connexion a expirer. Vueillez-vous reconnecter svp")){
-        this.router.navigate(["/login"]);
-      }
-      
-    }
+  setUserLoggedIn(userLoggedIn: string) {
+    localStorage.setItem("userLoggedIn", userLoggedIn);
+  }
+
+  getUserLoggedIn(): string {
+    return localStorage.getItem("userLoggedIn")!;
   }
 
   

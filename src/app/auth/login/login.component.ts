@@ -9,6 +9,7 @@ import { User } from 'src/app/models/user';
 import { NotificationService } from 'src/app/services/notification.service';
 import { AuthService } from '../auth.service';
 import { TokenStorageService } from '../token-storage.service';
+import { TokenService } from 'src/app/services/token.service';
 
 @Component({
   selector: 'app-login',
@@ -23,12 +24,13 @@ import { TokenStorageService } from '../token-storage.service';
     errorMessage = '';
     role!: string;
     constructor(private authService: AuthService,
-      private router: Router) { }
+      private router: Router, private tokenService:TokenService) { }
 
   ngOnInit(): void {
 
     console.log(this.authService.getUserToken());
     if(this.authService.getUserToken() != null){
+      this.tokenService.setUserLoggedIn("true");
       console.log(this.authService.currentUserO.role+'');
       if(this.authService.currentUserO.role+'' === "POSTE_FINANCE" || this.authService.currentUserO.role+'' === "COMPTABILITE"){
         console.log(this.authService.currentUserO.role+' 1');
@@ -52,25 +54,20 @@ import { TokenStorageService } from '../token-storage.service';
     this.authService.login(formData).subscribe(
 
     data => {
-      console.log(' login action');
       console.log(data);
       const type = data.type;
-      console.log(type);
       if (typeof type === 'undefined'){
-      this.isLoginFailed = false;
-      this.isLoggedIn = true;
-      localStorage.setItem('id', this.authService.currentUserValue.id + '');
-      this.role = this.authService.currentUserValue.role.toString();
-      console.log('Je veux voir le role : '+this.role);
-    
-      if(this.role === "POSTE_FINANCE" || this.role === "COMPTABILITE"){
-        console.log('Je suis comptable ou poste finance');
-        this.router.navigateByUrl("/admin/payments");
-      }else{
-        console.log('Je ne suis pas comptable ou poste finance');
-        this.router.navigateByUrl("/admin/locations");
-      }
-      console.log(this.role);
+        this.isLoginFailed = false;
+        this.isLoggedIn = true;
+        this.tokenService.setUserLoggedIn("true");
+        localStorage.setItem('id', this.authService.currentUserValue.id + '');
+        this.role = this.authService.currentUserValue.role.toString();
+      
+        if(this.role === "POSTE_FINANCE" || this.role === "COMPTABILITE"){
+          this.router.navigateByUrl("/admin/payments");
+        }else{
+          this.router.navigateByUrl("/admin/locations");
+        }
       }
 
     // this.reloadPage();

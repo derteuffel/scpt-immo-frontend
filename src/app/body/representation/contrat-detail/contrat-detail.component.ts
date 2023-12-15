@@ -58,7 +58,6 @@ export class ContratDetailComponent implements OnInit {
 
   constructor(private contratService:ContratService, private activatedRoute: ActivatedRoute, private mensualiteService: MensualiteService, private bordereauxService: BordereausService,
               private tokenService: TokenService) { }
- 
 
   ngOnInit(): void {
   this.getContrat(this.activatedRoute.snapshot.paramMap.get('id'));
