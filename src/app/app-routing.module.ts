@@ -16,6 +16,7 @@ import {BordereauxComponent} from "./body/home/bordereaux/bordereaux.component";
 import {DossierDetailsComponent} from "./body/representation/dossier-details/dossier-details.component";
 import {DossiersComponent} from "./body/home/dossiers/dossiers.component";
 import { StatistiquesComponent } from './body/home/statistiques/statistiques.component';
+import { LogsComponent } from './body/home/logs/logs.component';
 
 const routes: Routes = [
   { path: '', redirectTo: '/login', pathMatch: 'full' },
@@ -32,6 +33,7 @@ const routes: Routes = [
   { path: 'admin/payments', component: PaymentsComponent, canActivate:[AuthenticationGuard]},
   { path: 'admin/payments/search', component: PaymentsSearchComponent, canActivate:[AuthenticationGuard]},
   { path: 'admin/users', component: UsersComponent, canActivate:[AuthenticationGuard]},
+  { path: 'admin/logs', component: LogsComponent, canActivate:[AuthenticationGuard]},
   { path: 'admin/user/detail/:id', component: UserDetailComponent, canActivate:[AuthenticationGuard]},
 ];
 

@@ -4,7 +4,7 @@
       <!-- Brand -->
       <div class="sidenav-header my-2  align-items-center">
         <a   href="/">
-          <img src="assets/img/brand/logo_bleu.png" style="width: 90px;height:90px;" alt="">
+          <img src="assets/img/brand/logo_bleue.png" class="img" alt="">
         </a>
       </div>
       <hr>
@@ -55,7 +55,12 @@
                 <span class="nav-link-text">Utilisateurs</span>
               </a>
             </li>
-
+            <li  class="nav-item" *ngIf="isROOT">
+              <a class="nav-link btn btn-outline-secondary" href="/admin/logs">
+                <i class="ni ni-books"></i>
+                <span class="nav-link-text">Logs</span>
+              </a>
+            </li>
           </ul>
         </div>
       </div>

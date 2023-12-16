@@ -1,0 +1,170 @@
+<app-sidebar></app-sidebar>
+<div class="main-content" id="panel">
+    <app-header></app-header>
+    <div class="header pb-6 ">
+        <div class="container-fluid">
+            <div class="header-body">
+                <div class="row align-items-center py-4">
+                    <div class="col-lg-6 col-7">
+                      <nav aria-label="breadcrumb" class="d-none d-md-inline-block ml-md-4">
+                        <ol class="breadcrumb breadcrumb-links breadcrumb-dark">
+                          <li class="breadcrumb-item"><a href="/admin/locations"><i class="fas fa-home"></i></a></li>
+                          <li class="breadcrumb-item active" aria-current="page"><span>Logs</span></li>
+                        </ol>
+                      </nav>
+                    </div>
+                  </div>
+            </div>
+        </div>
+    </div>
+    <div class="container-fluid mt--6">
+        <div class="row">
+            <div class="col">
+                <div class="card">
+                  <!-- Card header -->
+                  <div class="card-header border-0">
+                      <div class="row">
+                          
+                          <div class="col-4 alert alert-secondary">
+                            <a  type="button"  (click)="exportToExcel()" class="btn btn-md btn-outline-info">Exporter sur excel &nbsp;<i class="fa fa-file"></i></a>
+                          </div>
+                        </div>
+                  </div>
+                  <div class="card-header border-0">
+                    <div class="navbar-search navbar-search-light form-inline mr-sm-3" id="navbar-search-main">
+                        <div class="form-group mb-0">
+                          <div class="input-group input-group-alternative input-group-merge">
+                            <div class="input-group-prepend">
+                              <span class="input-group-text"><i class="fas fa-search"></i></span>
+                            </div>
+                            <input class="form-control" placeholder="Recherche rapide" [(ngModel)]="term" type="text">
+                          </div>
+                        </div>
+                        <br>
+                    </div>
+                  </div>
+                  <div class="card-header border-0">
+                    <div class="navbar-search navbar-search-light " id="navbar-search-main">
+                        <div class="ml-2" >
+                          <div class="alert alert-default text-center">
+                            <span>Recherche par rapport a une date</span>
+                          </div>
+                          <form>
+                            <div class="row">
+                              <div class="col-md-6 col-lg-7">
+                                <div class="form-group mb-0  ">
+                                  <div class="input-group input-group-alternative">
+                                    <div class="input-group-prepend">
+                                      <span class="input-group-text">Date</span>
+                                    </div>
+                                    <input type="date" class="form-control" [(ngModel)]="selectedDate" name="selectedDate">
+                                  </div>
+                                  
+                                </div>
+                              </div>
+
+                              <div class="col-md-6 col-lg-5">
+                                <button (click)="searchByDate()" class="btn btn-outline-primary" >
+                                  <span >Chercher &nbsp;&nbsp;<i class="fas fa-search"></i></span>
+                                </button>
+                              </div>
+                            </div>
+                          </form>
+                        </div>
+                    </div>
+                  </div>
+                   <div class="card-header border-0">
+                    <div class="navbar-search navbar-search-light " id="navbar-search-main">
+                        <div class="ml-2" >
+                          <div class="alert alert-default text-center">
+                            <span>Recherche par rapport a un utilisateur</span>
+                          </div>
+                          <form>
+                            <div class="row">
+                              <div class="col-md-6 col-lg-7">
+                                <div class="form-group mb-0  ">
+                                  <div class="input-group input-group-alternative">
+                                    <div class="input-group-prepend">
+                                      <span class="input-group-text">Utilisateur</span>
+                                    </div>
+                                    <select [(ngModel)]="id" name="id"  class="form-control" >
+                                      <option  value="">--None--</option>
+                                      <option *ngFor="let item of users" value="{{item.id}}">{{item.firstname+' '+item.lastname}}</option>
+                                    </select>
+                                  </div>
+                                  
+                                </div>
+                              </div>
+
+                              <div class="col-md-6 col-lg-5">
+                                <button (click)="searchByUser()" class="btn btn-outline-primary" >
+                                  <span >Chercher &nbsp;&nbsp;<i class="fas fa-search"></i></span>
+                                </button>
+                              </div>
+                            </div>
+                          </form>
+                        </div>
+                    </div>
+                  </div>
+                  <!-- Light table -->
+                  <div *ngIf="lists.length > 0" class="table-responsive">
+                    <table class="table align-items-center table-flush">
+                      <thead class="thead-light">
+                        <tr>
+                          <th scope="col" class="sort" data-sort="province">Nom</th>
+                          <th scope="col" class="sort" data-sort="ville">Action</th>
+                          <th scope="col" class="sort" data-sort="avenue">Resultat</th>
+                          <th scope="col" class="sort" data-sort="numParcelle">Date</th>
+                          <th scope="col" class="sort" data-sort="observation">Method</th>
+                        </tr>
+                      </thead>
+                      <tbody class="list">
+                        <tr *ngFor="let item of lists | paginate: { itemsPerPage: 50, currentPage: p } | filter:term">
+                          <td>
+                            <span *ngIf="item.username">{{item.username}}</span>
+                            <span *ngIf="!item.username">Inconnue</span>
+                          </td>
+                          <td>
+                            <span *ngIf="item.action">{{item.action}}</span>
+                            <span *ngIf="!item.action">Inconnue</span>
+                          </td>
+                          <td>
+                            <span *ngIf="item.result">{{item.result}}</span>
+                            <span *ngIf="!item.result">Non Defini</span>
+                          </td>
+
+                          <td>
+                            <span *ngIf="item.date">{{item.date}}</span>
+                            <span *ngIf="!item.date">Inconnu</span>
+                          </td>
+                          <td>
+                            <span *ngIf="item.method">{{item.method}}</span>
+                            <span *ngIf="!item.method">Aucune reference definie</span>
+                          </td>
+                        </tr>
+                      </tbody>
+                    </table>
+                  </div>
+                  <div *ngIf="lists.length <= 0" class="card">
+                    <div class="alert alert-danger">
+                      <div class="text-center">
+                        <i class="fa fa-info-circle fa-3x"></i>
+                        <br>
+                        <span>Oooops, aucun resultat ne correspond a vote recherche</span>
+                      </div>
+                    </div>
+                  </div>
+                  <!-- Card footer -->
+                  <div *ngIf="lists.length > 0" class="card-footer py-4">
+                    <nav aria-label="...">
+                      <ul class="pagination justify-content-end mb-0">
+                        <pagination-controls (pageChange)="p = $event"></pagination-controls>
+                      </ul>
+                    </nav>
+                  </div>
+                </div>
+              </div>
+        </div>
+        <app-footer></app-footer>
+    </div>
+</div>

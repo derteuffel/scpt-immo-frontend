@@ -33,6 +33,7 @@ import { NgIdleKeepaliveModule } from '@ng-idle/keepalive';
 import { MomentModule } from 'angular2-moment';
 import { ModalModule } from 'ngx-bootstrap/modal';
 import { BnNgIdleService } from 'bn-ng-idle';
+import { LogsComponent } from './body/home/logs/logs.component';
 
 
 @NgModule({
@@ -56,7 +57,8 @@ import { BnNgIdleService } from 'bn-ng-idle';
     BordereauxComponent,
     DossierDetailsComponent,
     DossiersComponent,
-    StatistiquesComponent
+    StatistiquesComponent,
+    LogsComponent
 
   ],
   imports: [

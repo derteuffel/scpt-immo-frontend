@@ -68,6 +68,15 @@ export class UserDetailComponent implements OnInit {
     })
   }
 
+  isDSI():boolean{
+   let user = this.authService.currentUserValue;
+   if(user.role.toString() === 'DSI' || user.role.toString() === 'ROOT'){
+    return true;
+   }else{
+    return false;
+   }
+  }
+
   onSubmit(){
 
     this.authService.updateRole(this.currentUser.id, this.form.get('role').value).subscribe(

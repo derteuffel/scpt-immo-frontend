@@ -12,5 +12,6 @@ export const environment = {
   ETAPE: `${HOST}/etape`,
   BORDEREAUX: `${HOST}/facture`,
   STATISTIQUE: `${HOST}/reporting`,
-  OCCUPATION: `${HOST}/occupation`
+  OCCUPATION: `${HOST}/occupation`,
+  LOGS: `${HOST}/logs`
 };
