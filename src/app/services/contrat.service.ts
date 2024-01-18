@@ -68,6 +68,16 @@ export class ContratService {
   generateContract(value:any):Observable<any>{
     return this.http.get(`${host}/generate/contrat/${value}`,{headers: this.headers});
   }
+  uploadFiles(form:any, id:any):Observable<any>{
+    console.log(form.name);
+    let formData = new FormData();
+    formData.append("file",form)
+    return this.http.post(`${host}/uploadFile/${id}`, formData,{headers: this.formHeaders});
+  }
+
+  removeFile(form:any, id:any):Observable<any>{
+    return this.http.get(`${host}/removeFile/${id}?file=${form}`,{headers: this.headers});
+  }
 
   findAllByOccupationAndStatus(id:any, status:any):Observable<any>{
     return this.http.get(`${host}/occupation/status/${id}/${status}`,{headers: this.headers});

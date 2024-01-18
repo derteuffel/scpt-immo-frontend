@@ -31,6 +31,9 @@ export class OccupationsComponent implements OnInit {
   p:number=1;
   private subscriptions: Subscription[] = [];
 
+  isPcturesFull = false;
+  isDocumentsFull = false;
+
   selectedFiles!: FileList;
   fileInfos!: Observable<any>;
   checkSub?:Subscription;
@@ -74,7 +77,7 @@ uploadFiles(){
 uploadDocuments(){
     this.localeService.uploadDocuments(this.selectedFiles[0],this.currentLocale.id).subscribe(
       data =>{
-        this.clickButton('add-picture-close');
+        this.clickButton('add-document-close');
         Swal.fire('Merci...', 'Document enregistrer avec succes!', 'success').then((res)=>{
                         if(res.isConfirmed){
                         this.getlocale(this.currentLocale.id);
@@ -140,6 +143,16 @@ removeDocument(file:any){
     this.localeService.findOne(id).subscribe(
       data =>{
         this.currentLocale = data;
+        if(this.currentLocale.files.length >= 3){
+            this.isPcturesFull = true;
+        }else{
+          this.isPcturesFull = false; 
+        }
+        if(this.currentLocale.documents.length >= 3){
+          this.isDocumentsFull = true;
+        }else{
+          this.isDocumentsFull = false;
+        }
         console.log(data);
         this.getOccupationByLocale();
       },

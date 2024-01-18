@@ -100,8 +100,8 @@
                                           Aucun document associé
                                         </span>
                                         <div  *ngIf="currentLocale.documents.length > 0">
-                                          <ul *ngFor="let item of currentLocale.documents">
-                                            <li><a href="{{item}}">{{item}}</a> &nbsp;&nbsp; <a type="button" class="btn" (click)="removeDocument(item)"><i class="fa fa-trash"></i></a> </li>
+                                          <ul *ngFor="let item of currentLocale.documents; let i=index;">
+                                            <li><a href="{{item}}">Document {{'('+(i+1)+')'}}</a> &nbsp;&nbsp; <a type="button" class="btn" (click)="removeDocument(item)"><i class="fa fa-trash"></i></a> </li>
                                           </ul>
                                         </div>
                                         
@@ -163,10 +163,10 @@
                   </div>
                   <div class="row my-3">
                     <div class="col-md-6">
-                      <a href="#" type="button" *ngIf="currentLocale.files.length <= 3"  data-toggle="modal" data-target="#addPicturesModal" class="btn  btn-outline-primary"> <i class="fa fa-file"></i>&nbsp; Images</a>
+                      <a href="#" type="button" *ngIf="!isPcturesFull"  data-toggle="modal" data-target="#addPicturesModal" class="btn  btn-outline-primary"> <i class="fa fa-file"></i>&nbsp; Images</a>
                     </div>
                     <div class="col-md-6">
-                      <a href="#" type="button"  data-toggle="modal" data-target="#addDocumentModal" class="btn  btn-outline-primary"> <i class="fa fa-file"></i>&nbsp; Documents</a>
+                      <a href="#" type="button" *ngIf="!isDocumentsFull"  data-toggle="modal" data-target="#addDocumentModal" class="btn  btn-outline-primary"> <i class="fa fa-file"></i>&nbsp; Documents</a>
                     </div>
                   </div>
                   <div *ngIf="currentLocale.files.length === 0">
@@ -420,7 +420,7 @@ aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
       <input type="file" multiple (change)="selectFiles($event)">
     </div>
     <div class="modal-footer">
-      <button type="button"  class="btn btn-secondary" data-dismiss="modal" id="add-picture-close" aria-label="Close">Fermer</button>
+      <button type="button"  class="btn btn-secondary" data-dismiss="modal" id="add-document-close" aria-label="Close">Fermer</button>
       <button  class="btn btn-primary" [disabled]="!selectedFiles"
                   (click)="uploadDocuments()">Enregistrer</button>
     </div>

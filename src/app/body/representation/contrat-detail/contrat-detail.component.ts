@@ -46,6 +46,8 @@ export class ContratDetailComponent implements OnInit {
   p:number=1;
   logo:any;
   formulaire:any;
+  selectedFiles!: FileList;
+  isPcturesFull = false;
   
 
   file: any;
@@ -74,6 +76,11 @@ export class ContratDetailComponent implements OnInit {
       data =>{
         this.currentContrat = data;
         this.currentOccupation = data.occupation;
+        if(this.currentContrat.files.length >= 3){
+            this.isPcturesFull = true;
+        }else{
+          this.isPcturesFull = false; 
+        }
         console.log(data);
         this.getAllMensualites();
       },
@@ -165,6 +172,53 @@ export class ContratDetailComponent implements OnInit {
       nomDirecteur: new FormControl('')
     })
   }
+
+  selectFiles(event:any) {
+  this.selectedFiles = event.target.files;
+  }
+
+uploadFiles(){
+
+    this.contratService.uploadFiles(this.selectedFiles[0],this.currentContrat.id).subscribe(
+      data =>{
+        this.clickButton('add-picture-close');
+        Swal.fire('Merci...', 'Images enregistrer avec succes!', 'success').then((res)=>{
+                        if(res.isConfirmed){
+                        this.getContrat(this.currentContrat.id);
+                        
+                        this.init();
+                         this.selectedFiles = new FileList
+                      }
+                   }
+                )
+      },
+      error =>{
+        Swal.fire('Ooops...', 'Internal error occured while saving contrat '+error.message, 'error');
+      }
+    );
+}
+
+removeFile(file:any){
+  Swal.fire('Alert.', 'Etes-vous sur de vouloir supprimer cette image?', 'warning').then((res)=>{
+              if(res.isConfirmed){
+                this.contratService.removeFile(file, this.currentContrat.id).subscribe(
+                  data =>{
+                    Swal.fire('Thank you...', 'You submitted succesfully!', 'success').then((res)=>{
+                        if(res.isConfirmed){
+                        this.getContrat(this.currentContrat.id);
+                        
+                        this.init();
+                      }
+                    })
+                  },
+                  error =>{
+                    Swal.fire('Ooops...', 'Internal error occured while saving local ', 'error');
+                  }
+                )
+                 
+                 }
+            })
+}
 
   onSubmit(){
 
