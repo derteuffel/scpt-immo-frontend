@@ -62,6 +62,10 @@ export class SidebarComponent implements OnInit {
           this.isDgi = true;
           break;
         }
+        case 'AGENT':{
+          this.isDgi = true;
+          break;
+        }
         default:{
           break;
         }

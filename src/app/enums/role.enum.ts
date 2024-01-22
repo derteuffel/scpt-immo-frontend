@@ -1,9 +1,10 @@
 export enum Role {
-    ROOT,
     PROVINCIAL,
-    DG,
+    ROOT,
+    MANAGEMENT,
     DGI,
-    COMPTABILITE ,
+    FINANCE,
     POSTE_FINANCE,
-    DSI
+    DSI,
+    AGENT
   }

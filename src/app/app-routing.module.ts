@@ -17,6 +17,7 @@ import {DossierDetailsComponent} from "./body/representation/dossier-details/dos
 import {DossiersComponent} from "./body/home/dossiers/dossiers.component";
 import { StatistiquesComponent } from './body/home/statistiques/statistiques.component';
 import { LogsComponent } from './body/home/logs/logs.component';
+import { UserProfileComponent } from './body/home/user-profile/user-profile.component';
 
 const routes: Routes = [
   { path: '', redirectTo: '/login', pathMatch: 'full' },
@@ -35,6 +36,7 @@ const routes: Routes = [
   { path: 'admin/users', component: UsersComponent, canActivate:[AuthenticationGuard]},
   { path: 'admin/logs', component: LogsComponent, canActivate:[AuthenticationGuard]},
   { path: 'admin/user/detail/:id', component: UserDetailComponent, canActivate:[AuthenticationGuard]},
+  {path:'admin/user/profile/:username', component: UserProfileComponent, canActivate:[AuthenticationGuard]}
 ];
 
 @NgModule({

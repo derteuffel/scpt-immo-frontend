@@ -32,10 +32,12 @@ import { TokenService } from 'src/app/services/token.service';
     if(this.authService.getUserToken() != null){
       this.tokenService.setUserLoggedIn("true");
       console.log(this.authService.currentUserO.role+'');
-      if(this.authService.currentUserO.role+'' === "POSTE_FINANCE" || this.authService.currentUserO.role+'' === "COMPTABILITE"){
+      if(this.authService.currentUserO.role+'' === "POSTE_FINANCE" || this.authService.currentUserO.role+'' === "FINANCE"){
         console.log(this.authService.currentUserO.role+' 1');
         this.router.navigateByUrl("/admin/payments");
-      }else{
+      }else if(this.authService.currentUserO.role+'' === "DSI"){
+        this.router.navigateByUrl("/admin/users")
+      }else if(this.authService.currentUserO.role+'' === "DSI"){
         console.log(this.authService.currentUserO.role+' 2');
         this.router.navigateByUrl("/admin/locations")
       }

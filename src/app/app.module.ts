@@ -34,6 +34,7 @@ import { MomentModule } from 'angular2-moment';
 import { ModalModule } from 'ngx-bootstrap/modal';
 import { BnNgIdleService } from 'bn-ng-idle';
 import { LogsComponent } from './body/home/logs/logs.component';
+import { UserProfileComponent } from './body/home/user-profile/user-profile.component';
 
 
 @NgModule({
@@ -58,7 +59,8 @@ import { LogsComponent } from './body/home/logs/logs.component';
     DossierDetailsComponent,
     DossiersComponent,
     StatistiquesComponent,
-    LogsComponent
+    LogsComponent,
+    UserProfileComponent
 
   ],
   imports: [
