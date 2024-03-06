@@ -191,16 +191,16 @@ aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
 
                   <div class="form-group">
                     <label class="form-control-label" >Ville</label>
-                    <select formControlName="ville" class="form-control" >
+                    <select formControlName="ville" #vil (change)="changeVille(vil.value)" class="form-control" >
                       <option  value="">--None--</option>
-                        <option *ngFor="let item of villes" value="{{item}}">{{item}}</option>
+                        <option *ngFor="let item of villes" value="{{item.nom}}">{{item.nom}}</option>
                     </select>
                   </div>
                   <div class="form-group">
                     <label class="form-control-label" >Commune</label>
                     <select formControlName="commune" class="form-control" >
                       <option  value="">--None--</option>
-                        <option *ngFor="let item of communes" value="{{item}}">{{item}}</option>
+                        <option *ngFor="let item of communes" value="{{item.nom}}">{{item.nom}}</option>
                     </select>
                   </div>
                   <div class="form-group">
@@ -337,7 +337,7 @@ aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
 
               <div class="form-group">
                 <label class="form-control-label" for="input-username">Province</label>
-                <select formControlName="province" class="form-control" >
+                <select formControlName="province" #provi (change)="changeProvince(provi.value)" class="form-control" >
                   <option  value="">--None--</option>
                     <option *ngFor="let item of provinces" value="{{item.name}}">{{item.name}}</option>
                 </select>
@@ -345,16 +345,16 @@ aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
 
               <div class="form-group">
                 <label class="form-control-label" >Ville</label>
-                <select formControlName="ville" class="form-control" >
+                <select formControlName="ville" #vil1 (change)="changeVille(vil1.value)" class="form-control" >
                   <option  value="">--None--</option>
-                    <option *ngFor="let item of villes" value="{{item}}">{{item}}</option>
+                    <option *ngFor="let item of villes" value="{{item.nom}}">{{item.nom}}</option>
                 </select>
               </div>
               <div class="form-group">
                 <label class="form-control-label" >Commune/Territoire</label>
                 <select formControlName="commune" class="form-control" >
                   <option  value="">--None--</option>
-                    <option *ngFor="let item of communes" value="{{item}}">{{item}}</option>
+                    <option *ngFor="let item of communes" value="{{item.nom}}">{{item.nom}}</option>
                 </select>
               </div>
               <div class="form-group">

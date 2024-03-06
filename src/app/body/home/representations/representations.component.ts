@@ -4,7 +4,7 @@ import { FormControl, FormGroup } from '@angular/forms';
 import { Router } from '@angular/router';
 import { Subscription, interval } from 'rxjs';
 import { AuthService } from 'src/app/auth/auth.service';
-import {constant, provinceData} from 'src/app/constant';
+import {constant, provinceData, provinceDataJson} from 'src/app/constant';
 import { Role } from 'src/app/enums/role.enum';
 import { LocaleService } from 'src/app/services/locale.service';
 import { TokenService } from 'src/app/services/token.service';
@@ -45,7 +45,7 @@ export class RepresentationsComponent implements OnInit {
 
   ngOnInit(): void {
     this.loadList();
-    this.provinces = provinceData;
+    this.provinces = provinceDataJson;
     this.init();
     if(this.authService.currentUserValue.role+'' == 'PAYMENT'){
       this.route.navigateByUrl('admin/payments');
@@ -177,6 +177,7 @@ export class RepresentationsComponent implements OnInit {
   editItem(item:any){
     this.selectedItem = item;
     this.clickButton('openEdit');
+    
     this.form.patchValue({
       province: item.province,
       ville: item.ville,
@@ -202,6 +203,9 @@ export class RepresentationsComponent implements OnInit {
       ponderation: item.ponderation,
       rateIRL: item.rateIRL
     });
+      this.changeProvince(item.province);
+      this.changeVille(item.ville);
+    
   }
 
   onSubmitFile(){
@@ -351,9 +355,19 @@ export class RepresentationsComponent implements OnInit {
     Swal.fire('Thank you...', 'You submitted succesfully!', 'success')
   }
 
+
   changeProvince(event: any) { //Angular 11
-    this.villes = this.provinces!.find((stat: any) => stat.name == event).villes; //Angular 11
-    this.communes = this.provinces!.find((stat: any) => stat.name == event).territoires;
+    //this.cities = this.Countries.find(cntry => cntry.name == this.selectedCountry).states.find(stat => stat.name == state).cities; //Angular 8
+    let value = event;
+    this.villes = this.provinces.find((stat: any) => stat.name == value).villes; //Angular 11
+  }
+
+
+  changeVille(event: any) { //Angular 11
+    //this.cities = this.Countries.find(cntry => cntry.name == this.selectedCountry).states.find(stat => stat.name == state).cities; //Angular 8
+
+    let value = event;
+    this.communes = this.villes.find((stat: any) => stat.nom == value).communes; //Angular 11
   }
 
 }

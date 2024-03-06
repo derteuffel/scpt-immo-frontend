@@ -229,6 +229,7 @@ export class RepresentationLocaleContratComponent implements OnInit {
         this.existedContrat = data;
         console.log(data);
         if(this.existedContrat.length !=0){
+          console.log(data)
           this.clickButton('new-contrat-close');
           Swal.fire('Ooops...', 'Vous avez un contrat encours avec '+this.existedContrat[0].nameClient+' bienvouloir regularise avant d\'enregistrer un nouveau contrat', 'warning').then((res)=>{
             if(res.isConfirmed){

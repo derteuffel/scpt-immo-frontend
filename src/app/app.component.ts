@@ -25,7 +25,7 @@ export class AppComponent {
    this.bnIdle.startWatching(180).subscribe((res) => {
                       if (res) {
                         if(this.tokenService.getUserLoggedIn().includes("true")){
-                            alert("Vous etes deconnecter, vueillez-vous reconnecter s'il vous plait!");
+                            alert("Veuillez vous reconnecter");
                             this.logout();
                           }  
                       }
